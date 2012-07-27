@@ -52,7 +52,17 @@
     self.navigationItem.title = self.account.username;    
     
     totalRows = 0;
-    computeRow = (self.account.serversURL && [self.account.serversURL host]) ? totalRows++ : -1;
+    
+    // we can tell if compute exists by checking to see if there's a serversURL, or in the case
+    // of newer APIs, look for a list of compute services
+    if (self.account.serversURL && [self.account.serversURL host]) {
+        computeRow = totalRows++;
+    } else if (self.account.computeServices && [self.account.computeServices count] > 0) {
+        computeRow = totalRows++;
+    } else {
+        computeRow = -1;
+    }
+    
     storageRow = (self.account.filesURL && [self.account.filesURL host]) ? totalRows++ : -1;
     loadBalancingRow = [self.account loadBalancerURLs] ? totalRows++ : -1;
 
@@ -66,11 +76,12 @@
     } else {
         contactRow = -1;
     }
-    if (![self.account.apiVersion isEqualToString:@"1.1"]) {
-        limitsRow = totalRows++;
-    } else {
-        limitsRow = -1;
-    }
+    limitsRow = -1;
+//    if (![self.account.apiVersion isEqualToString:@"1.1"]) {
+//        limitsRow = totalRows++;
+//    } else {
+//        limitsRow = -1;
+//    }
     accountSettingsRow = totalRows++;
     [self.tableView reloadData];
 }

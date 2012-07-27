@@ -31,6 +31,7 @@
 @property (nonatomic, retain) NSDictionary *flavors;
 @property (nonatomic, retain) NSMutableDictionary *servers;
 @property (nonatomic, retain) NSMutableDictionary *serversByPublicIP;
+@property (nonatomic, retain) NSMutableArray *computeServices;
 @property (nonatomic, retain) NSURL *serversURL;
 @property (nonatomic, retain) NSURL *filesURL;
 @property (nonatomic, retain) NSURL *cdnURL;

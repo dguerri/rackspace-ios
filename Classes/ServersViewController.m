@@ -22,24 +22,43 @@
 #import "AccountManager.h"
 #import "Provider.h"
 #import "APICallback.h"
+#import "OSComputeService.h"
+#import "OSComputeEndpoint.h"
 
 
 @implementation ServersViewController
 
-@synthesize tableView, account, accountHomeViewController, comingFromAccountHome;
+- (NSArray *)sortedRegions {
+    NSArray *endpoints = [self.servers allKeys];
+    return [endpoints sortedArrayUsingSelector:@selector(region)];
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark -
-#pragma mark Button Handlers
+- (OSComputeEndpoint *)endpointAtIndex:(NSInteger)index {
+//    NSArray *endpoints = [self.servers allKeys];
+    return [[self sortedRegions] objectAtIndex:index];
+}
+
+- (Server *)serverForEndpoint:(OSComputeEndpoint *)endpoint atIndex:(NSInteger)index {
+    NSArray *servers = [endpoint.servers allValues];
+    return [servers objectAtIndex:index];
+}
+
+- (Server *)serverAtIndexPath:(NSIndexPath *)indexPath {
+    OSComputeEndpoint *endpoint = [self endpointAtIndex:indexPath.section];
+    return [self serverForEndpoint:endpoint atIndex:indexPath.row];
+}
+
+#pragma mark - Button Handlers
 
 - (void)addButtonPressed:(id)sender {
     RateLimit *limit = [OpenStackRequest createServerLimit:self.account];
     if (!limit || limit.remaining > 0) {
         AddServerViewController *vc = [[AddServerViewController alloc] initWithNibName:@"AddServerViewController" bundle:nil];
-        vc.account = account;
+        vc.account = self.account;
         vc.serversViewController = self;
         vc.accountHomeViewController = self.accountHomeViewController;
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -71,40 +90,126 @@
 
     refreshButton.enabled = NO;
     [self showToolbarActivityMessage:@"Refreshing servers..."];
+    
+    if (self.account.computeServices && [self.account.computeServices count] > 0) {
+    
+        // iterate through endpoints and get servers for each
+        for (OSComputeService *service in self.account.computeServices) {
+            
+            for (OSComputeEndpoint *endpoint in service.endpoints) {
+                
+                [[self.account.manager getServersAtEndpoint:endpoint] success:^(OpenStackRequest *request) {
+                    
+                    NSLog(@"endpoint %@ success", endpoint.publicURL);
+                    
+                    NSDictionary *servers = [request servers];
+                    
+                    for (NSString *id in servers) {
+                        
+                        Server *server = [servers objectForKey:id];
+                        [endpoint addServersObject:server];
+                        
+                    }
+                    
+                    [self.servers setObject:endpoint.servers forKey:endpoint];
+                    
+                    [self configureServersCollection];
+                    [self enableRefreshButton];
+                    
+                } failure:^(OpenStackRequest *request) {
 
-    [[self.account.manager getServers] success:^(OpenStackRequest *request) {
-        
-        NSLog(@"get servers response: %@", [request responseString]);
-        
-        [self enableRefreshButton];
-        self.account.servers = [NSMutableDictionary dictionaryWithDictionary:[request servers]];
-
-        for (NSString *serverId in self.account.servers) {
-            Server *server = [self.account.servers objectForKey:serverId];
-            server.image = [self.account.images objectForKey:server.imageId];            
-            server.flavor = [self.account.flavors objectForKey:server.flavorId];
+                    [self alert:@"There was a problem loading some of your servers." request:request];
+                    
+                }];
+                
+            }
+            
         }
         
-        [self.account persist];
-        [self.tableView reloadData];
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(selectFirstServer) userInfo:nil repeats:NO];
-        }        
-    } failure:^(OpenStackRequest *request) {
-        [self enableRefreshButton];
-        if (request.responseStatusCode != 0) {
-            [self alert:@"There was a problem loading your servers." request:request];
-        }
-    }];
+    } else {
+        
+        // old school way to get servers
+        [[self.account.manager getServers] success:^(OpenStackRequest *request) {
+            
+            NSLog(@"get servers response: %@", [request responseString]);
+            
+            [self enableRefreshButton];
+            self.account.servers = [NSMutableDictionary dictionaryWithDictionary:[request servers]];
+
+            for (NSString *serverId in self.account.servers) {
+                Server *server = [self.account.servers objectForKey:serverId];
+                server.image = [self.account.images objectForKey:server.imageId];            
+                server.flavor = [self.account.flavors objectForKey:server.flavorId];
+            }
+            
+            [self configureServersCollection];
+            
+            [self.account persist];
+            [self.tableView reloadData];
+            if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+                [NSTimer scheduledTimerWithTimeInterval:0.4 target:self selector:@selector(selectFirstServer) userInfo:nil repeats:NO];
+            }        
+        } failure:^(OpenStackRequest *request) {
+            [self enableRefreshButton];
+            if (request.responseStatusCode != 0) {
+                [self alert:@"There was a problem loading your servers." request:request];
+            }
+        }];
+        
+    }
 }
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
+
+- (void)configureServersCollection {
+    
+    self.servers = [[[NSMutableDictionary alloc] init] autorelease];
+    
+    // We need to figure out where our list of servers is located.  there are two possibilities:
+    // 1. self.account.servers:         1.0 style login
+    // 2. self.account.computeServices: 2.0 style login
+    // We will prefer 2.0, so we're checking it first.
+    if (self.account.computeServices && [self.account.computeServices count] > 0) {
+        
+        for (OSComputeService *service in self.account.computeServices) {
+            
+            for (OSComputeEndpoint *endpoint in service.endpoints) {
+                
+                if (endpoint.servers) {
+                    [self.servers setObject:endpoint.servers forKey:endpoint];
+                }
+                
+            }
+            
+        }
+        
+    } else if (self.account.servers) {
+        
+        // we're going to make a fake compute service object to represent first gen cloud servers
+        OSComputeService *service = [[OSComputeService alloc] init];
+        service.name = @"Cloud Servers";
+        service.endpoints = [[[NSMutableArray alloc] initWithCapacity:1] autorelease];
+        
+        OSComputeEndpoint *endpoint = [[OSComputeEndpoint alloc] init];
+        endpoint.versionId = @"1.0";
+        [service.endpoints addObject:endpoint];
+        
+        [self.servers setObject:self.account.servers forKey:endpoint];
+        
+        [endpoint release];
+        [service release];
+        
+    }
+
+    [self.tableView reloadData];
+    
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = [self.account.provider isRackspace] ? @"Cloud Servers" : @"Compute";
     [self addAddButton];
+    [self configureServersCollection];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
@@ -117,11 +222,12 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-        
-    NSEnumerator *enumerator = [account.servers keyEnumerator];
+    
+    // FIXME: iterate over self.servers
+    NSEnumerator *enumerator = [self.account.servers keyEnumerator];
     id key;
     while ((key = [enumerator nextObject])) {
-        Server *server = [account.servers objectForKey:key];
+        Server *server = [self.account.servers objectForKey:key];
         
         if (!server.image && server.imageId) {
 
@@ -157,14 +263,41 @@
     
     if (!serversLoaded && [self.account.servers count] == 0) {
         [self refreshButtonPressed:nil];
-    } else if (comingFromAccountHome) {
+    } else if (self.comingFromAccountHome) {
         [self refreshButtonPressed:nil];
     }
 }
 
 #pragma mark - Table view data source
 
+- (NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section {
+    
+    OSComputeEndpoint *endpoint = [self endpointAtIndex:section];
+    
+    NSString *region = @"";
+    if (endpoint.region) {
+        region = [NSString stringWithFormat:@"%@ - ", endpoint.region];
+    }
+    
+    NSString *name = nil;
+    if ([endpoint.versionId isEqualToString:@"1.0"]) {
+        name = @"First Generation";
+    } else {
+        name = @"OpenStack";
+    }
+    
+    return [NSString stringWithFormat:@"%@%@", region, name];
+    
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
+    
+    return [[self.servers allKeys] count];
+    
+}
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+    
     if ([self.account.servers count] == 0) {
         self.tableView.allowsSelection = NO;
         self.tableView.scrollEnabled = NO;
@@ -175,24 +308,22 @@
     if (!serversLoaded && [self.account.servers count] == 0) {
         return 0;
     } else {
-        return MAX(1, [account.sortedServers count]);
+        return MAX(1, [self.account.sortedServers count]);
     }
 }
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([account.servers count] == 0) {
+    if ([self.account.servers count] == 0) {
         return aTableView.frame.size.height;
     } else {
         return aTableView.rowHeight;
     }
 }
 
-
-// Customize the appearance of table view cells.
-- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {    
-    if ([account.servers count] == 0 && serversLoaded) {
-        return [self tableView:tableView emptyCellWithImage:[UIImage imageNamed:@"empty-servers.png"] title:@"No Servers" subtitle:@"Tap the + button to create a new Cloud Server"];
-    } else if ([account.servers count] == 0) {
+- (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
+    if ([self.account.servers count] == 0 && serversLoaded) {
+        return [self tableView:self.tableView emptyCellWithImage:[UIImage imageNamed:@"empty-servers.png"] title:@"No Servers" subtitle:@"Tap the + button to create a new Cloud Server"];
+    } else if ([self.account.servers count] == 0) {
         return nil; // there will be no cells present while loading
     } else {
         static NSString *CellIdentifier = @"Cell";
@@ -208,7 +339,8 @@
         }
         
         // Configure the cell...
-        Server *server = [account.sortedServers objectAtIndex:indexPath.row];
+        
+        Server *server = [self serverAtIndexPath:indexPath];
         
         cell.textLabel.text = server.name;
         if ([server.addresses objectForKey:@"public"]) {
@@ -229,17 +361,14 @@
     }    
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    Server *server = nil;
-    if ([account.servers count] > 0) {
-        server = [account.sortedServers objectAtIndex:indexPath.row];
-    }
+    
+    Server *server = [self serverAtIndexPath:indexPath];
     ServerViewController *vc = [[ServerViewController alloc] initWithNibName:@"ServerViewController" bundle:nil];
     vc.server = server;
-    vc.account = account;
+    vc.account = self.account;
     vc.serversViewController = self;
     vc.selectedServerIndexPath = indexPath;
     vc.accountHomeViewController = self.accountHomeViewController;
@@ -259,13 +388,13 @@
 }
 
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)dealloc {
-    [tableView release];
-    [account release];
-    [accountHomeViewController release];
+    [_tableView release];
+    [_account release];
+    [_accountHomeViewController release];
+    [_servers release];
     [super dealloc];
 }
 

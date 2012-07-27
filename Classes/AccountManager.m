@@ -7,6 +7,8 @@
 //
 
 #import "AccountManager.h"
+#import "OSComputeService.h"
+#import "OSComputeEndpoint.h"
 #import "OpenStackAccount.h"
 #import "OpenStackRequest.h"
 #import "Server.h"
@@ -205,6 +207,10 @@
     return [self callbackWithRequest:request];
 }
 
+- (APICallback *)getServersAtEndpoint:(OSComputeEndpoint *)endpoint {
+    __block OpenStackRequest *request = [GetServersRequest request:self.account endpoint:endpoint];
+    return [self callbackWithRequest:request];
+}
 
 #pragma mark Get Flavors
 
@@ -473,10 +479,15 @@
 
 - (APICallback *)authenticate {
     __block OpenStackRequest *request = [OpenStackRequest authenticationRequest:self.account];
+    
+    NSLog(@"auth request url: %@", request.url);
+    
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
         if ([request isSuccess]) {
             
             NSLog(@"api version: %@", self.account.apiVersion);
+            
+            NSLog(@"response: %@", request.responseString);
             
             if ([self.account.apiVersion isEqualToString:@"2.0"]) {
                 
@@ -489,13 +500,17 @@
                 self.account.authToken = [[jsonObject objectForKey:@"token"] objectForKey:@"id"];
                 
                 NSArray *services = [jsonObject objectForKey:@"serviceCatalog"];
+                self.account.computeServices = [[[NSMutableArray alloc] init] autorelease];
                 
                 for (NSDictionary *service in services) {
                     
                     if ([[service valueForKey:@"type"] isEqualToString:@"compute"]) {
                         
-                        NSDictionary *endpoint = [[service valueForKey:@"endpoints"] objectAtIndex:0];                        
-                        self.account.serversURL = [NSURL URLWithString:[endpoint valueForKey:@"publicURL"]];
+                        OSComputeService *computeService = [OSComputeService fromJSON:service];
+                        [self.account.computeServices addObject:computeService];
+                        
+//                        NSDictionary *endpoint = [[service valueForKey:@"endpoints"] objectAtIndex:0];
+//                        self.account.serversURL = [NSURL URLWithString:[endpoint valueForKey:@"publicURL"]];
                         
                     } else if ([[service valueForKey:@"type"] isEqualToString:@"object-store"]) {
                      

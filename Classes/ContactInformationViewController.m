@@ -152,6 +152,7 @@
     }
     
     selectedIndexPath = indexPath;
+    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
     
 }
 

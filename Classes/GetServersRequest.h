@@ -8,12 +8,14 @@
 
 #import "OpenStackRequest.h"
 
-@class OpenStackAccount;
+@class OpenStackAccount, OSComputeEndpoint;
 
 @interface GetServersRequest : OpenStackRequest {
 
 }
 
 + (GetServersRequest *)request:(OpenStackAccount *)account;
+
++ (GetServersRequest *)request:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint;
 
 @end

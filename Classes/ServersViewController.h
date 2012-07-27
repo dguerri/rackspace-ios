@@ -11,15 +11,8 @@
 @class OpenStackAccount, AccountHomeViewController;
 
 @interface ServersViewController : OpenStackViewController <UITableViewDelegate, UITableViewDataSource> {
-    IBOutlet UITableView *tableView;
-    OpenStackAccount *account;
-    AccountHomeViewController *accountHomeViewController;
-    
     IBOutlet UIBarButtonItem *refreshButton;
-
     BOOL loaded;
-    BOOL comingFromAccountHome;
-    
     BOOL serversLoaded;
 }
 
@@ -27,6 +20,7 @@
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) AccountHomeViewController *accountHomeViewController;
 @property (nonatomic, assign) BOOL comingFromAccountHome;
+@property (nonatomic, retain) NSMutableDictionary *servers;
 
 - (void)refreshButtonPressed:(id)sender;
 

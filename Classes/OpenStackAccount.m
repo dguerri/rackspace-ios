@@ -253,7 +253,7 @@ static NSMutableDictionary *timers = nil;
         servers = [self decode:coder key:@"servers"];
         serversByPublicIP = [self decode:coder key:@"serversByPublicIP"];
         
-        serversURL = [self decode:coder key:@"serversURL"];
+//        serversURL = [self decode:coder key:@"serversURL"];
         filesURL = [self decode:coder key:@"filesURL"];
         cdnURL = [self decode:coder key:@"cdnURL"];
         rateLimits = [self decode:coder key:@"rateLimits"];
@@ -469,6 +469,7 @@ static NSMutableDictionary *timers = nil;
     [lastUsedFlavorId release];
     [lastUsedImageId release];
     [apiVersion release];
+    [_computeServices release];
     
     [super dealloc];
 }

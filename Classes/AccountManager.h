@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "APICallback.h"
 
-@class OpenStackAccount, Server, Flavor, Image, Container, StorageObject, OpenStackRequest, ASINetworkQueue, LoadBalancer, LoadBalancerNode;
+@class OpenStackAccount, Server, Flavor, Image, Container, StorageObject, OpenStackRequest, ASINetworkQueue, LoadBalancer, LoadBalancerNode, OSComputeEndpoint;
 
 @interface AccountManager : NSObject {
     OpenStackAccount *account;
@@ -40,6 +40,7 @@
 - (APICallback *)updateBackupSchedule:(Server *)server;
 
 - (APICallback *)getServers;
+- (APICallback *)getServersAtEndpoint:(OSComputeEndpoint *)endpoint;
 - (APICallback *)getImages;
 - (APICallback *)getFlavors;
 - (APICallback *)getImage:(Server *)server;

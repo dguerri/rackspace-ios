@@ -12,6 +12,7 @@
 #import "Image.h"
 #import "Flavor.h"
 #import "AccountManager.h"
+#import "OSComputeEndpoint.h"
 
 
 @implementation GetServersRequest
@@ -27,14 +28,30 @@
 	return request;
 }
 
-+ (id)serversRequest:(OpenStackAccount *)account method:(NSString *)method path:(NSString *)path {
++ (id)serversRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint method:(NSString *)method path:(NSString *)path {
     NSString *now = [[[NSDate date] description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?now=%@", account.serversURL, path, now]];
+    NSURL *url = nil;;
+    if (endpoint && endpoint.publicURL) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?now=%@", endpoint.publicURL, path, now]];
+    } else {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?now=%@", account.serversURL, path, now]];
+    }
     return [GetServersRequest request:account method:method url:url];
 }
 
++ (id)serversRequest:(OpenStackAccount *)account method:(NSString *)method path:(NSString *)path {
+    return [self serversRequest:account endpoint:nil method:method path:path];
+}
+
+
 + (GetServersRequest *)request:(OpenStackAccount *)account {
     GetServersRequest *request = [GetServersRequest serversRequest:account method:@"GET" path:@"/servers/detail"];
+    request.account = account;
+    return request;
+}
+
++ (GetServersRequest *)request:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint {
+    GetServersRequest *request = [GetServersRequest serversRequest:account endpoint:endpoint method:@"GET" path:@"/servers/detail"];
     request.account = account;
     return request;
 }

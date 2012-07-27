@@ -11,35 +11,6 @@
 
 @interface Provider : NSObject <NSCoding> {
     
-/*    
-    { 
-      "name": "Rackspace Cloud (US)", "auth_endpoint_url": "https://auth.api.rackspacecloud.com/v1.0",
-      "rss_feeds": [
-        { "name": "Cloud Servers Status", "url": "http://whatever" },
-        { "name": "Cloud Files Status", "url": "http://whatever" },
-        { "name": "Cloud Sites Status", "url": "http://whatever" },
-        { "name": "Rackspace Cloud Blog", "url": "http://whatever" }
-      ],
-      "contact_urls": [
-        { "name": "US Phone Support", "url": "tel://8001112222" }
-      ],
-      "bar_style": "black",
-      "logos": {
-        "landscape_logo": "url to 279x62 logo",
-        "landscape_logo_2x": "url to 558x124 logo",
-        "provider_icon": "url to 35x35 logo",
-        "provider_icon_2x": "url to 70x70 logo",
-        "provider_icon_72": "url to 72x72 logo",
-        "provider_large": "url to 1000x1000 logo",
-        "compute_icon": "35x35 compute logo",
-        "compute_icon_2x": "70x70 compute logo",
-        "compute_logo": "1000x1000 compute logo",
-        "storage_icon": "35x35 storage logo",
-        "storage_icon_2x": "70x70 storage logo",
-        "storage_logo": "1000x1000 storage logo",
-      }
-*/
-
     // the name of the provider (example: Rackspace Cloud)
     NSString *name;
     
