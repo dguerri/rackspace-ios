@@ -127,9 +127,11 @@ static NSMutableDictionary *timers = nil;
 
     [[self.manager authenticate] success:^(OpenStackRequest *request){
         
-        [self.manager getImages];
-        [self.manager getFlavors];
-        [self.manager getServers];
+        if (self.serversURL) {
+            [self.manager getImages];
+            [self.manager getFlavors];
+            [self.manager getServers];
+        }
 
         [[self.manager getLimits] success:^(OpenStackRequest *request) {
             
@@ -145,21 +147,7 @@ static NSMutableDictionary *timers = nil;
     }];
 }
 
-#pragma mark -
-#pragma mark Serialization
-
-- (void)loadTimer {    
-    if (![timers objectForKey:uuid]) {
-//        if (!hasBeenRefreshed) {
-//            [self refreshCollections];
-//        }
-        /*
-        [NSTimer scheduledTimerWithTimeInterval:4.0 target:self.manager selector:@selector(getServers) userInfo:nil repeats:NO];
-        NSTimer *timer = [NSTimer scheduledTimerWithTimeInterval:kOpenStackPollingFrequency * 20 target:self selector:@selector(refreshCollections) userInfo:nil repeats:YES];
-        [timers setObject:timer forKey:uuid];
-         */
-    }
-}
+#pragma mark - Serialization
 
 - (id)copyWithZone:(NSZone *)zone {
     OpenStackAccount *copy = [[OpenStackAccount allocWithZone:zone] init];
@@ -177,6 +165,7 @@ static NSMutableDictionary *timers = nil;
     copy.loadBalancers = self.loadBalancers;
     copy.serversByPublicIP = self.serversByPublicIP;
     */
+    copy.computeServices = [[[NSMutableArray alloc] initWithArray:self.computeServices] autorelease];
     
     copy.serversURL = self.serversURL;
     copy.filesURL = self.filesURL;
@@ -209,6 +198,7 @@ static NSMutableDictionary *timers = nil;
     
     [coder encodeObject:images forKey:@"images"];
     [coder encodeObject:flavors forKey:@"flavors"];
+    [coder encodeObject:_computeServices forKey:@"computeServices"];
     
     [coder encodeBool:ignoresSSLValidation forKey:@"ignoresSSLValidation"];
     
@@ -251,6 +241,7 @@ static NSMutableDictionary *timers = nil;
         
         flavors = [self decode:coder key:@"flavors"];
         servers = [self decode:coder key:@"servers"];
+        self.computeServices = [self decode:coder key:@"computeServices"];
         serversByPublicIP = [self decode:coder key:@"serversByPublicIP"];
         
 //        serversURL = [self decode:coder key:@"serversURL"];
@@ -258,8 +249,6 @@ static NSMutableDictionary *timers = nil;
         cdnURL = [self decode:coder key:@"cdnURL"];
         rateLimits = [self decode:coder key:@"rateLimits"];
 
-        [self loadTimer];
-        
         lastUsedFlavorId = [self decode:coder key:@"lastUserFlavorId"];
         lastUsedImageId = [self decode:coder key:@"lastUsedImageId"];
         
@@ -290,9 +279,6 @@ static NSMutableDictionary *timers = nil;
 - (id)init {
     if ((self = [super init])) {
         uuid = [[NSString alloc] initWithString:[OpenStackAccount stringWithUUID]];
-
-        [self loadTimer];
-        
         manager = [[AccountManager alloc] init];
         manager.account = self;
     }

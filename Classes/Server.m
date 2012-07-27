@@ -24,8 +24,7 @@
 // TODO: getter/setter for rootPassword should use Keychain class
 // TODO: generate uuid for servers.  key password on uuid
 
-#pragma mark -
-#pragma mark Serialization
+#pragma mark - Serialization
 
 - (void)encodeWithCoder: (NSCoder *)coder {
     [self autoEncodeWithCoder:coder];

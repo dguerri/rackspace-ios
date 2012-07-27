@@ -20,6 +20,32 @@
     [super dealloc];
 }
 
+#pragma mark - Serialization
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.name forKey:@"name"];
+    [coder encodeObject:self.displayName forKey:@"displayName"];
+    [coder encodeObject:self.endpoints forKey:@"endpoints"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        self.name = [[coder decodeObjectForKey:@"name"] retain];
+        self.displayName = [[coder decodeObjectForKey:@"displayName"] retain];
+        self.endpoints = [[coder decodeObjectForKey:@"endpoints"] retain];
+    }
+    return self;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    OSComputeService *copy = [[OSComputeService allocWithZone:zone] init];
+    copy.name = self.name;
+    copy.displayName = self.displayName;
+    copy.endpoints = self.endpoints;
+    return copy;
+}
+
 #pragma mark - JSON
 
 - (void)populateWithJSON:(NSDictionary *)dict {

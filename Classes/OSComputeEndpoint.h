@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Server.h"
 
-@interface OSComputeEndpoint : NSObject <NSCopying>
+@interface OSComputeEndpoint : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, retain) NSString *region;
 @property (nonatomic, retain) NSString *tenantId;

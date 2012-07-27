@@ -10,7 +10,7 @@
 
 @implementation OSComputeEndpoint
 
-#pragma mark - JSON
+#pragma mark - Serialization
 
 - (id)copyWithZone:(NSZone *)zone {
     OSComputeEndpoint *copy = [[OSComputeEndpoint allocWithZone:zone] init];
@@ -21,6 +21,26 @@
     copy.servers = self.servers;
     return copy;
 }
+
+- (void)encodeWithCoder:(NSCoder *)coder {
+    [coder encodeObject:self.region forKey:@"region"];
+    [coder encodeObject:self.tenantId forKey:@"tenantId"];
+    [coder encodeObject:self.publicURL forKey:@"publicURL"];
+    [coder encodeObject:self.versionId forKey:@"versionId"];
+}
+
+- (id)initWithCoder:(NSCoder *)coder {
+    self = [super init];
+    if (self) {
+        self.region = [[coder decodeObjectForKey:@"region"] retain];
+        self.tenantId = [[coder decodeObjectForKey:@"tenantId"] retain];
+        self.publicURL = [[coder decodeObjectForKey:@"publicURL"] retain];
+        self.versionId = [[coder decodeObjectForKey:@"versionId"] retain];
+    }
+    return self;
+}
+
+#pragma mark - JSON
 
 - (void)populateWithJSON:(NSDictionary *)dict {
     self.tenantId = [dict objectForKey:@"tenantId"];

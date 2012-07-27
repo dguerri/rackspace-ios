@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface OSComputeService : NSObject
+@interface OSComputeService : NSObject <NSCoding, NSCopying>
 
 @property (nonatomic, retain) NSString *name;
 @property (nonatomic, retain) NSString *displayName;
