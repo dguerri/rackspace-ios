@@ -28,8 +28,7 @@
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
 
-#pragma mark -
-#pragma mark Split view support
+#pragma mark - Split view support
 
 /*
  When setting the detail item, update the view and dismiss the popover controller if it's showing.

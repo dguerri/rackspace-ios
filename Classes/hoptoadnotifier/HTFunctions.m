@@ -261,7 +261,7 @@ void HTInitNoticeInfo() {
     
     // exception file name
     NSString *directory = HTNoticesDirectory();
-    NSString *fileName = [NSString stringWithFormat:@"%d", time(NULL)];
+    NSString *fileName = [NSString stringWithFormat:@"%ld", time(NULL)];
     value = [directory stringByAppendingPathComponent:fileName];
     value = [value stringByAppendingPathExtension:HTNoticePathExtension];
     value_str = [value UTF8String];

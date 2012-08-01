@@ -25,7 +25,7 @@
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:self.name forKey:@"name"];
     [coder encodeObject:self.displayName forKey:@"displayName"];
-    [coder encodeObject:self.endpoints forKey:@"endpoints"];
+//    [coder encodeObject:self.endpoints forKey:@"endpoints"];
 }
 
 - (id)initWithCoder:(NSCoder *)coder {

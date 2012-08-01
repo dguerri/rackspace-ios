@@ -185,8 +185,8 @@
 
 #pragma mark Get Image
 
-- (APICallback *)getImage:(Server *)server {
-    __block OpenStackRequest *request = [OpenStackRequest getImageRequest:self.account imageId:server.imageId];    
+- (APICallback *)getImage:(Server *)server endpoint:(OSComputeEndpoint *)endpoint {
+    __block OpenStackRequest *request = [OpenStackRequest getImageRequest:self.account endpoint:endpoint imageId:server.imageId];
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
 
         Image *image = [request image];
@@ -223,6 +223,12 @@
     return callback;
 }
 
+- (APICallback *)getFlavorsAtEndpoint:(OSComputeEndpoint *)endpoint {
+    __block OpenStackRequest *request = [OpenStackRequest computeRequest:self.account endpoint:endpoint method:@"GET" path:@"/flavors/detail"];
+    return [self callbackWithRequest:request];
+}
+
+
 #pragma mark Get Images
 
 - (APICallback *)getImages {
@@ -232,6 +238,11 @@
         callback = [self callbackWithRequest:request];
     }
     return callback;
+}
+
+- (APICallback *)getImagesAtEndpoint:(OSComputeEndpoint *)endpoint {
+    __block OpenStackRequest *request = [OpenStackRequest computeRequest:self.account endpoint:endpoint method:@"GET" path:@"/images/detail"];
+    return [self callbackWithRequest:request];
 }
 
 #pragma mark - Object Storage

@@ -22,6 +22,7 @@
 #import "GetFlavorsRequest.h"
 #import "APICallback.h"
 #import "NSString+Conveniences.h"
+#import "OSComputeEndpoint.h"
 
 
 static NSRecursiveLock *accessDetailsLock = nil;
@@ -132,8 +133,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
     return lowestLimit;
 }
 
-#pragma mark -
-#pragma mark Generic Constructors
+#pragma mark - Generic Constructors
 
 + (void)initialize {
 	if (self == [OpenStackRequest class]) {
@@ -159,6 +159,17 @@ static NSRecursiveLock *accessDetailsLock = nil;
     return [OpenStackRequest request:account method:method url:url];
 }
 
++ (id)computeRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint method:(NSString *)method path:(NSString *)path {
+    NSString *now = [[[NSDate date] description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
+    NSURL *url = nil;
+    if (endpoint.publicURL) {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?now=%@", endpoint.publicURL, path, now]];
+    } else {
+        url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?now=%@", account.serversURL, path, now]];
+    }
+    return [OpenStackRequest request:account method:method url:url];
+}
+
 + (id)filesRequest:(OpenStackAccount *)account method:(NSString *)method path:(NSString *)path {
     NSString *now = [[[NSDate date] description] stringByAddingPercentEscapesUsingEncoding:NSUTF8StringEncoding];
 	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?format=json&now=%@", account.filesURL, path, now]];    
@@ -171,8 +182,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
     return [OpenStackRequest request:account method:method url:url];
 }
 
-#pragma mark -
-#pragma mark Auth Retry
+#pragma mark - Auth Retry
 
 - (void)authRetrySucceded:(OpenStackRequest *)retryRequest {
     
@@ -367,8 +377,8 @@ static NSRecursiveLock *accessDetailsLock = nil;
     return objects;
 }
 
-+ (OpenStackRequest *)getServerRequest:(OpenStackAccount *)account serverId:(NSString *)serverId {
-    return [OpenStackRequest serversRequest:account method:@"GET" path:[NSString stringWithFormat:@"/servers/%@", serverId]];
++ (OpenStackRequest *)getServerRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint serverId:(NSString *)serverId {
+    return [OpenStackRequest computeRequest:account endpoint:endpoint method:@"GET" path:[NSString stringWithFormat:@"/servers/%@", serverId]];
 }
 
 + (OpenStackRequest *)getImagesRequest:(OpenStackAccount *)account {
@@ -378,21 +388,32 @@ static NSRecursiveLock *accessDetailsLock = nil;
 - (NSDictionary *)images {
     SBJSON *parser = [[SBJSON alloc] init];
     NSArray *jsonObjects = [[parser objectWithString:[self responseString]] objectForKey:@"images"];
+    
+    NSLog(@"json objects: %@", jsonObjects);
+    
     NSMutableDictionary *objects = [NSMutableDictionary dictionaryWithCapacity:[jsonObjects count]];
     
     for (int i = 0; i < [jsonObjects count]; i++) {
         NSDictionary *dict = [jsonObjects objectAtIndex:i];
-        Image *image = [[Image alloc] initWithJSONDict:dict];
+        
+        NSLog(@"image dict: %@", dict);
+        NSLog(@"image name: %@", [dict objectForKey:@"name"]);
+        
+//        Image *image = [[Image alloc] initWithJSONDict:dict];
+        Image *image = [Image fromJSON:dict];
+        
+        NSLog(@"image name after parsing: %@", image.name);
+        
         [objects setObject:image forKey:image.identifier];
-        [image release];
+//        [image release];
     }
     
     [parser release];
     return objects;
 }
 
-+ (OpenStackRequest *)getImageRequest:(OpenStackAccount *)account imageId:(NSString *)imageId {
-    return [OpenStackRequest serversRequest:account method:@"GET" path:[NSString stringWithFormat:@"/images/%@", imageId]];
++ (OpenStackRequest *)getImageRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint imageId:(NSString *)imageId {
+    return [OpenStackRequest computeRequest:account endpoint:endpoint method:@"GET" path:[NSString stringWithFormat:@"/images/%@", imageId]];
 }
 
 - (Image *)image {
@@ -430,7 +451,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)rebootServerRequest:(OpenStackAccount *)account server:(Server *)server type:(NSInteger)type {
     NSString *body = [NSString stringWithFormat:@"{ \"reboot\": { \"type\": \"%@\" } }", (type == kSoft) ? @"SOFT" : @"HARD"];
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];
     NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
     [request setPostBody:[NSMutableData dataWithData:data]];
     return request;
@@ -454,7 +475,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)changeServerAdminPasswordRequest:(OpenStackAccount *)account server:(Server *)server password:(NSString *)password {
 	NSString *body = [NSString stringWithFormat:@"{ \"server\": { \"adminPass\": \"%@\" } }", password];
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"PUT" path:[NSString stringWithFormat:@"/servers/%@", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"PUT" path:[NSString stringWithFormat:@"/servers/%@", server.identifier]];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;
@@ -466,7 +487,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)renameServerRequest:(OpenStackAccount *)account server:(Server *)server name:(NSString *)name {
 	NSString *body = [NSString stringWithFormat:@"{ \"server\": { \"name\": \"%@\" } }", name];
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"PUT" path:[NSString stringWithFormat:@"/servers/%@", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"PUT" path:[NSString stringWithFormat:@"/servers/%@", server.identifier]];	
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;
@@ -477,7 +498,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 }
 
 + (OpenStackRequest *)deleteServerRequest:(OpenStackAccount *)account server:(Server *)server {
-    return [OpenStackRequest serversRequest:account method:@"DELETE" path:[NSString stringWithFormat:@"/servers/%@", server.identifier]];
+    return [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"DELETE" path:[NSString stringWithFormat:@"/servers/%@", server.identifier]];
 }
 
 + (RateLimit *)deleteServerLimit:(OpenStackAccount *)account server:(Server *)server {
@@ -508,12 +529,14 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)resizeServerRequest:(OpenStackAccount *)account server:(Server *)server flavor:(Flavor *)flavor {
 	NSString *body;
-    if (![account.apiVersion isEqualToString:@"1.1"]) {
+    
+//    if (![account.apiVersion isEqualToString:@"1.1"]) {
+    if ([server.endpoint.versionId isEqualToString:@"1.0"]) {
         body = [NSString stringWithFormat:@"{ \"resize\": { \"flavorId\": %@ } }", flavor.identifier];
     } else {
         body = [NSString stringWithFormat:@"{ \"resize\": { \"flavorRef\": %@ } }", flavor.identifier];
     }
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;
@@ -525,7 +548,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)confirmResizeServerRequest:(OpenStackAccount *)account server:(Server *)server {
 	NSString *body = @"{ \"confirmResize\": null }";
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;
@@ -537,7 +560,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)revertResizeServerRequest:(OpenStackAccount *)account server:(Server *)server {
 	NSString *body = @"{ \"revertResize\": null }";
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;
@@ -548,8 +571,15 @@ static NSRecursiveLock *accessDetailsLock = nil;
 }
 
 + (OpenStackRequest *)rebuildServerRequest:(OpenStackAccount *)account server:(Server *)server image:(Image *)image {
-	NSString *body = [NSString stringWithFormat:@"{ \"rebuild\": { \"imageId\": %@ } }", image.identifier];
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];	
+    
+    NSString *body = nil;
+    if ([server.endpoint.versionId isEqualToString:@"1.0"]) {
+        body = [NSString stringWithFormat:@"{ \"rebuild\": { \"imageId\": %@ } }", image.identifier];
+    } else {
+        body = [NSString stringWithFormat:@"{ \"rebuild\": { \"imageRef\": \"%@\" } }", image.identifier];
+    }
+    
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/action", server.identifier]];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;
@@ -561,7 +591,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 
 + (OpenStackRequest *)getBackupScheduleRequest:(OpenStackAccount *)account server:(Server *)server {    
-    return [OpenStackRequest serversRequest:account method:@"GET" path:[NSString stringWithFormat:@"/servers/%@/backup_schedule", server.identifier]];
+    return [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"GET" path:[NSString stringWithFormat:@"/servers/%@/backup_schedule", server.identifier]];
 }
 
 + (RateLimit *)getBackupScheduleLimit:(OpenStackAccount *)account server:(Server *)server {
@@ -570,7 +600,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
 
 + (OpenStackRequest *)updateBackupScheduleRequest:(OpenStackAccount *)account server:(Server *)server {
 	NSString *body = [NSString stringWithFormat:@"{ \"backupSchedule\": { \"enabled\": true, \"weekly\": \"%@\", \"daily\": \"%@\" } }", server.backupSchedule.weekly, server.backupSchedule.daily];
-    OpenStackRequest *request = [OpenStackRequest serversRequest:account method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/backup_schedule", server.identifier]];	
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:server.endpoint method:@"POST" path:[NSString stringWithFormat:@"/servers/%@/backup_schedule", server.identifier]];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;

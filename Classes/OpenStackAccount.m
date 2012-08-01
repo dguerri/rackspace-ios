@@ -18,6 +18,8 @@
 #import "AccountManager.h"
 #import "LoadBalancer.h"
 #import "APICallback.h"
+#import "OSComputeService.h"
+#import "OSComputeEndpoint.h"
 
 
 static NSArray *accounts = nil;
@@ -130,7 +132,52 @@ static NSMutableDictionary *timers = nil;
         if (self.serversURL) {
             [self.manager getImages];
             [self.manager getFlavors];
-            [self.manager getServers];
+//            [self.manager getServers];
+        }
+        
+        // iterate through endpoints and get servers, images, and flavors for each
+        for (OSComputeService *service in self.computeServices) {
+            
+            for (OSComputeEndpoint *endpoint in service.endpoints) {
+
+                [[self.manager getServersAtEndpoint:endpoint] success:^(OpenStackRequest *request) {
+                    NSDictionary *objects = [request servers];
+                    for (NSString *id in objects) {
+                        Server *server = [objects objectForKey:id];
+                        server.endpoint = [[endpoint copy] autorelease];
+                        [endpoint addServersObject:server];
+                    }
+                } failure:^(OpenStackRequest *request) {
+                    
+                }];
+                
+                [[self.manager getImagesAtEndpoint:endpoint] success:^(OpenStackRequest *request) {
+                    
+//                    NSLog(@"images response: %@", request.responseString);
+                    
+                    NSDictionary *objects = [request images];
+                    for (NSString *id in objects) {
+                        Image *image = [objects objectForKey:id];
+                        [endpoint addImagesObject:image];
+                    }
+                } failure:^(OpenStackRequest *request) {
+                    
+                }];
+
+                [[self.manager getFlavorsAtEndpoint:endpoint] success:^(OpenStackRequest *request) {
+                    
+                    NSDictionary *objects = [request flavors];
+                    for (NSString *id in objects) {
+                        Flavor *flavor = [objects objectForKey:id];
+                        [endpoint addFlavorsObject:flavor];
+                    }
+                } failure:^(OpenStackRequest *request) {
+                    NSLog(@"loading flavors failed: %@", request.responseString);
+                }];
+
+            
+            }
+            
         }
 
         [[self.manager getLimits] success:^(OpenStackRequest *request) {

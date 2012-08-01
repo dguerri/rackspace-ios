@@ -15,14 +15,12 @@
 #import "AccountManager.h"
 #import "Provider.h"
 #import "APICallback.h"
+#import "OSComputeEndpoint.h"
 
 #define kResizeButton 0
 #define kCancelButton 1
 
 @implementation ResizeServerViewController
-
-@synthesize account, server;
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
@@ -50,7 +48,7 @@
         
         [self.serverViewController showToolbarActivityMessage:@"Resizing server..."];
         [self dismissModalViewControllerAnimated:YES];    
-        [self.serverViewController.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:kResize inSection:kActions] animated:YES];
+        [self.serverViewController.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:self.serverViewController.resizeRow inSection:kActions] animated:YES];
         
     }
     
@@ -68,6 +66,11 @@
 
 #pragma mark - View lifecycle
 
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.flavors = [[self.server.endpoint.flavors allValues] sortedArrayUsingSelector:@selector(compare:)];
+}
+
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     selectedFlavor = self.server.flavor;
@@ -76,12 +79,8 @@
 
 #pragma mark - Table view data source
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    return 1;
-}
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.account.flavors count];
+    return [self.flavors count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
@@ -98,7 +97,7 @@
     }
     
     // Configure the cell...
-    Flavor *flavor = [self.account.sortedFlavors objectAtIndex:indexPath.row];
+    Flavor *flavor = [self.flavors objectAtIndex:indexPath.row];
 	cell.textLabel.text = flavor.name;
 	cell.detailTextLabel.text = [NSString stringWithFormat:@"%iMB RAM, %iGB Disk", flavor.ram, flavor.disk];
 	
@@ -114,7 +113,7 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    selectedFlavor = [self.account.sortedFlavors objectAtIndex:indexPath.row];    
+    selectedFlavor = [self.flavors objectAtIndex:indexPath.row];
     [aTableView deselectRowAtIndexPath:indexPath animated:YES];
     [NSTimer scheduledTimerWithTimeInterval:0.35 target:aTableView selector:@selector(reloadData) userInfo:nil repeats:NO];
 }
@@ -122,8 +121,9 @@
 #pragma mark - Memory management
 
 - (void)dealloc {
-	[account release];
-    [server release];
+	[_account release];
+    [_server release];
+    [_flavors release];
     [super dealloc];
 }
 

@@ -14,6 +14,8 @@
 #import "OpenStackAccount.h"
 #import "NSObject+NSCoding.h"
 #import "NSString+Conveniences.h"
+#import "OSComputeService.h"
+#import "OSComputeEndpoint.h"
 
 
 @implementation Server
@@ -200,17 +202,54 @@
     }
 }
 
-- (Image *)image {
-    if (!image) {
+- (Image *)imageObj {
+//    if (!image) {
         for (OpenStackAccount *account in [OpenStackAccount accounts]) {
+            NSLog(@"name: %@", self.name);
+            if ([self.name isEqualToString:@"OpenStack Box"]) {
+                NSLog(@"openstack box!");
+            }
             Image *i = [account.images objectForKey:self.imageId];
             if (i) {
                 self.image = i;
                 break;
+            } else {
+                for (OSComputeService *service in account.computeServices) {
+                    for (OSComputeEndpoint *endpoint in service.endpoints) {
+                        [endpoint.images objectForKey:self.imageId];
+                        if (i) {
+                            self.image = i;
+                            break;
+                        }
+                    }
+                }
+            }
+        }
+//    }
+    return image;
+}
+
+- (Flavor *)flavor {
+    if (!flavor) {
+        for (OpenStackAccount *account in [OpenStackAccount accounts]) {
+            Flavor *i = [account.flavors objectForKey:self.flavorId];
+            if (i) {
+                self.flavor = i;
+                break;
+            } else {
+                for (OSComputeService *service in account.computeServices) {
+                    for (OSComputeEndpoint *endpoint in service.endpoints) {
+                        [endpoint.flavors objectForKey:self.flavorId];
+                        if (i) {
+                            self.flavor = i;
+                            break;
+                        }
+                    }
+                }
             }
         }
     }
-    return image;
+    return flavor;
 }
 
 - (void)setImage:(Image *)anImage {
@@ -221,8 +260,7 @@
     }
 }
 
-#pragma mark -
-#pragma mark Memory Management
+#pragma mark - Memory Management
 
 - (void)dealloc {
     [status release];
@@ -237,6 +275,7 @@
     [rootPassword release];
     [flavorId release];
     [imageId release];
+    [_endpoint release];
     [super dealloc];
 }
 

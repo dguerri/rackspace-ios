@@ -41,12 +41,7 @@ static UIFont *statusFont = nil;
             @throw [NSException exceptionWithName:@"NameAndStatusEntityInvalidException" reason:@"entity for NameAndStatusTitleView should respond to name, status, progress, shouldBePolled" userInfo:nil];
         }
 
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            self.backgroundColor = [UIColor scrollViewTexturedBackgroundColor];
-        } else {
-            self.backgroundColor = [UIColor groupTableViewBackgroundColor];
-        }
-
+        self.backgroundColor = [UIColor colorWithRed:0.77 green:0.8 blue:0.83 alpha:1];
         self.autoresizingMask = UIViewAutoresizingFlexibleWidth;
         
         // shadow

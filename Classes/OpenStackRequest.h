@@ -10,7 +10,7 @@
 
 #define kOpenStackPollingFrequency 20.0
 
-@class OpenStackAccount, Server, Image, RateLimit, Flavor, Container, StorageObject, BackupSchedule, LoadBalancer, APICallback, Domain, Nameserver, Record;
+@class OpenStackAccount, Server, Image, RateLimit, Flavor, Container, StorageObject, BackupSchedule, LoadBalancer, APICallback, Domain, Nameserver, Record, OSComputeEndpoint;
 
 @interface OpenStackRequest : ASIHTTPRequest {
     OpenStackAccount *account;
@@ -35,6 +35,7 @@
 
 + (id)request:(OpenStackAccount *)account method:(NSString *)method url:(NSURL *)url;
 + (id)serversRequest:(OpenStackAccount *)account method:(NSString *)method path:(NSString *)path;
++ (id)computeRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint method:(NSString *)method path:(NSString *)path;
 + (id)filesRequest:(OpenStackAccount *)account method:(NSString *)method path:(NSString *)path;
 + (id)cdnRequest:(OpenStackAccount *)account method:(NSString *)method path:(NSString *)path;
 
@@ -55,12 +56,12 @@
 + (OpenStackRequest *)getServersRequest:(OpenStackAccount *)account;
 - (NSDictionary *)servers;
 
-+ (OpenStackRequest *)getServerRequest:(OpenStackAccount *)account serverId:(NSString *)serverId;
++ (OpenStackRequest *)getServerRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint serverId:(NSString *)serverId;
 
 + (OpenStackRequest *)getImagesRequest:(OpenStackAccount *)account;
 - (NSDictionary *)images;
 
-+ (OpenStackRequest *)getImageRequest:(OpenStackAccount *)account imageId:(NSString *)imageId;
++ (OpenStackRequest *)getImageRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint imageId:(NSString *)imageId;
 - (Image *)image;
 
 + (OpenStackRequest *)getFlavorsRequest:(OpenStackAccount *)account;

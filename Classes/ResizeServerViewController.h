@@ -11,8 +11,6 @@
 @class OpenStackAccount, Server, Flavor;
 
 @interface ResizeServerViewController : ServerActionViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate> {
-    OpenStackAccount *account;
-    Server *server;
     Flavor *selectedFlavor;
     IBOutlet UITableView *tableView;
     
@@ -22,6 +20,7 @@
 
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) Server *server;
+@property (nonatomic, retain) NSArray *flavors;
 
 -(void)saveButtonPressed:(id)sender;
 

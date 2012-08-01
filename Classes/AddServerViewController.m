@@ -225,7 +225,7 @@
     serverCountSlider = [[UISlider alloc] init];
     flavorSlider = [[UISlider alloc] init];
     
-    [self addCancelButton];
+//    [self addCancelButton];
     [self addSaveButton];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -278,8 +278,8 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    RateLimit *limit = [OpenStackRequest createServerLimit:self.account];
-    maxServers = limit.remaining;
+//    RateLimit *limit = [OpenStackRequest createServerLimit:self.account];
+    maxServers = 10; //limit.remaining;
     
     // load defaults for flavor and image.  if no default set yet, use the smallest flavor
     // and the newest Ubuntu
@@ -380,12 +380,13 @@
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
     if (section == kNodeCount) {
-        if (maxServers == 1) {
-            return @"With your current API rate limit, you can create one node at a time.";
-        } else {
-            //return [NSString stringWithFormat:@"With your current API rate limit, you can create up to %i Cloud Servers at a time.", maxServers];
-            return [NSString stringWithFormat:@"With your current API rate limit, you can create up to %i servers at a time.", maxServers];
-        }
+        return nil;
+//        if (maxServers == 1) {
+//            return @"With your current API rate limit, you can create one node at a time.";
+//        } else {
+//            //return [NSString stringWithFormat:@"With your current API rate limit, you can create up to %i Cloud Servers at a time.", maxServers];
+//            return [NSString stringWithFormat:@"With your current API rate limit, you can create up to %i servers at a time.", maxServers];
+//        }
     } else if (section == kNodeDetails) {
         return [self.account.provider isRackspace] ? @"Please refer to rackspace.com/cloud for Cloud Servers pricing." : @"";
     } else {

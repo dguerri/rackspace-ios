@@ -19,6 +19,8 @@
     copy.publicURL = self.publicURL;
     copy.versionId = self.versionId;
     copy.servers = self.servers;
+    copy.images = self.images;
+    copy.flavors = self.flavors;
     return copy;
 }
 
@@ -75,6 +77,28 @@
     [self.servers removeObjectForKey:object.identifier];
 }
 
+- (void)addImagesObject:(Image *)object {
+    if (!self.images) {
+        self.images = [[[NSMutableDictionary alloc] init] autorelease];
+    }
+    [self.images setObject:object forKey:object.identifier];
+}
+
+- (void)removeImagesObject:(Image *)object {
+    [self.images removeObjectForKey:object.identifier];
+}
+
+- (void)addFlavorsObject:(Flavor *)object {
+    if (!self.flavors) {
+        self.flavors = [[[NSMutableDictionary alloc] init] autorelease];
+    }
+    [self.flavors setObject:object forKey:object.identifier];
+}
+
+- (void)removeFlavorsObject:(Flavor *)object {
+    [self.flavors removeObjectForKey:object.identifier];
+}
+
 #pragma mark - Memory Management
 
 - (void)dealloc {
@@ -83,6 +107,8 @@
     [_publicURL release];
     [_versionId release];
     [_servers release];
+    [_images release];
+    [_flavors release];
     [super dealloc];
 }
 

@@ -106,7 +106,7 @@
     [self setupDependencies];
         
     [self loadSettingsDefaults];
-        
+    
     rootViewController = [navigationController.viewControllers objectAtIndex:0];
     OpenStackAppDelegate <UINavigationControllerDelegate> *delegate = (OpenStackAppDelegate <UINavigationControllerDelegate> *)self;
     navigationController.delegate = delegate;

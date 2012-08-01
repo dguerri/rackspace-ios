@@ -8,7 +8,7 @@
 
 #import "ComputeModel.h"
 
-@class Image, Flavor, BackupSchedule;
+@class Image, Flavor, BackupSchedule, OSComputeEndpoint;
 
 @interface Server : ComputeModel <NSCoding, NSCopying> {
 }
@@ -38,9 +38,15 @@
 @property (nonatomic, retain) BackupSchedule *backupSchedule;
 @property (nonatomic, retain) NSString *rootPassword;
 
+@property (nonatomic, retain) OSComputeEndpoint *endpoint;
+
 - (id)initWithJSONDict:(NSDictionary *)dict;
 + (Server *)fromJSON:(NSDictionary *)jsonDict;
 - (NSString *)toJSON:(NSString *)apiVersion;
 - (BOOL)shouldBePolled;
+
+- (void)populateWithJSON:(NSDictionary *)dict;
+
+- (Image *)imageObj;
 
 @end

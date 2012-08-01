@@ -14,8 +14,7 @@
 
 @synthesize status, created, updated, canBeLaunched;
 
-#pragma mark -
-#pragma mark Serialization
+#pragma mark - Serialization
 
 - (void)encodeWithCoder:(NSCoder *)coder {
     [coder encodeObject:identifier forKey:@"id"];
@@ -52,10 +51,12 @@
     return copy;
 }
 
-#pragma mark -
-#pragma mark JSON
+#pragma mark - JSON
 
 + (Image *)fromJSON:(NSDictionary *)dict {
+    
+//    NSLog(@"parsing image dict: %@", dict);
+    
     Image *image = [[[Image alloc] initWithJSONDict:dict] autorelease];
 //    [self autoParse:&image fromJSONDict:dict];
     image.status = [dict objectForKey:@"status"];

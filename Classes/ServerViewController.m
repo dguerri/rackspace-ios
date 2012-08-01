@@ -33,6 +33,8 @@
 #import "APICallback.h"
 #import "Provider.h"
 #import "Analytics.h"
+#import "OSComputeEndpoint.h"
+#import "JSON.h"
 
 // TODO: bring back host id section as "n servers on this (physical) host"
 
@@ -68,7 +70,7 @@
     
     if (!titleView) {    
         // make an offset for the table
-        self.tableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 134.0)] autorelease];
+        self.tableView.tableHeaderView = [[[UIView alloc] initWithFrame:CGRectMake(0.0, 0.0, 320.0, 144.0)] autorelease];
 
         NSString *logoFilename = @"";
         if ([self.server.image respondsToSelector:@selector(logoPrefix)]) {
@@ -81,6 +83,7 @@
     }
     
     actionView.backgroundColor = [UIColor colorWithRed:0.929 green:0.929 blue:0.929 alpha:1];
+//    actionView.backgroundColor = [UIColor colorWithRed:0.83 green:0.83 blue:0.83 alpha:1];
     actionView.clipsToBounds = NO;
     [actionView.layer setShadowColor:[[UIColor blackColor] CGColor]];
     [actionView.layer setShadowRadius:2.0f];
@@ -141,34 +144,29 @@
 - (void)refreshCountdownLabels:(NSTimer *)timer {
     [self refreshLimitStrings]; 
     
-    if (actionsExpanded) {
-        NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
-        
-        if (![rebootCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kReboot inSection:kActions]];
-        }
-        if (![renameCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kRename inSection:kActions]];
-        }
-        if (![resizeCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kResize inSection:kActions]];
-        }
-        if (![changePasswordCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kChangePassword inSection:kActions]];
-        }
-        if (![backupsCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kBackups inSection:kActions]];
-        }
-        if (![rebuildCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kRebuild inSection:kActions]];
-        }
-        if (![deleteCountdown isEqualToString:@""]) {
-            [indexPaths addObject:[NSIndexPath indexPathForRow:kDelete inSection:kActions]];
-        }
-
-        [self.tableView reloadData];
-        [indexPaths release];        
+    NSMutableArray *indexPaths = [[NSMutableArray alloc] init];
+    
+    if (![renameCountdown isEqualToString:@""]) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:self.renameRow inSection:kActions]];
     }
+    if (![resizeCountdown isEqualToString:@""]) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:self.resizeRow inSection:kActions]];
+    }
+    if (![changePasswordCountdown isEqualToString:@""]) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:self.changePasswordRow inSection:kActions]];
+    }
+    if (![backupsCountdown isEqualToString:@""]) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:self.backupsRow inSection:kActions]];
+    }
+    if (![rebuildCountdown isEqualToString:@""]) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:self.rebuildRow inSection:kActions]];
+    }
+    if (![deleteCountdown isEqualToString:@""]) {
+        [indexPaths addObject:[NSIndexPath indexPathForRow:self.deleteRow inSection:kActions]];
+    }
+
+    [self.tableView reloadData];
+    [indexPaths release];        
 
 }
 
@@ -211,7 +209,7 @@
 }
 
 - (void)pollServer {
-    pollRequest = [OpenStackRequest getServerRequest:self.account serverId:self.server.identifier];
+    pollRequest = [OpenStackRequest getServerRequest:self.account endpoint:self.server.endpoint serverId:self.server.identifier];
     polling = YES;
     pollRequest.delegate = self;
     pollRequest.didFinishSelector = @selector(getServerSucceeded:);
@@ -222,7 +220,16 @@
 
 - (void)getServerSucceeded:(OpenStackRequest *)request {
     if ([request isSuccess]) {
-        self.server = [request server];
+//        OSComputeEndpoint *endpoint = self.server.endpoint;
+        
+        SBJSON *parser = [[SBJSON alloc] init];
+        NSDictionary *dict = [[parser objectWithString:[request responseString]] objectForKey:@"server"];
+        [parser release];
+
+        [self.server populateWithJSON:dict];
+        
+//        self.server = [request server];
+//        self.server.endpoint = endpoint;
         
         NSLog(@"flavor id: %@", self.server.flavorId);
         
@@ -269,18 +276,15 @@
 }
 
 - (void)getServerFailed:(OpenStackRequest *)request {
-    NSLog(@"polling server failed. trying again.");
+    NSLog(@"polling server failed. trying again. %@, %@", request.url, self.server.endpoint);
     [self pollServer];
 }
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    actionsExpanded = YES;
-
     previousScrollPoint = CGPointZero;
     titleView = nil;
     
@@ -306,7 +310,21 @@
     
     actionsArrow = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"arrow-up.png"]];
     actionsArrow.highlightedImage = [UIImage imageNamed:@"arrow-up-highlighted.png"];
-    actionsArrow.transform = CGAffineTransformMakeRotation(180.0 * M_PI / 180.0);    
+    actionsArrow.transform = CGAffineTransformMakeRotation(180.0 * M_PI / 180.0);
+        
+    self.totalActionRows = 0;
+    self.renameRow = self.totalActionRows++;
+    self.resizeRow = self.totalActionRows++;
+    self.changePasswordRow = self.totalActionRows++;
+    
+    if ([self.server.endpoint.versionId isEqualToString:@"1.0"]) {
+        self.backupsRow = self.totalActionRows++;
+    }
+    
+    self.rebuildRow = self.totalActionRows++;
+    self.deleteRow = self.totalActionRows++;
+    
+    
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -381,8 +399,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
-    //return self.server ? 5 : 0;
-    return self.server ? 4 : 0;
+    return self.server ? 5 : 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
@@ -395,8 +412,7 @@
         NSArray *privateIPs = [self.server.addresses objectForKey:@"private"];
         return [publicIPs count] + [privateIPs count];
     } else if (section == kActions) {
-        //return actionsExpanded ? 8 : 1;
-        return 6;
+        return self.totalActionRows;
     } else {
         return 0;
     }
@@ -523,84 +539,69 @@
         cell.textLabel.text = @"Actions";
         cell.detailTextLabel.text = @"";
         cell.accessoryView = nil;
-        if (indexPath.row == kActionsRow) {
+
+        if (performingAction) {
+            cell.textLabel.textColor = [UIColor grayColor];
+            cell.selectionStyle = UITableViewCellSelectionStyleNone;
             cell.accessoryType = UITableViewCellAccessoryNone;
-            cell.accessoryView = actionsArrow;
-            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
-            cell.textLabel.textColor = actionsExpanded ? cell.detailTextLabel.textColor : [UIColor blackColor];
         } else {
-            if (performingAction) {
-                cell.textLabel.textColor = [UIColor grayColor];
-                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+            cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+        }
+        
+        if (indexPath.row == self.renameRow) {
+            cell.textLabel.text = @"Rename Server";
+            if (renameCountdown && ![renameCountdown isEqualToString:@""]) {
+                cell.detailTextLabel.text = renameCountdown;
                 cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
             } else {
-                cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
-                cell.selectionStyle = UITableViewCellSelectionStyleBlue;
+                cell.detailTextLabel.text = @"";
             }
-            
-            if (indexPath.row == kReboot) {
-                cell.textLabel.text = @"Reboot Server";
-                if (![rebootCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = rebootCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
-            } else if (indexPath.row == kRename) {
-                cell.textLabel.text = @"Rename Server";
-                if (renameCountdown && ![renameCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = renameCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
-            } else if (indexPath.row == kResize) {
-                cell.textLabel.text = @"Resize Server";
-                if (![resizeCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = resizeCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
-            } else if (indexPath.row == kChangePassword) {
-                cell.textLabel.text = @"Change Root Password";
-                if (![changePasswordCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = changePasswordCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
-            } else if (indexPath.row == kBackups) {
-                cell.textLabel.text = @"Manage Backup Schedules";
-                if (![backupsCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = backupsCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
-            } else if (indexPath.row == kRebuild) {
-                cell.textLabel.text = @"Rebuild Server";
-                if (![rebuildCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = rebuildCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
-            } else if (indexPath.row == kDelete) {
-                cell.textLabel.text = @"Delete Server";
-                if (![deleteCountdown isEqualToString:@""]) {
-                    cell.detailTextLabel.text = deleteCountdown;
-                    cell.accessoryType = UITableViewCellAccessoryNone;
-                    cell.selectionStyle = UITableViewCellSelectionStyleNone;
-                } else {
-                    cell.detailTextLabel.text = @"";
-                }
+        } else if (indexPath.row == self.resizeRow) {
+            cell.textLabel.text = @"Resize Server";
+            if (![resizeCountdown isEqualToString:@""]) {
+                cell.detailTextLabel.text = resizeCountdown;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.detailTextLabel.text = @"";
+            }
+        } else if (indexPath.row == self.changePasswordRow) {
+            cell.textLabel.text = @"Change Root Password";
+            if (![changePasswordCountdown isEqualToString:@""]) {
+                cell.detailTextLabel.text = changePasswordCountdown;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.detailTextLabel.text = @"";
+            }
+        } else if (indexPath.row == self.backupsRow) {
+            cell.textLabel.text = @"Manage Backup Schedules";
+            if (![backupsCountdown isEqualToString:@""]) {
+                cell.detailTextLabel.text = backupsCountdown;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.detailTextLabel.text = @"";
+            }
+        } else if (indexPath.row == self.rebuildRow) {
+            cell.textLabel.text = @"Rebuild Server";
+            if (![rebuildCountdown isEqualToString:@""]) {
+                cell.detailTextLabel.text = rebuildCountdown;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.detailTextLabel.text = @"";
+            }
+        } else if (indexPath.row == self.deleteRow) {
+            cell.textLabel.text = @"Delete Server";
+            if (![deleteCountdown isEqualToString:@""]) {
+                cell.detailTextLabel.text = deleteCountdown;
+                cell.accessoryType = UITableViewCellAccessoryNone;
+                cell.selectionStyle = UITableViewCellSelectionStyleNone;
+            } else {
+                cell.detailTextLabel.text = @"";
             }
         }
     }
@@ -648,43 +649,8 @@
         ipAddressActionSheet.title = self.selectedIPAddress;
         [ipAddressActionSheet showInView:self.view];
     } else if (indexPath.section == kActions) {
-        if (indexPath.row == kActionsRow) {
-            NSMutableArray *indexPaths = [[NSMutableArray alloc] initWithCapacity:7];
-            for (int i = 1; i < 8; i++) {
-                [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:kActions]];
-            }
-            if (actionsExpanded) {
-                actionsExpanded = NO;
-                [tableView deleteRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationTop];
-            } else {
-                actionsExpanded = YES;
-                [tableView insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationBottom];
-                [tableView scrollToRowAtIndexPath:[indexPaths lastObject] atScrollPosition:UITableViewScrollPositionBottom animated:YES];
-            }
-            [indexPaths release];
-            [tableView deselectRowAtIndexPath:indexPath animated:YES];
-            [NSTimer scheduledTimerWithTimeInterval:0.25 target:self selector:@selector(reloadActionsTitleRow) userInfo:nil repeats:NO];
-            
-            // flip the arrow
-            [UIView beginAnimations:nil context:NULL];
-            [UIView setAnimationDuration:0.4];
-            if (actionsExpanded) {
-                actionsArrow.transform = CGAffineTransformMakeRotation(0.0);
-            } else {
-                actionsArrow.transform = CGAffineTransformMakeRotation(180.0 * M_PI / 180.0);
-            }
-            [UIView commitAnimations];            
-            
-        } else if (indexPath.row == kReboot) {
-            if (!performingAction && [rebootCountdown isEqualToString:@""]) {
-                [rebootActionSheet showInView:self.view];
-            } else if (![rebootCountdown isEqualToString:@""]) {
-                [self alert:nil message:@"Reboots are not available because the API rate limit has been reached for this account.  These actions will be available as soon as the countdown reaches zero."];
-                [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-            } else {
-                [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
-            }
-        } else if (indexPath.row == kRename) {
+        
+        if (indexPath.row == self.renameRow) {
             if (!performingAction) {
                 RenameServerViewController *vc = [[RenameServerViewController alloc] initWithNibName:@"RenameServerViewController" bundle:nil];
                 vc.serverViewController = self;
@@ -697,7 +663,7 @@
             } else {
                 [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             }
-        } else if (indexPath.row == kResize) {
+        } else if (indexPath.row == self.resizeRow) {
             if (!performingAction) {
                 ResizeServerViewController *vc = [[ResizeServerViewController alloc] initWithNibName:@"ResizeServerViewController" bundle:nil];
                 vc.serverViewController = self;
@@ -712,16 +678,17 @@
             } else {
                 [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             }
-        } else if (indexPath.row == kRebuild) {
+        } else if (indexPath.row == self.rebuildRow) {
             SimpleImagePickerViewController *vc = [[SimpleImagePickerViewController alloc] initWithNibName:@"SimpleImagePickerViewController" bundle:nil];
             vc.mode = kModeRebuildServer;
             vc.account = self.account;
+            vc.endpoint = self.server.endpoint;
             vc.selectedImageId = self.server.imageId;
             vc.serverViewController = self;
             vc.delegate = self;
             [self presentModalViewControllerWithNavigation:vc];
             [vc release];            
-        } else if (indexPath.row == kChangePassword) {
+        } else if (indexPath.row == self.changePasswordRow) {
             if (!performingAction) {
                 ResetServerAdminPasswordViewController *vc = [[ResetServerAdminPasswordViewController alloc] initWithNibName:@"ResetServerAdminPasswordViewController" bundle:nil];
                 vc.serverViewController = self;
@@ -734,7 +701,7 @@
             } else {
                 [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             }
-        } else if (indexPath.row == kBackups) {            
+        } else if (indexPath.row == self.backupsRow) {
             if (!performingAction) {
                 ManageBackupScheduleViewController *vc = [[ManageBackupScheduleViewController alloc] initWithNibName:@"ManageBackupScheduleViewController" bundle:nil];
                 vc.serverViewController = self;
@@ -749,7 +716,7 @@
             } else {
                 [self.tableView deselectRowAtIndexPath:indexPath animated:NO];
             }
-        } else if (indexPath.row == kDelete) {
+        } else if (indexPath.row == self.deleteRow) {
             if (!performingAction) {
                 [deleteActionSheet showInView:self.view];
             } else {
@@ -892,7 +859,6 @@
             [self.tableView deselectRowAtIndexPath:self.selectedIPAddressIndexPath animated:YES];
         }
     } else if ([actionSheet isEqual:rebootActionSheet]) {
-        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:kReboot inSection:kActions] animated:YES];
         
         if (buttonIndex != 2) {
             [self showToolbarActivityMessage:@"Rebooting..."];        
@@ -928,7 +894,7 @@
         if (buttonIndex == 0) {
             [self deleteServer];
         }
-        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:kDelete inSection:kActions] animated:YES];
+        [self.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:self.deleteRow inSection:kActions] animated:YES];
     }
 }
 

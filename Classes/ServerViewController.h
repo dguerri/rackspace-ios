@@ -22,23 +22,12 @@
 #define kMemory 1
 #define kDisk 2
 
-// actions
-#define kActionsRow -1
-#define kReboot -1
-#define kRename 0
-#define kResize 1
-#define kChangePassword 2
-#define kBackups 3
-#define kRebuild 4
-#define kDelete 5
-
 @class Server, OpenStackAccount, ServersViewController, AnimatedProgressView, OpenStackRequest, AccountHomeViewController, NameAndStatusTitleView;
 
 @interface ServerViewController : OpenStackViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate> {
     Server *server;
     OpenStackAccount *account;
     IBOutlet UITableView *tableView;
-    BOOL actionsExpanded;
     AnimatedProgressView *progressView;
     
     ServersViewController *serversViewController;
@@ -83,6 +72,14 @@
 @property (nonatomic, retain) NSIndexPath *selectedServerIndexPath;
 @property (nonatomic, retain) AccountHomeViewController *accountHomeViewController;
 @property (nonatomic, retain) NSString *selectedIPAddress;
+
+@property (nonatomic, assign) NSInteger totalActionRows;
+@property (nonatomic, assign) NSInteger renameRow;
+@property (nonatomic, assign) NSInteger resizeRow;
+@property (nonatomic, assign) NSInteger changePasswordRow;
+@property (nonatomic, assign) NSInteger backupsRow;
+@property (nonatomic, assign) NSInteger rebuildRow;
+@property (nonatomic, assign) NSInteger deleteRow;
 
 
 - (void)refreshLimitStrings;

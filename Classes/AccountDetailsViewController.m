@@ -146,6 +146,7 @@
     [self addSaveButton];
     
     self.validateSSLSwitch = [[[UISwitch alloc] init] autorelease];
+    self.validateSSLSwitch.on = YES;
     
 }
 

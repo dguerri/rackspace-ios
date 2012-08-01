@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@class OpenStackAccount;
+@class OpenStackAccount, OSComputeEndpoint;
 
 #define kModeChooseImage 0
 #define kModeRebuildServer 1
@@ -16,15 +16,13 @@
 @class ServerViewController;
 
 @interface SimpleImagePickerViewController : UIViewController <UIPickerViewDelegate, UIPickerViewDataSource, UITableViewDelegate, UITableViewDataSource> {
-    IBOutlet UITableView *tableView;
-    IBOutlet UIPickerView *pickerView;
-    NSDictionary *images;
     NSMutableArray *stringKeys;
     NSString *selectedFamily;
-    id delegate;
 }
 
 @property (nonatomic, retain) OpenStackAccount *account;
+@property (nonatomic, retain) OSComputeEndpoint *endpoint;
+@property (nonatomic, retain) NSDictionary *images;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
 @property (nonatomic, retain) IBOutlet UIPickerView *pickerView;
 @property (nonatomic, retain) NSString *selectedImageId;

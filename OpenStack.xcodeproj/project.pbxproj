@@ -19,6 +19,10 @@
 		2710BC16136B54A9003C8CFF /* LBProtocolViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2710BC11136B54A9003C8CFF /* LBProtocolViewController.m */; };
 		2710BC17136B54A9003C8CFF /* LBProtocolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2710BC12136B54A9003C8CFF /* LBProtocolViewController.xib */; };
 		2710BC18136B54A9003C8CFF /* LBProtocolViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2710BC12136B54A9003C8CFF /* LBProtocolViewController.xib */; };
+		27132B1415C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27132B1215C9026900807FAE /* OSAddServerEndpointViewController.m */; };
+		27132B1515C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27132B1215C9026900807FAE /* OSAddServerEndpointViewController.m */; };
+		27132B1615C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27132B1315C9026B00807FAE /* OSAddServerEndpointViewController.xib */; };
+		27132B1715C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27132B1315C9026B00807FAE /* OSAddServerEndpointViewController.xib */; };
 		271726F112555EC0003A1319 /* Provider.m in Sources */ = {isa = PBXBuildFile; fileRef = 271726EF12555EC0003A1319 /* Provider.m */; };
 		2717275A12565ED9003A1319 /* OpenStackAccount.m in Sources */ = {isa = PBXBuildFile; fileRef = 2717275812565ED9003A1319 /* OpenStackAccount.m */; };
 		2717282512567D61003A1319 /* Keychain.m in Sources */ = {isa = PBXBuildFile; fileRef = 2717282312567D61003A1319 /* Keychain.m */; };
@@ -1070,6 +1074,9 @@
 		2710BC10136B54A9003C8CFF /* LBProtocolViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LBProtocolViewController.h; sourceTree = "<group>"; };
 		2710BC11136B54A9003C8CFF /* LBProtocolViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBProtocolViewController.m; sourceTree = "<group>"; };
 		2710BC12136B54A9003C8CFF /* LBProtocolViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LBProtocolViewController.xib; sourceTree = "<group>"; };
+		27132B1115C9026800807FAE /* OSAddServerEndpointViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSAddServerEndpointViewController.h; sourceTree = "<group>"; };
+		27132B1215C9026900807FAE /* OSAddServerEndpointViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSAddServerEndpointViewController.m; sourceTree = "<group>"; };
+		27132B1315C9026B00807FAE /* OSAddServerEndpointViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = OSAddServerEndpointViewController.xib; sourceTree = "<group>"; };
 		271726EE12555EC0003A1319 /* Provider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Provider.h; sourceTree = "<group>"; };
 		271726EF12555EC0003A1319 /* Provider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Provider.m; sourceTree = "<group>"; };
 		2717275712565ED9003A1319 /* OpenStackAccount.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStackAccount.h; sourceTree = "<group>"; };
@@ -2695,6 +2702,9 @@
 				273FF39913313A5300437033 /* ServersOnHostViewController.h */,
 				273FF39A13313A5300437033 /* ServersOnHostViewController.m */,
 				273FF39B13313A5400437033 /* ServersOnHostViewController.xib */,
+				27132B1115C9026800807FAE /* OSAddServerEndpointViewController.h */,
+				27132B1215C9026900807FAE /* OSAddServerEndpointViewController.m */,
+				27132B1315C9026B00807FAE /* OSAddServerEndpointViewController.xib */,
 			);
 			name = Compute;
 			sourceTree = "<group>";
@@ -3285,7 +3295,7 @@
 		29B97313FDCFA39411CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0420;
+				LastUpgradeCheck = 0440;
 			};
 			buildConfigurationList = C01FCF4E08A954540054247B /* Build configuration list for PBXProject "OpenStack" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -3640,6 +3650,7 @@
 				27295C1313C6563200A32F20 /* dark-grey-highlight.png in Resources */,
 				27C38BC013D0D48500CC7222 /* red-delete-button@2x.png in Resources */,
 				27C38BC213D0D48500CC7222 /* red-delete-button.png in Resources */,
+				27132B1615C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3968,6 +3979,7 @@
 				27295C1413C6563200A32F20 /* dark-grey-highlight.png in Resources */,
 				27C38BC113D0D48500CC7222 /* red-delete-button@2x.png in Resources */,
 				27C38BC313D0D48500CC7222 /* red-delete-button.png in Resources */,
+				27132B1715C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4154,6 +4166,7 @@
 				27B1BBC2146C32B700FAC8E5 /* GANTracker.h in Sources */,
 				277CEF2215C12B7500ADAA04 /* OSComputeEndpoint.m in Sources */,
 				27FB6C6515C2140E0070A29E /* OSComputeService.m in Sources */,
+				27132B1415C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4309,6 +4322,7 @@
 				27DC5DDA13CB925200091902 /* LoadBalancerConnectionThrottle.m in Sources */,
 				277CEF2315C12B7500ADAA04 /* OSComputeEndpoint.m in Sources */,
 				27FB6C6615C2140E0070A29E /* OSComputeService.m in Sources */,
+				27132B1515C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4485,6 +4499,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenStack_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Rackspace Cloud-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
@@ -4524,6 +4539,7 @@
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenStack_Prefix.pch;
+				GCC_THUMB_SUPPORT = NO;
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Rackspace Cloud-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";

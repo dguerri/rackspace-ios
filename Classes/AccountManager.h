@@ -42,8 +42,10 @@
 - (APICallback *)getServers;
 - (APICallback *)getServersAtEndpoint:(OSComputeEndpoint *)endpoint;
 - (APICallback *)getImages;
+- (APICallback *)getImagesAtEndpoint:(OSComputeEndpoint *)endpoint;
 - (APICallback *)getFlavors;
-- (APICallback *)getImage:(Server *)server;
+- (APICallback *)getFlavorsAtEndpoint:(OSComputeEndpoint *)endpoint;
+- (APICallback *)getImage:(Server *)server endpoint:(OSComputeEndpoint *)endpoint;
 
 #pragma mark - Object Storage
 

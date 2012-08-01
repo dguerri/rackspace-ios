@@ -13,6 +13,7 @@
 #import "ServerViewController.h"
 #import "AccountManager.h"
 #import "APICallback.h"
+#import "OSComputeEndpoint.h"
 
 @implementation SimpleImagePickerViewController
 
@@ -31,9 +32,9 @@
     
     for (int i = 0; i < [stringKeys count]; i++) {
         NSString *stringKey = [stringKeys objectAtIndex:i];
-        NSArray *keys = [self.account.images allKeys];
+        NSArray *keys = [self.endpoint.images allKeys];
         for (int j = 0; j < [keys count]; j++) {
-            Image *image = [self.account.images objectForKey:[keys objectAtIndex:j]];
+            Image *image = [self.endpoint.images objectForKey:[keys objectAtIndex:j]];
             if ([image respondsToSelector:@selector(logoPrefix)] && [[image logoPrefix] isEqualToString:stringKey]) {
                 if (![dict objectForKey:stringKey]) {
                     [dict setObject:[[[NSMutableArray alloc] init] autorelease] forKey:stringKey];
@@ -61,7 +62,7 @@
     
     [keysToRemove release];
     [sortDescriptor release];
-    images = [[NSDictionary alloc] initWithDictionary:dict];
+    self.images = [[[NSDictionary alloc] initWithDictionary:dict] autorelease];
     [dict release];
 }
 
@@ -82,7 +83,7 @@
         [self addSaveButton];
     }
     
-    Image *image = [self.account.images objectForKey:selectedImageId];
+    Image *image = [self.endpoint.images objectForKey:selectedImageId];
     
     for (int i = 0; i < [stringKeys count]; i++) {
         NSString *stringKey = [stringKeys objectAtIndex:i];
@@ -108,7 +109,7 @@
 
 - (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
     //CGFloat result = aTableView.rowHeight;
-    NSArray *currentImages = [images objectForKey:selectedFamily];
+    NSArray *currentImages = [self.images objectForKey:selectedFamily];
     Image *image = [currentImages objectAtIndex:indexPath.row];    
     CGFloat result = 22.0 + [self findLabelHeight:image.name font:[UIFont boldSystemFontOfSize:18.0]];
     return MAX(aTableView.rowHeight, result);
@@ -119,7 +120,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [[images objectForKey:selectedFamily] count];
+    return [[self.images objectForKey:selectedFamily] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
@@ -135,7 +136,7 @@
     }
     
     // Configure the cell...
-    NSArray *currentImages = [images objectForKey:selectedFamily];
+    NSArray *currentImages = [self.images objectForKey:selectedFamily];
     Image *image = [currentImages objectAtIndex:indexPath.row];
     cell.textLabel.text = image.name;
     if ([image respondsToSelector:@selector(logoPrefix)]) {
@@ -153,7 +154,7 @@
 
 - (void)tableView:(UITableView *)aTableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 
-    NSArray *currentImages = [images objectForKey:selectedFamily];
+    NSArray *currentImages = [self.images objectForKey:selectedFamily];
     Image *image = [currentImages objectAtIndex:indexPath.row];
     
     [aTableView deselectRowAtIndexPath:indexPath animated:YES];
@@ -171,8 +172,7 @@
     
 }
 
-#pragma mark -
-#pragma mark Picker View
+#pragma mark - Picker View
 
 - (NSInteger)numberOfComponentsInPickerView:(UIPickerView *)pickerView {
     return 1;
@@ -250,9 +250,9 @@
 - (void)saveButtonPressed:(id)sender {
     [self.serverViewController showToolbarActivityMessage:@"Rebuilding server..."];
     [self dismissModalViewControllerAnimated:YES];
-    [serverViewController.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:kRebuild inSection:kActions] animated:YES];
+    [self.serverViewController.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:self.serverViewController.rebuildRow inSection:kActions] animated:YES];
     
-    Image *image = [self.account.images objectForKey:self.selectedImageId];
+    Image *image = [self.endpoint.images objectForKey:self.selectedImageId];
     [[self.account.manager rebuildServer:self.serverViewController.server image:image] success:^(OpenStackRequest *request) {
         
         [self.serverViewController hideToolbarActivityMessage];
@@ -270,7 +270,7 @@
 -(void)cancelButtonPressed:(id)sender {
 	[self dismissModalViewControllerAnimated:YES];
     if (serverViewController) {
-        [serverViewController.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:kRebuild inSection:kActions] animated:YES];
+        [serverViewController.tableView deselectRowAtIndexPath:[NSIndexPath indexPathForRow:self.serverViewController.rebuildRow inSection:kActions] animated:YES];
     }
 }
 
@@ -279,12 +279,14 @@
 
 - (void)dealloc {
     [account release];
+    [_endpoint release];
     [tableView release];
     [pickerView release];
     [delegate release];
     [stringKeys release];
     [serverViewController release];
     [selectedImageId release];
+    [_images release];
     [super dealloc];
 }
 

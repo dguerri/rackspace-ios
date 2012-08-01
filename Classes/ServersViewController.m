@@ -24,6 +24,7 @@
 #import "APICallback.h"
 #import "OSComputeService.h"
 #import "OSComputeEndpoint.h"
+#import "OSAddServerEndpointViewController.h"
 
 
 @implementation ServersViewController
@@ -55,24 +56,33 @@
 #pragma mark - Button Handlers
 
 - (void)addButtonPressed:(id)sender {
-    RateLimit *limit = [OpenStackRequest createServerLimit:self.account];
-    if (!limit || limit.remaining > 0) {
-        AddServerViewController *vc = [[AddServerViewController alloc] initWithNibName:@"AddServerViewController" bundle:nil];
-        vc.account = self.account;
-        vc.serversViewController = self;
-        vc.accountHomeViewController = self.accountHomeViewController;
-        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
-            vc.modalPresentationStyle = UIModalPresentationFormSheet;
-            OpenStackAppDelegate *app = [[UIApplication sharedApplication] delegate];
-            if (app.rootViewController.popoverController) {
-                [app.rootViewController.popoverController dismissPopoverAnimated:YES];
-            }
+    
+    OSAddServerEndpointViewController *vc = [[OSAddServerEndpointViewController alloc] initWithAccount:self.account];
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        vc.modalPresentationStyle = UIModalPresentationFormSheet;
+        OpenStackAppDelegate *app = [[UIApplication sharedApplication] delegate];
+        if (app.rootViewController.popoverController) {
+            [app.rootViewController.popoverController dismissPopoverAnimated:YES];
         }
-        [self presentModalViewControllerWithNavigation:vc];
-        [vc release];
-    } else {
-        [self alert:@"API Rate Limit Reached" message:@"You have reached your API rate limit for creating servers in this account.  Please try again when your limit has been reset."];
     }
+    [self presentModalViewControllerWithNavigation:vc];
+    [vc release];
+    
+    /*
+    AddServerViewController *vc = [[AddServerViewController alloc] initWithNibName:@"AddServerViewController" bundle:nil];
+    vc.account = self.account;
+    vc.serversViewController = self;
+    vc.accountHomeViewController = self.accountHomeViewController;
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        vc.modalPresentationStyle = UIModalPresentationFormSheet;
+        OpenStackAppDelegate *app = [[UIApplication sharedApplication] delegate];
+        if (app.rootViewController.popoverController) {
+            [app.rootViewController.popoverController dismissPopoverAnimated:YES];
+        }
+    }
+    [self presentModalViewControllerWithNavigation:vc];
+    [vc release];
+    */
 }
 
 - (void)selectFirstServer {
@@ -100,15 +110,13 @@
                 
                 [[self.account.manager getServersAtEndpoint:endpoint] success:^(OpenStackRequest *request) {
                     
-                    NSLog(@"endpoint %@ success", endpoint.publicURL);
-                    
                     NSDictionary *servers = [request servers];
                     
                     for (NSString *id in servers) {
-                        
                         Server *server = [servers objectForKey:id];
+                        server.endpoint = [[endpoint copy] autorelease];
+                        server.flavor = [server.endpoint.flavors objectForKey:server.flavorId];
                         [endpoint addServersObject:server];
-                        
                     }
                     
                     [self.servers setObject:endpoint.servers forKey:endpoint];
@@ -192,6 +200,7 @@
         
         OSComputeEndpoint *endpoint = [[OSComputeEndpoint alloc] init];
         endpoint.versionId = @"1.0";
+        endpoint.publicURL = self.account.serversURL;
         [service.endpoints addObject:endpoint];
         
         [self.servers setObject:self.account.servers forKey:endpoint];
@@ -207,6 +216,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.tableView.rowHeight = 50;
     self.navigationItem.title = [self.account.provider isRackspace] ? @"Cloud Servers" : @"Compute";
     [self addAddButton];
     [self configureServersCollection];
@@ -223,7 +233,42 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-    // FIXME: iterate over self.servers
+    // let's loop through the servers and see if there are any where we don't have an image
+    for (OSComputeEndpoint *endpoint in self.servers) {
+        
+        NSLog(@"endpoint: %@", endpoint);
+        
+        for (NSString *serverId in endpoint.servers) {
+            
+            NSLog(@"server id: %@", serverId);
+            
+            Server *server = [endpoint.servers objectForKey:serverId];
+            
+            if (!server.image && server.imageId) {
+                
+                [[self.account.manager getImage:server endpoint:endpoint] success:^(OpenStackRequest *request) {
+                    
+                    Image *image = [request image];
+                    server.image = image;
+                    [self.tableView reloadData];
+                    
+                } failure:^(OpenStackRequest *request) {
+                    
+                    NSLog(@"loading image for server %@ failed", server.name);
+                    
+                }];
+                
+            }
+            
+        }
+        
+    }
+    
+    
+    
+    
+    
+    /*
     NSEnumerator *enumerator = [self.account.servers keyEnumerator];
     id key;
     while ((key = [enumerator nextObject])) {
@@ -231,7 +276,7 @@
         
         if (!server.image && server.imageId) {
 
-            [[self.account.manager getImage:server] success:^(OpenStackRequest *request) {
+            [[self.account.manager getImage:server endpoint:server.endpoint] success:^(OpenStackRequest *request) {
                 
                 NSArray *sortedServers = [self.account sortedServers];
                 for (Server *server in sortedServers) {
@@ -260,6 +305,7 @@
         self.tableView.scrollEnabled = NO;
         [self.tableView reloadData];
     }
+    */
     
     if (!serversLoaded && [self.account.servers count] == 0) {
         [self refreshButtonPressed:nil];
@@ -343,11 +389,15 @@
         Server *server = [self serverAtIndexPath:indexPath];
         
         cell.textLabel.text = server.name;
-        if ([server.addresses objectForKey:@"public"]) {
-            cell.detailTextLabel.text = [[server.addresses objectForKey:@"public"] objectAtIndex:0];
-        } else {
-            cell.detailTextLabel.text = @"";
-        }
+        cell.detailTextLabel.text = server.flavor.name;
+//        cell.detailTextLabel.text = [server image].name;
+//        if ([server.addresses objectForKey:@"public"]) {
+//            cell.detailTextLabel.text = [[server.addresses objectForKey:@"public"] objectAtIndex:0];
+//        } else {
+//            cell.detailTextLabel.text = @"";
+//        }
+        
+        server.image = [server.endpoint.images objectForKey:server.imageId];
         
         if ([server.image respondsToSelector:@selector(logoPrefix)]) {
             if ([[server.image logoPrefix] isEqualToString:kCustomImage]) {
@@ -365,7 +415,7 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     
-    Server *server = [self serverAtIndexPath:indexPath];
+    Server *server = [self serverAtIndexPath:indexPath];    
     ServerViewController *vc = [[ServerViewController alloc] initWithNibName:@"ServerViewController" bundle:nil];
     vc.server = server;
     vc.account = self.account;
