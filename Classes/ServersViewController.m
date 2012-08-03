@@ -45,7 +45,11 @@
 
 - (Server *)serverForEndpoint:(OSComputeEndpoint *)endpoint atIndex:(NSInteger)index {
     NSArray *servers = [endpoint.servers allValues];
-    return [servers objectAtIndex:index];
+    if ([servers count] > index) {
+        return [servers objectAtIndex:index];
+    } else {
+        return nil;
+    }
 }
 
 - (Server *)serverAtIndexPath:(NSIndexPath *)indexPath {
@@ -119,7 +123,9 @@
                         [endpoint addServersObject:server];
                     }
                     
-                    [self.servers setObject:endpoint.servers forKey:endpoint];
+                    if (endpoint.servers) {
+                        [self.servers setObject:endpoint.servers forKey:endpoint];
+                    }
                     
                     [self configureServersCollection];
                     [self enableRefreshButton];
@@ -344,34 +350,17 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     
-    if ([self.account.servers count] == 0) {
-        self.tableView.allowsSelection = NO;
-        self.tableView.scrollEnabled = NO;
-    } else {
-        self.tableView.allowsSelection = YES;
-        self.tableView.scrollEnabled = YES;
-    }
-    if (!serversLoaded && [self.account.servers count] == 0) {
-        return 0;
-    } else {
-        return MAX(1, [self.account.sortedServers count]);
-    }
-}
+    OSComputeEndpoint *endpoint = [self endpointAtIndex:section];
+    return [endpoint.servers count];
 
-- (CGFloat)tableView:(UITableView *)aTableView heightForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.account.servers count] == 0) {
-        return aTableView.frame.size.height;
-    } else {
-        return aTableView.rowHeight;
-    }
 }
 
 - (UITableViewCell *)tableView:(UITableView *)aTableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    if ([self.account.servers count] == 0 && serversLoaded) {
-        return [self tableView:self.tableView emptyCellWithImage:[UIImage imageNamed:@"empty-servers.png"] title:@"No Servers" subtitle:@"Tap the + button to create a new Cloud Server"];
-    } else if ([self.account.servers count] == 0) {
-        return nil; // there will be no cells present while loading
-    } else {
+//    if ([self.account.servers count] == 0 && serversLoaded) {
+//        return [self tableView:self.tableView emptyCellWithImage:[UIImage imageNamed:@"empty-servers.png"] title:@"No Servers" subtitle:@"Tap the + button to create a new Cloud Server"];
+//    } else if ([self.account.servers count] == 0) {
+//        return nil; // there will be no cells present while loading
+//    } else {
         static NSString *CellIdentifier = @"Cell";
 
         UITableViewCell *cell = [aTableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -408,7 +397,7 @@
         }
         
         return cell;
-    }    
+//    }    
 }
 
 #pragma mark - Table view delegate

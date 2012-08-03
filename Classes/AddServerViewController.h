@@ -8,10 +8,9 @@
 
 #import <UIKit/UIKit.h>
 
-@class OpenStackAccount, Image, ServersViewController, OpenStackRequest, LogEntryModalViewController, AccountHomeViewController;
+@class OpenStackAccount, Image, ServersViewController, OpenStackRequest, LogEntryModalViewController, AccountHomeViewController, OSComputeEndpoint;
 
 @interface AddServerViewController : UITableViewController <UITextFieldDelegate> {
-    OpenStackAccount *account;
     
     UISlider *serverCountSlider;
     UILabel *serverCountLabel;
@@ -33,10 +32,12 @@
     
     NSInteger maxServers;
     
-    AccountHomeViewController *accountHomeViewController;
 }
 
 @property (nonatomic, retain) OpenStackAccount *account;
+@property (nonatomic, retain) OSComputeEndpoint *endpoint;
+@property (nonatomic, retain) NSArray *flavors;
+@property (nonatomic, retain) NSArray *images;
 @property (nonatomic, retain) Image *selectedImage;
 @property (nonatomic, retain) ServersViewController *serversViewController;
 @property (nonatomic, retain) AccountHomeViewController *accountHomeViewController;

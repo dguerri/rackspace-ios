@@ -94,6 +94,7 @@
 
     AddServerViewController *vc = [[AddServerViewController alloc] initWithNibName:@"AddServerViewController" bundle:nil];
     vc.account = self.account;
+    vc.endpoint = endpoint;
 //    vc.serversViewController = self;
 //    vc.accountHomeViewController = self.accountHomeViewController;
     [self.navigationController pushViewController:vc animated:YES];

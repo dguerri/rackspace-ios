@@ -31,6 +31,7 @@
 #import "AccountHomeViewController.h"
 #import "APICallback.h"
 #import "Analytics.h"
+#import "OSComputeEndpoint.h"
 
 #define kNodeCount 0
 #define kNodeDetails 1
@@ -38,8 +39,6 @@
 #define kName 0
 #define kSize 1
 #define kImageRow 2
-
-// TODO: bring back passwords
 
 /*
  Files
@@ -58,8 +57,6 @@
  
 @implementation AddServerViewController
 
-@synthesize account, selectedImage, serversViewController, accountHomeViewController, logEntryModalViewController;
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
@@ -72,8 +69,7 @@
     [self.tableView selectRowAtIndexPath:indexPath animated:NO scrollPosition:UITableViewScrollPositionNone];
 }
 
-#pragma mark -
-#pragma mark Button Handlers
+#pragma mark - Button Handlers
 
 - (void)saveButtonPressed:(id)sender {
     
@@ -89,7 +85,7 @@
         Server *server = [[Server alloc] init];
         if (nodeCount == 1) {
             server.name = nameTextField.text;
-        } else {            
+        } else {
             if (nameTextField.text == nil || [nameTextField.text isEqualToString:@""]) {
                 server.name = [NSString stringWithFormat:@"slice%i", i + 1];
             } else {
@@ -97,7 +93,7 @@
             }
         }
         
-        server.flavor = [self.account.sortedFlavors objectAtIndex:flavorIndex];
+        server.flavor = [self.flavors objectAtIndex:flavorIndex];
         
         server.image = self.selectedImage;
 
@@ -109,7 +105,7 @@
         // TODO: handle plugin validation and check personality file count
         //       perhaps via configureServer throwing an exception?
 
-        [[account.manager createServer:server] success:^(OpenStackRequest *request) {
+        [[self.account.manager createServer:server] success:^(OpenStackRequest *request) {
             
             successCount++;
             
@@ -117,8 +113,8 @@
             NSMutableDictionary *servers = [[NSMutableDictionary alloc] initWithDictionary:self.account.servers];
             
             Server *createdServer = [request server];
-            createdServer.flavor = [self.account.flavors objectForKey:createdServer.flavorId];
-            createdServer.image = [self.account.images objectForKey:createdServer.imageId];
+            createdServer.flavor = [self.flavors objectForKey:createdServer.flavorId];
+            createdServer.image = [self.endpoint.images objectForKey:createdServer.imageId];
                         
             [[UIPasteboard generalPasteboard] setString:createdServer.rootPassword];
             
@@ -210,8 +206,7 @@
     
 }
 
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -221,6 +216,8 @@
     
     nodeCount = 1;
     self.navigationItem.title = @"Add Server";
+    
+    self.flavors = [[self.endpoint.flavors allValues] sortedArrayUsingSelector:@selector(compare:)];
     
     serverCountSlider = [[UISlider alloc] init];
     flavorSlider = [[UISlider alloc] init];
@@ -278,35 +275,34 @@
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     
-//    RateLimit *limit = [OpenStackRequest createServerLimit:self.account];
-    maxServers = 10; //limit.remaining;
+    maxServers = 10;
     
     // load defaults for flavor and image.  if no default set yet, use the smallest flavor
     // and the newest Ubuntu
     
-    if (account.lastUsedFlavorId == 0) {
+    if (self.account.lastUsedFlavorId == 0) {
         flavorIndex = 0;
-        account.lastUsedFlavorId = [[self.account.sortedFlavors objectAtIndex:0] identifier];
+        self.account.lastUsedFlavorId = [[self.flavors objectAtIndex:0] identifier];
     } else {
-        for (int i = 0; i < [self.account.sortedFlavors count]; i++) {
-            Flavor *flavor = [self.account.sortedFlavors objectAtIndex:i];
-            if (flavor.identifier == account.lastUsedFlavorId) {
+        for (int i = 0; i < [self.flavors count]; i++) {
+            Flavor *flavor = [self.flavors objectAtIndex:i];
+            if (flavor.identifier == self.account.lastUsedFlavorId) {
                 flavorIndex = i;
-                flavorSlider.value = ((flavorIndex * 1.0) / ([self.account.sortedFlavors count] - 1));
+                flavorSlider.value = ((flavorIndex * 1.0) / ([self.flavors count] - 1));
                 flavorLabel.text = [NSString stringWithFormat:@"%i MB RAM, %i GB Disk", flavor.ram, flavor.disk];
             }
         }
     }
+
+    self.images = [[self.endpoint.images allValues] sortedArrayUsingSelector:@selector(compare:)];
     
-    if (account.lastUsedImageId == 0) {
-        // select the newest ubuntu as a default.  if there's not a newest ubuntu, select the 
+//    if (self.account.lastUsedImageId == 0) {
+        // select the newest ubuntu as a default.  if there's not a newest ubuntu, select the
         // first image id
         NSMutableArray *ubuntus = [[NSMutableArray alloc] init];
-
-        NSArray *sortedImages = [self.account sortedImages];
         
-        for (int i = 0; i < [sortedImages count]; i++) {
-            Image *image = [sortedImages objectAtIndex:i];
+        for (int i = 0; i < [self.images count]; i++) {
+            Image *image = [self.images objectAtIndex:i];
             if ([image respondsToSelector:@selector(logoPrefix)] && [[image logoPrefix] isEqualToString:@"ubuntu"]) {
                 [ubuntus addObject:image];
             }
@@ -315,20 +311,19 @@
         if ([ubuntus count] > 0) {
             self.selectedImage = [ubuntus lastObject];
         } else {
-            self.selectedImage = [sortedImages objectAtIndex:0];
+            self.selectedImage = [self.images objectAtIndex:0];
         }
-        account.lastUsedImageId = self.selectedImage.identifier;
+        self.account.lastUsedImageId = self.selectedImage.identifier;
         [ubuntus release];
         
-    } else {
-        self.selectedImage = [self.account.images objectForKey:account.lastUsedImageId];
-    }
+//    } else {
+//        self.selectedImage = [self.images objectForKey:self.account.lastUsedImageId];
+//    }
     
     [self.tableView reloadData]; // force the image name to show up
 }
 
-#pragma mark -
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (CGFloat)findLabelHeight:(NSString*)text font:(UIFont *)font {
     CGSize textLabelSize = CGSizeMake(260.0, 9000.0f);
@@ -478,8 +473,8 @@
 }
 
 - (void)flavorSliderFinished:(id)sender {
-    flavorIndex = MIN([self.account.sortedFlavors count] - 1, (NSInteger)[self.account.sortedFlavors count] * flavorSlider.value);
-    Flavor *flavor = [self.account.sortedFlavors objectAtIndex:flavorIndex];
+    flavorIndex = MIN([self.flavors count] - 1, (NSInteger)[self.flavors count] * flavorSlider.value);
+    Flavor *flavor = [self.flavors objectAtIndex:flavorIndex];
     flavorLabel.text = [NSString stringWithFormat:@"%i MB RAM, %i GB Disk", flavor.ram, flavor.disk];
     self.account.lastUsedFlavorId = flavor.identifier;    
     
@@ -495,8 +490,8 @@
 }
 
 - (void)flavorSliderMoved:(id)sender {
-    flavorIndex = MIN([self.account.sortedFlavors count] - 1, (NSInteger)[self.account.sortedFlavors count] * flavorSlider.value);
-    Flavor *flavor = [self.account.sortedFlavors objectAtIndex:flavorIndex];
+    flavorIndex = MIN([self.flavors count] - 1, (NSInteger)[self.flavors count] * flavorSlider.value);
+    Flavor *flavor = [self.flavors objectAtIndex:flavorIndex];
     flavorLabel.text = [NSString stringWithFormat:@"%i MB RAM, %i GB Disk", flavor.ram, flavor.disk];
     self.account.lastUsedFlavorId = flavor.identifier;
 }
@@ -539,7 +534,7 @@
         [cell addSubview:flavorLabel];
     }
     
-    Flavor *flavor = [self.account.sortedFlavors objectAtIndex:flavorIndex];
+    Flavor *flavor = [self.flavors objectAtIndex:flavorIndex];
     flavorLabel.text = [NSString stringWithFormat:@"%i MB RAM, %i GB Disk", flavor.ram, flavor.disk];
     
     return cell;
@@ -590,14 +585,14 @@
     }
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == kNodeDetails && indexPath.row == kImageRow) {        
         SimpleImagePickerViewController *vc = [[SimpleImagePickerViewController alloc] initWithNibName:@"SimpleImagePickerViewController" bundle:nil];
         vc.mode = kModeChooseImage;
         vc.account = self.account;
+        vc.endpoint = self.endpoint;
         vc.selectedImageId = self.selectedImage.identifier;
         vc.delegate = self;
         [self.navigationController pushViewController:vc animated:YES];
@@ -615,17 +610,20 @@
 #pragma mark - Memory management
 
 - (void)dealloc {
-    [account release];
+    [_account release];
+    [_endpoint release];
     [serverCountSlider release];
     [flavorSlider release];
     [nameTextField release];
     [serverNumbersLabel release];
-    [selectedImage release];
+    [_selectedImage release];
     [plugins release];
-    [serversViewController release];
+    [_serversViewController release];
     [createServerObservers release];
-    [accountHomeViewController release];
-    [logEntryModalViewController release];
+    [_accountHomeViewController release];
+    [_logEntryModalViewController release];
+    [_flavors release];
+    [_images release];
     [super dealloc];
 }
 
