@@ -45,6 +45,7 @@
 @property (nonatomic, assign) BOOL flaggedForDelete;
 @property (nonatomic, retain) NSString *apiVersion;
 @property (nonatomic, assign) BOOL ignoresSSLValidation;
+@property (nonatomic, retain) NSMutableArray *loadBalancerEndpoints;
 
 // this is a dictionary of dictionaries:
 // { "endpoint1": { "123": { ... }, "456": { ... } },
@@ -56,7 +57,6 @@
 - (void)persist;
 + (void)persist:(NSArray *)accountArray;
 - (void)refreshCollections;
-- (NSArray *)loadBalancerURLs;
 - (NSArray *)loadBalancerRegions;
 
 - (NSString *)loadBalancerEndpointForRegion:(NSString *)region;

@@ -8,17 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
-@class OpenStackAccount, LoadBalancer;
+@class OpenStackAccount, LoadBalancer, OSLoadBalancerEndpoint;
 
 @interface LBProtocolViewController : UITableViewController <UITextFieldDelegate> {
-    OpenStackAccount *account;
-    LoadBalancer *loadBalancer;
     @private
     UITextField *textField;
 }
 
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) LoadBalancer *loadBalancer;
+@property (nonatomic, retain) OSLoadBalancerEndpoint *service;
 
 - (id)initWithAccount:(OpenStackAccount *)account loadBalancer:(LoadBalancer *)loadBalancer;
 

@@ -939,6 +939,8 @@
 		27CD1E03129DBFC9006507BB /* ASINetworkQueue.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CD1DD7129DBFC9006507BB /* ASINetworkQueue.m */; };
 		27CD2A8C12A8EF99006507BB /* RateLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CD2A8A12A8EF99006507BB /* RateLimit.m */; };
 		27CD2A8E12A8EF99006507BB /* RateLimit.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CD2A8A12A8EF99006507BB /* RateLimit.m */; };
+		27CE3F8F15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CE3F8E15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m */; };
+		27CE3F9015CEF7650023DBC2 /* OSLoadBalancerEndpoint.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CE3F8E15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m */; };
 		27CFD8331370C54600116BBD /* LBAlgorithmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CFD82F1370C54500116BBD /* LBAlgorithmViewController.m */; };
 		27CFD8341370C54600116BBD /* LBAlgorithmViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27CFD82F1370C54500116BBD /* LBAlgorithmViewController.m */; };
 		27CFD8351370C54600116BBD /* LBAlgorithmViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27CFD8301370C54600116BBD /* LBAlgorithmViewController.xib */; };
@@ -1530,6 +1532,8 @@
 		27CD1DD8129DBFC9006507BB /* ASIProgressDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ASIProgressDelegate.h; sourceTree = "<group>"; };
 		27CD2A8912A8EF98006507BB /* RateLimit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RateLimit.h; sourceTree = "<group>"; };
 		27CD2A8A12A8EF99006507BB /* RateLimit.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RateLimit.m; sourceTree = "<group>"; };
+		27CE3F8D15CEF7650023DBC2 /* OSLoadBalancerEndpoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OSLoadBalancerEndpoint.h; sourceTree = "<group>"; };
+		27CE3F8E15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OSLoadBalancerEndpoint.m; sourceTree = "<group>"; };
 		27CFA01B1396D9F90026701A /* lc-08_s08.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lc-08_s08.png"; sourceTree = "<group>"; };
 		27CFA01C1396D9F90026701A /* lc-09_s09.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lc-09_s09.png"; sourceTree = "<group>"; };
 		27CFA01D1396D9F90026701A /* lc-10_s10.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "lc-10_s10.png"; sourceTree = "<group>"; };
@@ -1892,6 +1896,8 @@
 				277CEF2115C12B7500ADAA04 /* OSComputeEndpoint.m */,
 				27FB6C6315C2140E0070A29E /* OSComputeService.h */,
 				27FB6C6415C2140E0070A29E /* OSComputeService.m */,
+				27CE3F8D15CEF7650023DBC2 /* OSLoadBalancerEndpoint.h */,
+				27CE3F8E15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m */,
 			);
 			name = "Local Models";
 			sourceTree = "<group>";
@@ -4167,6 +4173,7 @@
 				277CEF2215C12B7500ADAA04 /* OSComputeEndpoint.m in Sources */,
 				27FB6C6515C2140E0070A29E /* OSComputeService.m in Sources */,
 				27132B1415C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */,
+				27CE3F8F15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4323,6 +4330,7 @@
 				277CEF2315C12B7500ADAA04 /* OSComputeEndpoint.m in Sources */,
 				27FB6C6615C2140E0070A29E /* OSComputeService.m in Sources */,
 				27132B1515C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */,
+				27CE3F9015CEF7650023DBC2 /* OSLoadBalancerEndpoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

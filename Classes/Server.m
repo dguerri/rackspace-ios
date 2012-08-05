@@ -55,6 +55,9 @@
 #pragma mark - JSON
 
 - (void)populateWithJSON:(NSDictionary *)dict {
+    
+    NSLog(@"server json to parse: %@", dict);
+    
     self.identifier = [dict objectForKey:@"id"];
     if ([dict objectForKey:@"flavorId"]) {
         self.flavorId = [[dict objectForKey:@"flavorId"] description];
@@ -125,7 +128,7 @@
 }
 
 - (NSString *)toJSON:(NSString *)apiVersion {
-    BOOL version1 = ![apiVersion isEqualToString:@"1.1"];
+    BOOL version1 = [apiVersion isEqualToString:@"1.0"];
     
     NSString *json
         = @"{ \"server\": { "
@@ -180,7 +183,7 @@
         json = [json replace:@"<personality>" with:@""];
     }
     
-    NSLog(@"server json: %@", json);
+//    NSLog(@"server json: %@", json);
     
     return json;
     

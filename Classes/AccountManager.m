@@ -135,11 +135,11 @@
 
 #pragma mark Create Server
 
-- (APICallback *)createServer:(Server *)server {
+- (APICallback *)createServer:(Server *)server endpoint:(OSComputeEndpoint *)endpoint {
     
     [[GANTracker sharedTracker] trackEvent:CATEGORY_SERVER action:EVENT_CREATED label:@"Size" value:server.flavor.ram withError:nil];
     
-    __block OpenStackRequest *request = [OpenStackRequest createServerRequest:self.account server:server];
+    __block OpenStackRequest *request = [OpenStackRequest createServerRequest:self.account endpoint:endpoint server:server];
     return [self callbackWithRequest:request];
 }
 
@@ -496,10 +496,6 @@
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
         if ([request isSuccess]) {
             
-            NSLog(@"api version: %@", self.account.apiVersion);
-            
-            NSLog(@"response: %@", request.responseString);
-            
             if ([self.account.apiVersion isEqualToString:@"2.0"]) {
                 
                 // API version 2.0 style auth response
@@ -512,6 +508,7 @@
                 
                 NSArray *services = [jsonObject objectForKey:@"serviceCatalog"];
                 self.account.computeServices = [[[NSMutableArray alloc] init] autorelease];
+                self.account.loadBalancerEndpoints = [[[NSMutableArray alloc] init] autorelease];
                 
                 for (NSDictionary *service in services) {
                     
@@ -535,6 +532,10 @@
                             NSDictionary *endpoint = [[service valueForKey:@"endpoints"] objectAtIndex:0];                        
                             self.account.cdnURL = [NSURL URLWithString:[endpoint valueForKey:@"publicURL"]];
 
+                        } else if ([[service valueForKey:@"name"] isEqualToString:@"cloudLoadBalancers"]) {
+                            
+                            
+                            
                         }
                         
                     }

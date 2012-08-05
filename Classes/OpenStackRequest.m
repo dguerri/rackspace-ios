@@ -167,6 +167,7 @@ static NSRecursiveLock *accessDetailsLock = nil;
     } else {
         url = [NSURL URLWithString:[NSString stringWithFormat:@"%@%@?now=%@", account.serversURL, path, now]];
     }
+//    NSLog(@"compute request url: %@", url);
     return [OpenStackRequest request:account method:method url:url];
 }
 
@@ -505,11 +506,11 @@ static NSRecursiveLock *accessDetailsLock = nil;
     return [OpenStackRequest limitForPath:[NSString stringWithFormat:@"/servers/%@", server.identifier] verb:@"DELETE" account:account];
 }
 
-+ (OpenStackRequest *)createServerRequest:(OpenStackAccount *)account server:(Server *)server {
-	NSString *body = [server toJSON:account.apiVersion];
-	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/servers", account.serversURL]];
++ (OpenStackRequest *)createServerRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint server:(Server *)server {
+	NSString *body = [server toJSON:endpoint.versionId];
+//	NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@/servers", account.serversURL]];
     NSLog(@"create server: %@", body);
-    OpenStackRequest *request = [OpenStackRequest request:account method:@"POST" url:url];    
+    OpenStackRequest *request = [OpenStackRequest computeRequest:account endpoint:endpoint method:@"POST" path:@"/servers"];
 	NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
 	[request setPostBody:[NSMutableData dataWithData:data]];
 	return request;

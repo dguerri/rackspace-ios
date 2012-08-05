@@ -15,13 +15,12 @@
 #import "RSTextFieldCell.h"
 #import "LoadBalancerProtocol.h"
 #import "ActivityIndicatorView.h"
+#import "OSLoadBalancerEndpoint.h"
 
 #define kPort 0
 #define kProtocols 1
 
 @implementation LBProtocolViewController
-
-@synthesize account, loadBalancer;
 
 - (id)initWithAccount:(OpenStackAccount *)a loadBalancer:(LoadBalancer *)lb {
     self = [self initWithNibName:@"LBProtocolViewController" bundle:nil];
@@ -33,8 +32,8 @@
 }
 
 - (void)dealloc {
-    [account release];
-    [loadBalancer release];
+    [_account release];
+    [_loadBalancer release];
     [super dealloc];
 }
 
@@ -56,7 +55,7 @@
 
     [activityIndicatorView addToView:self.view];
     
-    NSString *endpoint = [account.loadBalancerURLs objectAtIndex:0];
+    NSString *endpoint = [self.account.loadBalancerURLs objectAtIndex:0];
     [[self.account.manager getLoadBalancerProtocols:endpoint] success:^(OpenStackRequest *request) {
         [activityIndicatorView removeFromSuperviewAndRelease];
         [self.tableView reloadData];

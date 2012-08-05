@@ -50,7 +50,7 @@
 #pragma mark - Object Storage
 
 - (APICallback *)getContainers;
-- (APICallback *)createContainer:(Container *)container;
+- (APICallback *)createServer:(Server *)server endpoint:(OSComputeEndpoint *)endpoint;
 - (APICallback *)deleteContainer:(Container *)container;
 
 - (APICallback *)getObjects:(Container *)container;

@@ -105,22 +105,29 @@
         // TODO: handle plugin validation and check personality file count
         //       perhaps via configureServer throwing an exception?
 
-        [[self.account.manager createServer:server] success:^(OpenStackRequest *request) {
+        [[self.account.manager createServer:server endpoint:self.endpoint] success:^(OpenStackRequest *request) {
             
             successCount++;
             
             // insert the server into the account's sorted array
-            NSMutableDictionary *servers = [[NSMutableDictionary alloc] initWithDictionary:self.account.servers];
+            NSMutableDictionary *servers = [[NSMutableDictionary alloc] initWithDictionary:self.endpoint.servers];
             
             Server *createdServer = [request server];
-            createdServer.flavor = [self.flavors objectForKey:createdServer.flavorId];
-            createdServer.image = [self.endpoint.images objectForKey:createdServer.imageId];
-                        
-            [[UIPasteboard generalPasteboard] setString:createdServer.rootPassword];
             
-            [servers setObject:createdServer forKey:createdServer.identifier];
+            NSLog(@"server: %@", createdServer);
             
-            self.account.servers = [NSMutableDictionary dictionaryWithDictionary:servers];
+            if (createdServer && createdServer.identifier) {
+                
+                createdServer.flavor = [self.endpoint.flavors objectForKey:createdServer.flavorId];
+                createdServer.image = [self.endpoint.images objectForKey:createdServer.imageId];
+                            
+                [[UIPasteboard generalPasteboard] setString:createdServer.rootPassword];
+                
+                [servers setObject:createdServer forKey:createdServer.identifier];
+                
+                self.endpoint.servers = [NSMutableDictionary dictionaryWithDictionary:servers];
+            
+            }
             
             [servers release];
             

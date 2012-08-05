@@ -84,7 +84,7 @@
 + (OpenStackRequest *)deleteServerRequest:(OpenStackAccount *)account server:(Server *)server;
 + (RateLimit *)deleteServerLimit:(OpenStackAccount *)account server:(Server *)server;
 
-+ (OpenStackRequest *)createServerRequest:(OpenStackAccount *)account server:(Server *)server;
++ (OpenStackRequest *)createServerRequest:(OpenStackAccount *)account endpoint:(OSComputeEndpoint *)endpoint server:(Server *)server;
 + (RateLimit *)createServerLimit:(OpenStackAccount *)account;
 
 + (OpenStackRequest *)resizeServerRequest:(OpenStackAccount *)account server:(Server *)server flavor:(Flavor *)flavor;
