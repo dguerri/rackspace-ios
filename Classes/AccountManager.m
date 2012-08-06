@@ -30,6 +30,7 @@
 #import "Analytics.h"
 #import "SBJSON.h"
 #import "Flavor.h"
+#import "OSLoadBalancerEndpoint.h"
 
 
 @implementation AccountManager
@@ -508,7 +509,6 @@
                 
                 NSArray *services = [jsonObject objectForKey:@"serviceCatalog"];
                 self.account.computeServices = [[[NSMutableArray alloc] init] autorelease];
-                self.account.loadBalancerEndpoints = [[[NSMutableArray alloc] init] autorelease];
                 
                 for (NSDictionary *service in services) {
                     
@@ -532,9 +532,21 @@
                             NSDictionary *endpoint = [[service valueForKey:@"endpoints"] objectAtIndex:0];                        
                             self.account.cdnURL = [NSURL URLWithString:[endpoint valueForKey:@"publicURL"]];
 
-                        } else if ([[service valueForKey:@"name"] isEqualToString:@"cloudLoadBalancers"]) {
+                        }
+                        
+                    } else if ([[service valueForKey:@"type"] isEqualToString:@"rax:load-balancer"]) {
+
+                        if ([[service valueForKey:@"name"] isEqualToString:@"cloudLoadBalancers"]) {
                             
+                            NSArray *endpointsJSON = [service objectForKey:@"endpoints"];
+                            self.account.loadBalancerEndpoints = [[[NSMutableArray alloc] initWithCapacity:[endpointsJSON count]] autorelease];
                             
+                            for (NSDictionary *endpointDict in endpointsJSON) {
+                            
+                                OSLoadBalancerEndpoint *endpoint = [OSLoadBalancerEndpoint fromJSON:endpointDict];
+                                [self.account.loadBalancerEndpoints addObject:endpoint];
+                                
+                            }
                             
                         }
                         

@@ -213,6 +213,7 @@ static NSMutableDictionary *timers = nil;
     copy.serversByPublicIP = self.serversByPublicIP;
     */
     copy.computeServices = [[[NSMutableArray alloc] initWithArray:self.computeServices] autorelease];
+    copy.loadBalancerEndpoints = [[[NSMutableArray alloc] initWithArray:self.loadBalancerEndpoints] autorelease];
     
     copy.serversURL = self.serversURL;
     copy.filesURL = self.filesURL;
@@ -246,6 +247,7 @@ static NSMutableDictionary *timers = nil;
     [coder encodeObject:images forKey:@"images"];
     [coder encodeObject:flavors forKey:@"flavors"];
     [coder encodeObject:_computeServices forKey:@"computeServices"];
+    [coder encodeObject:_loadBalancerEndpoints forKey:@"loadBalancerEndpoints"];
     
     [coder encodeBool:ignoresSSLValidation forKey:@"ignoresSSLValidation"];
     
@@ -289,6 +291,7 @@ static NSMutableDictionary *timers = nil;
         flavors = [self decode:coder key:@"flavors"];
         servers = [self decode:coder key:@"servers"];
         self.computeServices = [self decode:coder key:@"computeServices"];
+        self.loadBalancerEndpoints = [self decode:coder key:@"loadBalancerEndpoints"];
         serversByPublicIP = [self decode:coder key:@"serversByPublicIP"];
         
 //        serversURL = [self decode:coder key:@"serversURL"];

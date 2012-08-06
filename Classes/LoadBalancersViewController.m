@@ -19,27 +19,25 @@
 #import "LoadBalancerProtocol.h"
 #import "OpenStackAppDelegate.h"
 #import "RootViewController.h"
+#import "OSLoadBalancerEndpoint.h"
 
 
 @implementation LoadBalancersViewController
 
-@synthesize account, tableView;
-
-#pragma mark -
-#pragma mark View lifecycle
+#pragma mark - View lifecycle
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationItem.title = @"Load Balancers";
     [self addAddButton];
     
-    algorithmNames = [[NSDictionary alloc] initWithObjectsAndKeys:
+    self.algorithmNames = [[[NSDictionary alloc] initWithObjectsAndKeys:
                       @"Random",@"RANDOM", 
                       @"Round Robin", @"ROUND_ROBIN", 
                       @"Weighted Round Robin", @"WEIGHTED_ROUND_ROBIN", 
                       @"Least Connections", @"LEAST_CONNECTIONS", 
                       @"Weighted Least Connections", @"WEIGHTED_LEAST_CONNECTIONS", 
-                      nil];
+                      nil] autorelease];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -54,21 +52,11 @@
     }
 }
 
-/*
-// Override to allow orientations other than the default portrait orientation.
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-    // Return YES for supported orientations.
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
-}
-*/
-
-#pragma mark -
-#pragma mark Table view data source
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     return 1;
 }
-
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     return [self.account.sortedLoadBalancers count];
@@ -86,8 +74,7 @@
     
     LoadBalancer *loadBalancer = [self.account.sortedLoadBalancers objectAtIndex:indexPath.row];
     cell.textLabel.text = loadBalancer.name;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:%i - %@", loadBalancer.protocol.name, loadBalancer.protocol.port, [algorithmNames objectForKey:loadBalancer.algorithm]];
-//    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:%i - %@", loadBalancer.status, loadBalancer.protocol.port, [algorithmNames objectForKey:loadBalancer.algorithm]];
+    cell.detailTextLabel.text = [NSString stringWithFormat:@"%@:%i - %@", loadBalancer.protocol.name, loadBalancer.protocol.port, [self.algorithmNames objectForKey:loadBalancer.algorithm]];
     cell.imageView.image = [UIImage imageNamed:@"load-balancers-icon.png"];
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
@@ -134,25 +121,28 @@
     [self showToolbarActivityMessage:@"Refreshing load balancers..."];
     __block NSInteger refreshCount = 0;
     
-    for (NSString *endpoint in [self.account loadBalancerURLs]) {
-        [[self.account.manager getLoadBalancers:endpoint] success:^(OpenStackRequest *request) {
+    NSArray *endpoints = self.account.loadBalancerEndpoints;
+    
+    for (OSLoadBalancerEndpoint *endpoint in endpoints) {
+        
+        [[self.account.manager getLoadBalancers:endpoint.publicURL] success:^(OpenStackRequest *request) {
             refreshCount++;
-            if (refreshCount == [[self.account loadBalancerURLs] count]) {
+            if (refreshCount == [endpoints count]) {
                 [self hideToolbarActivityMessage];
             }
             [self.tableView reloadData];
         } failure:^(OpenStackRequest *request) {
             refreshCount++;
-            if (refreshCount == [[self.account loadBalancerURLs] count]) {
+            if (refreshCount == [endpoints count]) {
                 [self hideToolbarActivityMessage];
             }
         }];
+        
     }
     
 }
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)viewDidUnload {
     self.tableView = nil;
@@ -161,9 +151,9 @@
 }
 
 - (void)dealloc {
-    [account release];
-    [tableView release];
-    [algorithmNames release];
+    [_account release];
+    [_tableView release];
+    [_algorithmNames release];
     [super dealloc];
 }
 

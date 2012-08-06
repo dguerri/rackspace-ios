@@ -17,8 +17,8 @@
 
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) LoadBalancer *loadBalancer;
-@property (nonatomic, retain) OSLoadBalancerEndpoint *service;
+@property (nonatomic, retain) OSLoadBalancerEndpoint *endpoint;
 
-- (id)initWithAccount:(OpenStackAccount *)account loadBalancer:(LoadBalancer *)loadBalancer;
+- (id)initWithAccount:(OpenStackAccount *)account endpoint:(OSLoadBalancerEndpoint *)endpoint loadBalancer:(LoadBalancer *)loadBalancer;
 
 @end

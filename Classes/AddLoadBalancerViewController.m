@@ -25,6 +25,7 @@
 #import "LoadBalancerProtocol.h"
 #import "AccountManager.h"
 #import "APICallback.h"
+#import "OSLoadBalancerEndpoint.h"
 
 #define kDetailsSection 0
 #define kNodesSection 1
@@ -37,15 +38,13 @@
 
 @implementation AddLoadBalancerViewController
 
-@synthesize account, loadBalancer;
-
 - (id)initWithAccount:(OpenStackAccount *)a {
     self = [super initWithNibName:@"AddLoadBalancerNameViewController" bundle:nil];
     if (self) {
         self.account = a;
         self.loadBalancer = [[[LoadBalancer alloc] init] autorelease];
         self.loadBalancer.virtualIPType = @"Public";
-        self.loadBalancer.region = [self.account.loadBalancerRegions objectAtIndex:0];
+        self.loadBalancer.region = [[self.account.loadBalancerEndpoints objectAtIndex:0] region];
         self.loadBalancer.algorithm = @"RANDOM";
         self.loadBalancer.protocol = [[[LoadBalancerProtocol alloc] init] autorelease];
         self.loadBalancer.protocol.name = @"HTTP";
@@ -55,9 +54,10 @@
 }
 
 - (void)dealloc {
-    [account release];
-    [loadBalancer release];
-    [algorithmNames release];
+    [_account release];
+    [_loadBalancer release];
+    [_algorithmNames release];
+    [_nameTextField release];
     [super dealloc];
 }
 
@@ -69,13 +69,13 @@
     [self addSaveButton];
     [self addCancelButton];
     
-    algorithmNames = [[NSDictionary alloc] initWithObjectsAndKeys:
+    self.algorithmNames = [[[NSDictionary alloc] initWithObjectsAndKeys:
                        @"Random", @"RANDOM", 
                        @"Round Robin", @"ROUND_ROBIN", 
                        @"Weighted Round Robin", @"WEIGHTED_ROUND_ROBIN", 
                        @"Least Connections", @"LEAST_CONNECTIONS", 
                        @"Weighted Least Connections", @"WEIGHTED_LEAST_CONNECTIONS", 
-                       nil];
+                       nil] autorelease];
     
 }
 
@@ -116,7 +116,7 @@
         cell = [[[RSTextFieldCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:CellIdentifier] autorelease];
         cell.textLabel.text = @"Name";
         cell.textField.delegate = self;
-        nameTextField = cell.textField;
+        self.nameTextField = cell.textField;
     }
     return cell;
 }
@@ -148,7 +148,7 @@
                 break;
             case kAlgorithm:
                 cell.textLabel.text = @"Algorithm";
-                cell.detailTextLabel.text = [algorithmNames objectForKey:self.loadBalancer.algorithm];
+                cell.detailTextLabel.text = [self.algorithmNames objectForKey:self.loadBalancer.algorithm];
                 break;
             default:
                 break;
@@ -194,7 +194,8 @@
         [self.navigationController pushViewController:vc animated:YES];
         [vc release];        
     } else if (indexPath.row == kProtocol) {
-        LBProtocolViewController *vc = [[LBProtocolViewController alloc] initWithAccount:self.account loadBalancer:self.loadBalancer];
+        OSLoadBalancerEndpoint *endpoint = [self.account.loadBalancerEndpoints objectAtIndex:0];
+        LBProtocolViewController *vc = [[LBProtocolViewController alloc] initWithAccount:self.account endpoint:endpoint loadBalancer:self.loadBalancer];
         [self.navigationController pushViewController:vc animated:YES];
         [vc release];
     } else if (indexPath.row == kVirtualIPType) {
@@ -228,7 +229,6 @@
 #pragma mark - Button Handlers
 
 - (void)saveLoadBalancer {
-    // TODO: show "saving" spinner and refresh list when dismissing
     [[self.account.manager createLoadBalancer:self.loadBalancer] success:^(OpenStackRequest *request) {
         [self dismissModalViewControllerAnimated:YES];
     } failure:^(OpenStackRequest *request) {
@@ -245,7 +245,7 @@
         }
     } else {
         [self alert:nil message:@"Please enter a name."];
-        [nameTextField becomeFirstResponder];
+        [self.nameTextField becomeFirstResponder];
     }
     
     

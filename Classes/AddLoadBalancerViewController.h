@@ -10,16 +10,12 @@
 
 @class OpenStackAccount, LoadBalancer;
 
-@interface AddLoadBalancerViewController : UITableViewController <UITextFieldDelegate> {
-    OpenStackAccount *account;
-    LoadBalancer *loadBalancer;
-    @private
-    NSDictionary *algorithmNames;
-    UITextField *nameTextField;
-}
+@interface AddLoadBalancerViewController : UITableViewController <UITextFieldDelegate>
 
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) LoadBalancer *loadBalancer;
+@property (nonatomic, retain) NSDictionary *algorithmNames;
+@property (nonatomic, retain) UITextField *nameTextField;
 
 - (id)initWithAccount:(OpenStackAccount *)account;
 

@@ -11,10 +11,9 @@
 #import "UIViewController+Conveniences.h"
 #import "AddLoadBalancerViewController.h"
 #import "LoadBalancer.h"
+#import "OSLoadBalancerEndpoint.h"
 
 @implementation AddLoadBalancerRegionViewController
-
-@synthesize account, loadBalancer;
 
 - (id)initWithAccount:(OpenStackAccount *)a {
     self = [super initWithNibName:@"AddLoadBalancerRegionViewController" bundle:nil];
@@ -25,8 +24,9 @@
 }
 
 - (void)dealloc {
-    [account release];
-    [loadBalancer release];
+    [_account release];
+    [_loadBalancer release];
+    [_endpoint release];
     [super dealloc];
 }
 
@@ -37,22 +37,6 @@
     self.navigationItem.title = @"Region";
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-    [super viewWillAppear:animated];
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-}
-
-- (void)viewDidDisappear:(BOOL)animated {
-    [super viewDidDisappear:animated];
-}
-
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
     return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
 }
@@ -60,7 +44,7 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return [self.account.loadBalancerRegions count];
+    return [self.account.loadBalancerEndpoints count];
 }
 
 - (NSString *)tableView:(UITableView *)tableView titleForFooterInSection:(NSInteger)section {
@@ -75,7 +59,8 @@
         cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
     }
     
-    NSString *region = [self.account.loadBalancerRegions objectAtIndex:indexPath.row];
+    OSLoadBalancerEndpoint *endpoint = [self.account.loadBalancerEndpoints objectAtIndex:indexPath.row];
+    NSString *region = endpoint.region;
     cell.textLabel.text = region;
     cell.accessoryType = [self.loadBalancer.region isEqualToString:region] ? UITableViewCellAccessoryCheckmark : UITableViewCellAccessoryNone;
     
@@ -85,8 +70,8 @@
 #pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    self.loadBalancer.region = [self.account.loadBalancerRegions objectAtIndex:indexPath.row];
-//    [self.tableView deselectRowAtIndexPath:indexPath animated:YES];
+    OSLoadBalancerEndpoint *endpoint = [self.account.loadBalancerEndpoints objectAtIndex:indexPath.row];
+    self.loadBalancer.region = endpoint.region;
     [NSTimer scheduledTimerWithTimeInterval:0.35 target:self.tableView selector:@selector(reloadData) userInfo:nil repeats:NO];
 }
 

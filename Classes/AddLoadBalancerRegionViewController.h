@@ -8,15 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
-@class OpenStackAccount, LoadBalancer;
+@class OpenStackAccount, LoadBalancer, OSLoadBalancerEndpoint;
 
-@interface AddLoadBalancerRegionViewController : UITableViewController {
-    OpenStackAccount *account;
-    LoadBalancer *loadBalancer;
-}
+@interface AddLoadBalancerRegionViewController : UITableViewController
 
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) LoadBalancer *loadBalancer;
+@property (nonatomic, retain) OSLoadBalancerEndpoint *endpoint;
 
 - (id)initWithAccount:(OpenStackAccount *)account;
 

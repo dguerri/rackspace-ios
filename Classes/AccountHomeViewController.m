@@ -64,7 +64,11 @@
     }
     
     storageRow = (self.account.filesURL && [self.account.filesURL host]) ? totalRows++ : -1;
-    loadBalancingRow = [self.account loadBalancerURLs] ? totalRows++ : -1;
+    if (self.account.loadBalancerEndpoints && [self.account.loadBalancerEndpoints count] > 0) {
+        loadBalancingRow = totalRows++;
+    } else {
+        loadBalancingRow = -1;
+    }
 
     if (self.account.provider.rssFeeds && [self.account.provider.rssFeeds count] > 0) {
         rssFeedsRow = totalRows++;

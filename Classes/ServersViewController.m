@@ -29,17 +29,16 @@
 
 @implementation ServersViewController
 
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
+}
+
 - (NSArray *)sortedRegions {
     NSArray *endpoints = [self.servers allKeys];
     return [endpoints sortedArrayUsingSelector:@selector(region)];
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-    return (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) || (toInterfaceOrientation == UIInterfaceOrientationPortrait);
-}
-
 - (OSComputeEndpoint *)endpointAtIndex:(NSInteger)index {
-//    NSArray *endpoints = [self.servers allKeys];
     return [[self sortedRegions] objectAtIndex:index];
 }
 
@@ -242,11 +241,7 @@
     // let's loop through the servers and see if there are any where we don't have an image
     for (OSComputeEndpoint *endpoint in self.servers) {
         
-        NSLog(@"endpoint: %@", endpoint);
-        
         for (NSString *serverId in endpoint.servers) {
-            
-            NSLog(@"server id: %@", serverId);
             
             Server *server = [endpoint.servers objectForKey:serverId];
             
@@ -269,49 +264,6 @@
         }
         
     }
-    
-    
-    
-    
-    
-    /*
-    NSEnumerator *enumerator = [self.account.servers keyEnumerator];
-    id key;
-    while ((key = [enumerator nextObject])) {
-        Server *server = [self.account.servers objectForKey:key];
-        
-        if (!server.image && server.imageId) {
-
-            [[self.account.manager getImage:server endpoint:server.endpoint] success:^(OpenStackRequest *request) {
-                
-                NSArray *sortedServers = [self.account sortedServers];
-                for (Server *server in sortedServers) {
-                    BOOL updated = NO;
-                    if (!server.image) {
-                        server.image = [self.account.images objectForKey:server.imageId];
-                        updated = YES;
-                    }
-                    if (updated) {
-                        [self.tableView reloadData];
-                    }
-                }                
-                
-            } failure:^(OpenStackRequest *request) {
-                
-                NSLog(@"loading image for server %@ failed", server.name);
-                
-            }];
-            
-        }
-        
-    }
-    
-    if ([self.account.servers count] == 0) {
-        self.tableView.allowsSelection = NO;
-        self.tableView.scrollEnabled = NO;
-        [self.tableView reloadData];
-    }
-    */
     
     if (!serversLoaded && [self.account.servers count] == 0) {
         [self refreshButtonPressed:nil];

@@ -8,18 +8,16 @@
 
 #import "OpenStackViewController.h"
 
-@class OpenStackAccount;
+@class OpenStackAccount, OSLoadBalancerEndpoint;
 
 @interface LoadBalancersViewController : OpenStackViewController <UITableViewDelegate, UITableViewDataSource> {
-    OpenStackAccount *account;
-    IBOutlet UITableView *tableView;
     @private
     BOOL lbsLoaded;
-    NSDictionary *algorithmNames;
 }
 
 @property (nonatomic, retain) OpenStackAccount *account;
 @property (nonatomic, retain) IBOutlet UITableView *tableView;
+@property (nonatomic, retain) NSDictionary *algorithmNames;
 
 - (IBAction)refreshButtonPressed:(id)sender;
 

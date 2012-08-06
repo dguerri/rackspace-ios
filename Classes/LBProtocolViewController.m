@@ -22,10 +22,11 @@
 
 @implementation LBProtocolViewController
 
-- (id)initWithAccount:(OpenStackAccount *)a loadBalancer:(LoadBalancer *)lb {
+- (id)initWithAccount:(OpenStackAccount *)a endpoint:(OSLoadBalancerEndpoint *)endpoint loadBalancer:(LoadBalancer *)lb {
     self = [self initWithNibName:@"LBProtocolViewController" bundle:nil];
     if (self) {
         self.account = a;
+        self.endpoint = endpoint;
         self.loadBalancer = lb;
     }
     return self;
@@ -34,6 +35,7 @@
 - (void)dealloc {
     [_account release];
     [_loadBalancer release];
+    [_endpoint release];
     [super dealloc];
 }
 
@@ -55,8 +57,8 @@
 
     [activityIndicatorView addToView:self.view];
     
-    NSString *endpoint = [self.account.loadBalancerURLs objectAtIndex:0];
-    [[self.account.manager getLoadBalancerProtocols:endpoint] success:^(OpenStackRequest *request) {
+    NSString *url = self.endpoint.publicURL;
+    [[self.account.manager getLoadBalancerProtocols:url] success:^(OpenStackRequest *request) {
         [activityIndicatorView removeFromSuperviewAndRelease];
         [self.tableView reloadData];
     } failure:^(OpenStackRequest *request){
