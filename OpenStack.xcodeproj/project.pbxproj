@@ -9,6 +9,10 @@
 /* Begin PBXBuildFile section */
 		1D3623260D0F684500981E51 /* OpenStackAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 1D3623250D0F684500981E51 /* OpenStackAppDelegate.m */; };
 		1D60589B0D05DD56006BFB54 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; };
+		27049B2815D0D2B6008F8D94 /* rax-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27049B2615D0D2B6008F8D94 /* rax-logo@2x.png */; };
+		27049B2915D0D2B6008F8D94 /* rax-logo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 27049B2615D0D2B6008F8D94 /* rax-logo@2x.png */; };
+		27049B2A15D0D2B6008F8D94 /* rax-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 27049B2715D0D2B6008F8D94 /* rax-logo.png */; };
+		27049B2B15D0D2B6008F8D94 /* rax-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 27049B2715D0D2B6008F8D94 /* rax-logo.png */; };
 		2705F3EB12E7FA5900949131 /* RSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705F3E912E7FA5900949131 /* RSTextFieldCell.m */; };
 		2705F3ED12E7FA5900949131 /* RSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705F3E912E7FA5900949131 /* RSTextFieldCell.m */; };
 		270878F213282104006D4EE3 /* NSObject+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 270878F013282104006D4EE3 /* NSObject+NSCoding.m */; };
@@ -1067,6 +1071,8 @@
 		1D3623240D0F684500981E51 /* OpenStackAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = OpenStackAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* OpenStackAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OpenStackAppDelegate.m; sourceTree = "<group>"; };
 		1D6058910D05DD3D006BFB54 /* OpenStack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenStack.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		27049B2615D0D2B6008F8D94 /* rax-logo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rax-logo@2x.png"; sourceTree = "<group>"; };
+		27049B2715D0D2B6008F8D94 /* rax-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rax-logo.png"; sourceTree = "<group>"; };
 		2705F3E812E7FA5900949131 /* RSTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTextFieldCell.h; sourceTree = "<group>"; };
 		2705F3E912E7FA5900949131 /* RSTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTextFieldCell.m; sourceTree = "<group>"; };
 		270878EF13282104006D4EE3 /* NSObject+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSCoding.h"; sourceTree = "<group>"; };
@@ -2271,6 +2277,8 @@
 		277D9D0B126E778C002C69D9 /* Rackspace Cloud Target */ = {
 			isa = PBXGroup;
 			children = (
+				27049B2615D0D2B6008F8D94 /* rax-logo@2x.png */,
+				27049B2715D0D2B6008F8D94 /* rax-logo.png */,
 				2787C14B12F0D440009EAD7C /* Product Icons */,
 				2748C513126E8D5B00A24941 /* Launch Images */,
 				2787C14A12F0D41E009EAD7C /* App Icons */,
@@ -3657,6 +3665,8 @@
 				27C38BC013D0D48500CC7222 /* red-delete-button@2x.png in Resources */,
 				27C38BC213D0D48500CC7222 /* red-delete-button.png in Resources */,
 				27132B1615C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */,
+				27049B2815D0D2B6008F8D94 /* rax-logo@2x.png in Resources */,
+				27049B2A15D0D2B6008F8D94 /* rax-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3986,6 +3996,8 @@
 				27C38BC113D0D48500CC7222 /* red-delete-button@2x.png in Resources */,
 				27C38BC313D0D48500CC7222 /* red-delete-button.png in Resources */,
 				27132B1715C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */,
+				27049B2915D0D2B6008F8D94 /* rax-logo@2x.png in Resources */,
+				27049B2B15D0D2B6008F8D94 /* rax-logo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -64,6 +64,12 @@
     return [endpoint autorelease];
 }
 
+#pragma mark - Comparison
+
+- (NSComparisonResult)compare:(OSComputeEndpoint *)endpoint {
+    return [self.region caseInsensitiveCompare:endpoint.region];
+}
+
 #pragma mark - KVO
 
 - (void)addServersObject:(Server *)object {

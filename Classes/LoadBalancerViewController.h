@@ -12,14 +12,9 @@
 @class LoadBalancer, LBTitleView, OpenStackAccount;
 
 @interface LoadBalancerViewController : OpenStackViewController <UITableViewDelegate, UITableViewDataSource, UIActionSheetDelegate, UIAlertViewDelegate, UIScrollViewDelegate> {
-    OpenStackAccount *account;
-    LoadBalancer *loadBalancer;
-    LBTitleView *titleView;
     CGPoint previousScrollPoint;
     NSInteger mode;
 
-    IBOutlet UITableView *tableView;
-    
     @private
     NSMutableDictionary *nodes;
     NSInteger totalSections;

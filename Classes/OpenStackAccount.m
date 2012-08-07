@@ -20,6 +20,7 @@
 #import "APICallback.h"
 #import "OSComputeService.h"
 #import "OSComputeEndpoint.h"
+#import "OSLoadBalancerEndpoint.h"
 
 
 static NSArray *accounts = nil;
@@ -422,6 +423,20 @@ static NSMutableDictionary *timers = nil;
 }
 
 - (NSString *)loadBalancerEndpointForRegion:(NSString *)region {
+    
+    for (OSLoadBalancerEndpoint *endpoint in self.loadBalancerEndpoints) {
+        
+        if ([endpoint.region isEqualToString:region]) {
+            
+            return endpoint.publicURL;
+            
+        }
+        
+    }
+    
+    return nil;
+    
+    /*
     NSString *accountNumber = [self accountNumber];
     if ([self.provider isRackspaceUS]) {
         if ([region isEqualToString:@"DFW"]) {
@@ -436,6 +451,7 @@ static NSMutableDictionary *timers = nil;
     } else {
         return @"";
     }
+     */
 }
 
 - (NSString *)loadBalancerRegionForEndpoint:(NSString *)endpoint {

@@ -34,6 +34,8 @@
         self.node = n;
         self.loadBalancer = lb;
         self.account = a;
+        self.tableView.separatorStyle = UITableViewCellSeparatorStyleSingleLine;
+        self.tableView.backgroundColor = [UIColor colorWithRed:0.83 green:0.83 blue:0.83 alpha:1];
     }
     return self;
 }

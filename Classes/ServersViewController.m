@@ -35,7 +35,7 @@
 
 - (NSArray *)sortedRegions {
     NSArray *endpoints = [self.servers allKeys];
-    return [endpoints sortedArrayUsingSelector:@selector(region)];
+    return [endpoints sortedArrayUsingSelector:@selector(compare:)];
 }
 
 - (OSComputeEndpoint *)endpointAtIndex:(NSInteger)index {

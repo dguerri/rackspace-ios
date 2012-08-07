@@ -33,8 +33,6 @@
 
 @implementation LoadBalancerViewController
 
-@synthesize account, loadBalancer, tableView, titleView;
-
 #pragma mark - Constructors and Memory Management
 
 -(id)initWithLoadBalancer:(LoadBalancer *)lb {
@@ -48,10 +46,10 @@
 }
 
 - (void)dealloc {
-    [account release];
-    [loadBalancer release];
-    [tableView release];
-    [titleView release];
+    [_account release];
+    [_loadBalancer release];
+    [_tableView release];
+    [_titleView release];
     [nodes release];
     [super dealloc];
 }
@@ -88,10 +86,10 @@
     self.navigationItem.title = @"Load Balancer";
     previousScrollPoint = CGPointZero;
     
-    if (!titleView) {        
-        titleView = [[LBTitleView alloc] initWithLoadBalancer:self.loadBalancer];
-        [self.view addSubview:titleView];
-        [titleView setNeedsDisplay];
+    if (!self.titleView) {
+        self.titleView = [[LBTitleView alloc] initWithLoadBalancer:self.loadBalancer];
+        [self.view addSubview:self.titleView];
+        [self.titleView setNeedsDisplay];
     }    
 
     // Uncomment the following line to preserve selection between presentations.
@@ -125,7 +123,7 @@
         [nodes setObject:[NSMutableArray array] forKey:kDisabled];
         [nodes setObject:[NSMutableArray array] forKey:kDraining];
         
-        for (LoadBalancerNode *node in loadBalancer.nodes) {
+        for (LoadBalancerNode *node in self.loadBalancer.nodes) {
             if ([node.condition isEqualToString:kEnabled]) {
                 [[nodes objectForKey:kEnabled] addObject:node];
             } else if ([node.condition isEqualToString:kDisabled]) {

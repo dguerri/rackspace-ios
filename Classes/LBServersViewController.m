@@ -265,7 +265,6 @@
         }
     }
 
-    cell.accessoryType = UITableViewCellAccessoryNone;
     for (LoadBalancerNode *node in self.serverNodes) {
         if ([node.server isEqual:server]) {
             cell.accessoryType = UITableViewCellAccessoryCheckmark;

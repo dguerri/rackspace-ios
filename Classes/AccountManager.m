@@ -400,16 +400,16 @@
 - (APICallback *)createLoadBalancer:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_CREATED);
     
-    NSString *endpoint = @"";
-    
-    for (NSString *url in [self.account loadBalancerURLs]) {
-        if ([url hasPrefix:[NSString stringWithFormat:@"https://%@", [loadBalancer.region lowercaseString]]]) {
-            endpoint = url;
+    NSString *endpointURL = @"";
+
+    for (OSLoadBalancerEndpoint *endpoint in self.account.loadBalancerEndpoints) {
+        if ([[endpoint.region lowercaseString] isEqualToString:[loadBalancer.region lowercaseString]]) {
+            endpointURL = endpoint.publicURL;
             break;
         }
     }
     
-    __block LoadBalancerRequest *request = [LoadBalancerRequest createLoadBalancerRequest:self.account loadBalancer:loadBalancer endpoint:endpoint];
+    __block LoadBalancerRequest *request = [LoadBalancerRequest createLoadBalancerRequest:self.account loadBalancer:loadBalancer endpoint:endpointURL];
     return [self callbackWithRequest:request];
 }
 

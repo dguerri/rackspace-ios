@@ -18,10 +18,16 @@
     // show the actual version of the app in the about screen
     NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
     NSRegularExpression *regex = [NSRegularExpression regularExpressionWithPattern:@"<version>" options:NSRegularExpressionCaseInsensitive error:nil];            
-    NSRange range = [regex rangeOfFirstMatchInString:textView.text options:0 range:NSMakeRange(0, 100)];
+    NSRange range = [regex rangeOfFirstMatchInString:self.textView.text options:0 range:NSMakeRange(0, 100)];
     if (!NSEqualRanges(range, NSMakeRange(NSNotFound, 0))) {
-        textView.text = [textView.text stringByReplacingCharactersInRange:range withString:version];
+        self.textView.text = [self.textView.text stringByReplacingCharactersInRange:range withString:version];
     }
+    
+//    UIImage *logo = [UIImage imageNamed:@"rax-logo.png"];
+//    UIImageView *iv = [[UIImageView alloc] initWithImage:logo];
+//    [self.textView addSubview:iv];
+    
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
@@ -29,6 +35,7 @@
 }
 
 - (void)dealloc {
+    [_textView release];
     [super dealloc];
 }
 
