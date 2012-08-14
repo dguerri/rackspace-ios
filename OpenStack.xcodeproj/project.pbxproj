@@ -15,6 +15,29 @@
 		27049B2B15D0D2B6008F8D94 /* rax-logo.png in Resources */ = {isa = PBXBuildFile; fileRef = 27049B2715D0D2B6008F8D94 /* rax-logo.png */; };
 		2705F3EB12E7FA5900949131 /* RSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705F3E912E7FA5900949131 /* RSTextFieldCell.m */; };
 		2705F3ED12E7FA5900949131 /* RSTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 2705F3E912E7FA5900949131 /* RSTextFieldCell.m */; };
+		270646C315DA019A00A65930 /* fanatiguy57.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646C215DA019A00A65930 /* fanatiguy57.png */; };
+		270646C615DA019D00A65930 /* fanatiguy114.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646C515DA019D00A65930 /* fanatiguy114.png */; };
+		270646C815DA03FC00A65930 /* 114.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646C715DA03FC00A65930 /* 114.png */; };
+		270646CB15DA092600A65930 /* fanatiguy72.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646C915DA092600A65930 /* fanatiguy72.png */; };
+		270646CC15DA092600A65930 /* fanatiguy144.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646CA15DA092600A65930 /* fanatiguy144.png */; };
+		270646D015DA151000A65930 /* RSStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 270646CE15DA151000A65930 /* RSStatusViewController.m */; };
+		270646D115DA151000A65930 /* RSStatusViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 270646CE15DA151000A65930 /* RSStatusViewController.m */; };
+		270646D215DA151000A65930 /* RSStatusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 270646CF15DA151000A65930 /* RSStatusViewController.xib */; };
+		270646D315DA151000A65930 /* RSStatusViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 270646CF15DA151000A65930 /* RSStatusViewController.xib */; };
+		270646D515DA1C7B00A65930 /* Fanatiguy-Default.png in Frameworks */ = {isa = PBXBuildFile; fileRef = 270646D415DA1C7B00A65930 /* Fanatiguy-Default.png */; };
+		270646D715DA1C8A00A65930 /* Rackspace-Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646D615DA1C8A00A65930 /* Rackspace-Default.png */; };
+		270646D915DA1C8E00A65930 /* Rackspace-Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646D815DA1C8E00A65930 /* Rackspace-Default@2x.png */; };
+		270646DB15DA1CAD00A65930 /* Fanatiguy-Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646DA15DA1CAD00A65930 /* Fanatiguy-Default@2x.png */; };
+		270646DD15DA1CB900A65930 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646DC15DA1CB900A65930 /* Default.png */; };
+		270646DF15DA1CBD00A65930 /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646DE15DA1CBC00A65930 /* Default@2x.png */; };
+		270646E115DA21FE00A65930 /* Default-Portrait~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E015DA21FE00A65930 /* Default-Portrait~ipad.png */; };
+		270646E315DA220200A65930 /* Default-Portrait@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E215DA220200A65930 /* Default-Portrait@2x~ipad.png */; };
+		270646E515DA220500A65930 /* Default-Landscape~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E415DA220500A65930 /* Default-Landscape~ipad.png */; };
+		270646E715DA220900A65930 /* Default-Landscape@2x~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E615DA220800A65930 /* Default-Landscape@2x~ipad.png */; };
+		270646EA15DA23AD00A65930 /* rackspacecloud_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E815DA23A900A65930 /* rackspacecloud_icon.png */; };
+		270646EB15DA23AD00A65930 /* rackspacecloud_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E815DA23A900A65930 /* rackspacecloud_icon.png */; };
+		270646EC15DA23AD00A65930 /* rackspacecloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E915DA23AA00A65930 /* rackspacecloud_icon@2x.png */; };
+		270646ED15DA23AD00A65930 /* rackspacecloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 270646E915DA23AA00A65930 /* rackspacecloud_icon@2x.png */; };
 		270878F213282104006D4EE3 /* NSObject+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 270878F013282104006D4EE3 /* NSObject+NSCoding.m */; };
 		270878F413282104006D4EE3 /* NSObject+NSCoding.m in Sources */ = {isa = PBXBuildFile; fileRef = 270878F013282104006D4EE3 /* NSObject+NSCoding.m */; };
 		2710BBF6136B4996003C8CFF /* LoadBalancerProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 2710BBF3136B4996003C8CFF /* LoadBalancerProtocol.m */; };
@@ -614,20 +637,6 @@
 		2768681C1368D4F800B04AF3 /* Rackspace-Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868151368D4F800B04AF3 /* Rackspace-Default.png */; };
 		2768681D1368D4F800B04AF3 /* Rackspace-Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868161368D4F800B04AF3 /* Rackspace-Default@2x.png */; };
 		2768681E1368D4F800B04AF3 /* Rackspace-Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868161368D4F800B04AF3 /* Rackspace-Default@2x.png */; };
-		276868261368D51200B04AF3 /* rackspacecloud29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2768681F1368D51200B04AF3 /* rackspacecloud29.png */; };
-		276868271368D51200B04AF3 /* rackspacecloud29.png in Resources */ = {isa = PBXBuildFile; fileRef = 2768681F1368D51200B04AF3 /* rackspacecloud29.png */; };
-		276868281368D51200B04AF3 /* rackspacecloud50.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868201368D51200B04AF3 /* rackspacecloud50.png */; };
-		276868291368D51200B04AF3 /* rackspacecloud50.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868201368D51200B04AF3 /* rackspacecloud50.png */; };
-		2768682A1368D51200B04AF3 /* rackspacecloud-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868211368D51200B04AF3 /* rackspacecloud-icon.png */; };
-		2768682B1368D51200B04AF3 /* rackspacecloud-icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868211368D51200B04AF3 /* rackspacecloud-icon.png */; };
-		2768682C1368D51200B04AF3 /* rackspacecloud58.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868221368D51200B04AF3 /* rackspacecloud58.png */; };
-		2768682D1368D51200B04AF3 /* rackspacecloud58.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868221368D51200B04AF3 /* rackspacecloud58.png */; };
-		2768682E1368D51200B04AF3 /* rackspacecloud-icon-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868231368D51200B04AF3 /* rackspacecloud-icon-ipad.png */; };
-		2768682F1368D51200B04AF3 /* rackspacecloud-icon-ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868231368D51200B04AF3 /* rackspacecloud-icon-ipad.png */; };
-		276868301368D51200B04AF3 /* rackspacecloud-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868241368D51200B04AF3 /* rackspacecloud-icon@2x.png */; };
-		276868311368D51200B04AF3 /* rackspacecloud-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868241368D51200B04AF3 /* rackspacecloud-icon@2x.png */; };
-		276868321368D51200B04AF3 /* rackspacecloud512.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868251368D51200B04AF3 /* rackspacecloud512.png */; };
-		276868331368D51200B04AF3 /* rackspacecloud512.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868251368D51200B04AF3 /* rackspacecloud512.png */; };
 		276868391368D53C00B04AF3 /* openstack_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868341368D53C00B04AF3 /* openstack_72.png */; };
 		2768683A1368D53C00B04AF3 /* openstack_72.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868341368D53C00B04AF3 /* openstack_72.png */; };
 		2768683B1368D53C00B04AF3 /* openstack_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868351368D53C00B04AF3 /* openstack_icon.png */; };
@@ -640,10 +649,6 @@
 		276868421368D53C00B04AF3 /* openstack-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868381368D53C00B04AF3 /* openstack-icon@2x.png */; };
 		276868441368D54800B04AF3 /* fanatiguy-1000x1000.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868431368D54800B04AF3 /* fanatiguy-1000x1000.png */; };
 		276868451368D54800B04AF3 /* fanatiguy-1000x1000.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868431368D54800B04AF3 /* fanatiguy-1000x1000.png */; };
-		276868491368D55A00B04AF3 /* rackspacecloud_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868461368D55A00B04AF3 /* rackspacecloud_icon.png */; };
-		2768684A1368D55A00B04AF3 /* rackspacecloud_icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868461368D55A00B04AF3 /* rackspacecloud_icon.png */; };
-		2768684B1368D55A00B04AF3 /* rackspacecloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868471368D55A00B04AF3 /* rackspacecloud_icon@2x.png */; };
-		2768684C1368D55A00B04AF3 /* rackspacecloud_icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868471368D55A00B04AF3 /* rackspacecloud_icon@2x.png */; };
 		2768684D1368D55A00B04AF3 /* rackspacecloud1081.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868481368D55A00B04AF3 /* rackspacecloud1081.png */; };
 		2768684E1368D55A00B04AF3 /* rackspacecloud1081.png in Resources */ = {isa = PBXBuildFile; fileRef = 276868481368D55A00B04AF3 /* rackspacecloud1081.png */; };
 		276EB97C127631F4001C8FDE /* ImagePickerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 276EB979127631F4001C8FDE /* ImagePickerViewController.m */; };
@@ -1075,6 +1080,26 @@
 		27049B2715D0D2B6008F8D94 /* rax-logo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rax-logo.png"; sourceTree = "<group>"; };
 		2705F3E812E7FA5900949131 /* RSTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSTextFieldCell.h; sourceTree = "<group>"; };
 		2705F3E912E7FA5900949131 /* RSTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSTextFieldCell.m; sourceTree = "<group>"; };
+		270646C215DA019A00A65930 /* fanatiguy57.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fanatiguy57.png; sourceTree = "<group>"; };
+		270646C515DA019D00A65930 /* fanatiguy114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fanatiguy114.png; sourceTree = "<group>"; };
+		270646C715DA03FC00A65930 /* 114.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = 114.png; sourceTree = "<group>"; };
+		270646C915DA092600A65930 /* fanatiguy72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fanatiguy72.png; sourceTree = "<group>"; };
+		270646CA15DA092600A65930 /* fanatiguy144.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fanatiguy144.png; sourceTree = "<group>"; };
+		270646CD15DA151000A65930 /* RSStatusViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RSStatusViewController.h; sourceTree = "<group>"; };
+		270646CE15DA151000A65930 /* RSStatusViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RSStatusViewController.m; sourceTree = "<group>"; };
+		270646CF15DA151000A65930 /* RSStatusViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RSStatusViewController.xib; sourceTree = "<group>"; };
+		270646D415DA1C7B00A65930 /* Fanatiguy-Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Fanatiguy-Default.png"; path = "../../../Desktop/Fanatiguy-Default.png"; sourceTree = "<group>"; };
+		270646D615DA1C8A00A65930 /* Rackspace-Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rackspace-Default.png"; sourceTree = "<group>"; };
+		270646D815DA1C8E00A65930 /* Rackspace-Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Rackspace-Default@2x.png"; sourceTree = "<group>"; };
+		270646DA15DA1CAD00A65930 /* Fanatiguy-Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Fanatiguy-Default@2x.png"; sourceTree = "<group>"; };
+		270646DC15DA1CB900A65930 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		270646DE15DA1CBC00A65930 /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
+		270646E015DA21FE00A65930 /* Default-Portrait~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait~ipad.png"; sourceTree = "<group>"; };
+		270646E215DA220200A65930 /* Default-Portrait@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Portrait@2x~ipad.png"; sourceTree = "<group>"; };
+		270646E415DA220500A65930 /* Default-Landscape~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape~ipad.png"; sourceTree = "<group>"; };
+		270646E615DA220800A65930 /* Default-Landscape@2x~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-Landscape@2x~ipad.png"; sourceTree = "<group>"; };
+		270646E815DA23A900A65930 /* rackspacecloud_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = rackspacecloud_icon.png; sourceTree = "<group>"; };
+		270646E915DA23AA00A65930 /* rackspacecloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "rackspacecloud_icon@2x.png"; sourceTree = "<group>"; };
 		270878EF13282104006D4EE3 /* NSObject+NSCoding.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSObject+NSCoding.h"; sourceTree = "<group>"; };
 		270878F013282104006D4EE3 /* NSObject+NSCoding.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSObject+NSCoding.m"; sourceTree = "<group>"; };
 		2710BBF2136B4996003C8CFF /* LoadBalancerProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadBalancerProtocol.h; sourceTree = "<group>"; };
@@ -1344,21 +1369,12 @@
 		276868141368D4F800B04AF3 /* Rackspace-Default-Portrait.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rackspace-Default-Portrait.png"; path = "Images/Rackspace-Default-Portrait.png"; sourceTree = "<group>"; };
 		276868151368D4F800B04AF3 /* Rackspace-Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rackspace-Default.png"; path = "Images/Rackspace-Default.png"; sourceTree = "<group>"; };
 		276868161368D4F800B04AF3 /* Rackspace-Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Rackspace-Default@2x.png"; path = "Images/Rackspace-Default@2x.png"; sourceTree = "<group>"; };
-		2768681F1368D51200B04AF3 /* rackspacecloud29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rackspacecloud29.png; path = Images/rackspacecloud29.png; sourceTree = "<group>"; };
-		276868201368D51200B04AF3 /* rackspacecloud50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rackspacecloud50.png; path = Images/rackspacecloud50.png; sourceTree = "<group>"; };
-		276868211368D51200B04AF3 /* rackspacecloud-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rackspacecloud-icon.png"; path = "Images/rackspacecloud-icon.png"; sourceTree = "<group>"; };
-		276868221368D51200B04AF3 /* rackspacecloud58.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rackspacecloud58.png; path = Images/rackspacecloud58.png; sourceTree = "<group>"; };
-		276868231368D51200B04AF3 /* rackspacecloud-icon-ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rackspacecloud-icon-ipad.png"; path = "Images/rackspacecloud-icon-ipad.png"; sourceTree = "<group>"; };
-		276868241368D51200B04AF3 /* rackspacecloud-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rackspacecloud-icon@2x.png"; path = "Images/rackspacecloud-icon@2x.png"; sourceTree = "<group>"; };
-		276868251368D51200B04AF3 /* rackspacecloud512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rackspacecloud512.png; path = Images/rackspacecloud512.png; sourceTree = "<group>"; };
 		276868341368D53C00B04AF3 /* openstack_72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = openstack_72.png; path = Images/openstack_72.png; sourceTree = "<group>"; };
 		276868351368D53C00B04AF3 /* openstack_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = openstack_icon.png; path = Images/openstack_icon.png; sourceTree = "<group>"; };
 		276868361368D53C00B04AF3 /* openstack_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "openstack_icon@2x.png"; path = "Images/openstack_icon@2x.png"; sourceTree = "<group>"; };
 		276868371368D53C00B04AF3 /* openstack-icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "openstack-icon.png"; path = "Images/openstack-icon.png"; sourceTree = "<group>"; };
 		276868381368D53C00B04AF3 /* openstack-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "openstack-icon@2x.png"; path = "Images/openstack-icon@2x.png"; sourceTree = "<group>"; };
 		276868431368D54800B04AF3 /* fanatiguy-1000x1000.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "fanatiguy-1000x1000.png"; path = "Images/fanatiguy-1000x1000.png"; sourceTree = "<group>"; };
-		276868461368D55A00B04AF3 /* rackspacecloud_icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rackspacecloud_icon.png; path = Images/rackspacecloud_icon.png; sourceTree = "<group>"; };
-		276868471368D55A00B04AF3 /* rackspacecloud_icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "rackspacecloud_icon@2x.png"; path = "Images/rackspacecloud_icon@2x.png"; sourceTree = "<group>"; };
 		276868481368D55A00B04AF3 /* rackspacecloud1081.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = rackspacecloud1081.png; path = Images/rackspacecloud1081.png; sourceTree = "<group>"; };
 		276EB978127631F4001C8FDE /* ImagePickerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ImagePickerViewController.h; sourceTree = "<group>"; };
 		276EB979127631F4001C8FDE /* ImagePickerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePickerViewController.m; sourceTree = "<group>"; };
@@ -1765,6 +1781,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				270646D515DA1C7B00A65930 /* Fanatiguy-Default.png in Frameworks */,
 				27F08DC51446426C00C6BA78 /* libz.dylib in Frameworks */,
 				277D9E78126E78FD002C69D9 /* Foundation.framework in Frameworks */,
 				277D9E79126E78FD002C69D9 /* CoreGraphics.framework in Frameworks */,
@@ -2233,6 +2250,9 @@
 				275B471212DE366E003DF100 /* RSSFeedViewController.h */,
 				275B471312DE366E003DF100 /* RSSFeedViewController.m */,
 				275B471412DE366E003DF100 /* RSSFeedViewController.xib */,
+				270646CD15DA151000A65930 /* RSStatusViewController.h */,
+				270646CE15DA151000A65930 /* RSStatusViewController.m */,
+				270646CF15DA151000A65930 /* RSStatusViewController.xib */,
 			);
 			name = "RSS Feeds";
 			sourceTree = "<group>";
@@ -2277,6 +2297,10 @@
 		277D9D0B126E778C002C69D9 /* Rackspace Cloud Target */ = {
 			isa = PBXGroup;
 			children = (
+				270646E815DA23A900A65930 /* rackspacecloud_icon.png */,
+				270646E915DA23AA00A65930 /* rackspacecloud_icon@2x.png */,
+				270646C915DA092600A65930 /* fanatiguy72.png */,
+				270646CA15DA092600A65930 /* fanatiguy144.png */,
 				27049B2615D0D2B6008F8D94 /* rax-logo@2x.png */,
 				27049B2715D0D2B6008F8D94 /* rax-logo.png */,
 				2787C14B12F0D440009EAD7C /* Product Icons */,
@@ -2494,13 +2518,6 @@
 		2787C14A12F0D41E009EAD7C /* App Icons */ = {
 			isa = PBXGroup;
 			children = (
-				2768681F1368D51200B04AF3 /* rackspacecloud29.png */,
-				276868201368D51200B04AF3 /* rackspacecloud50.png */,
-				276868211368D51200B04AF3 /* rackspacecloud-icon.png */,
-				276868221368D51200B04AF3 /* rackspacecloud58.png */,
-				276868231368D51200B04AF3 /* rackspacecloud-icon-ipad.png */,
-				276868241368D51200B04AF3 /* rackspacecloud-icon@2x.png */,
-				276868251368D51200B04AF3 /* rackspacecloud512.png */,
 			);
 			name = "App Icons";
 			sourceTree = "<group>";
@@ -2637,8 +2654,6 @@
 			isa = PBXGroup;
 			children = (
 				276868431368D54800B04AF3 /* fanatiguy-1000x1000.png */,
-				276868461368D55A00B04AF3 /* rackspacecloud_icon.png */,
-				276868471368D55A00B04AF3 /* rackspacecloud_icon@2x.png */,
 				276868481368D55A00B04AF3 /* rackspacecloud1081.png */,
 			);
 			name = "Rackspace Cloud";
@@ -3147,6 +3162,19 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				270646E615DA220800A65930 /* Default-Landscape@2x~ipad.png */,
+				270646E415DA220500A65930 /* Default-Landscape~ipad.png */,
+				270646E215DA220200A65930 /* Default-Portrait@2x~ipad.png */,
+				270646E015DA21FE00A65930 /* Default-Portrait~ipad.png */,
+				270646DE15DA1CBC00A65930 /* Default@2x.png */,
+				270646DC15DA1CB900A65930 /* Default.png */,
+				270646DA15DA1CAD00A65930 /* Fanatiguy-Default@2x.png */,
+				270646D815DA1C8E00A65930 /* Rackspace-Default@2x.png */,
+				270646D615DA1C8A00A65930 /* Rackspace-Default.png */,
+				270646D415DA1C7B00A65930 /* Fanatiguy-Default.png */,
+				270646C715DA03FC00A65930 /* 114.png */,
+				270646C515DA019D00A65930 /* fanatiguy114.png */,
+				270646C215DA019A00A65930 /* fanatiguy57.png */,
 				27F08DC41446426C00C6BA78 /* libz.dylib */,
 				27C15CC413A7D81D00A1BB9F /* UIKit.framework */,
 				27828720125A2A4200004D33 /* Tests */,
@@ -3517,21 +3545,12 @@
 				276868191368D4F800B04AF3 /* Rackspace-Default-Portrait.png in Resources */,
 				2768681B1368D4F800B04AF3 /* Rackspace-Default.png in Resources */,
 				2768681D1368D4F800B04AF3 /* Rackspace-Default@2x.png in Resources */,
-				276868261368D51200B04AF3 /* rackspacecloud29.png in Resources */,
-				276868281368D51200B04AF3 /* rackspacecloud50.png in Resources */,
-				2768682A1368D51200B04AF3 /* rackspacecloud-icon.png in Resources */,
-				2768682C1368D51200B04AF3 /* rackspacecloud58.png in Resources */,
-				2768682E1368D51200B04AF3 /* rackspacecloud-icon-ipad.png in Resources */,
-				276868301368D51200B04AF3 /* rackspacecloud-icon@2x.png in Resources */,
-				276868321368D51200B04AF3 /* rackspacecloud512.png in Resources */,
 				276868391368D53C00B04AF3 /* openstack_72.png in Resources */,
 				2768683B1368D53C00B04AF3 /* openstack_icon.png in Resources */,
 				2768683D1368D53C00B04AF3 /* openstack_icon@2x.png in Resources */,
 				2768683F1368D53C00B04AF3 /* openstack-icon.png in Resources */,
 				276868411368D53C00B04AF3 /* openstack-icon@2x.png in Resources */,
 				276868441368D54800B04AF3 /* fanatiguy-1000x1000.png in Resources */,
-				276868491368D55A00B04AF3 /* rackspacecloud_icon.png in Resources */,
-				2768684B1368D55A00B04AF3 /* rackspacecloud_icon@2x.png in Resources */,
 				2768684D1368D55A00B04AF3 /* rackspacecloud1081.png in Resources */,
 				2710BC17136B54A9003C8CFF /* LBProtocolViewController.xib in Resources */,
 				27560834136F3078009EB5BA /* LBVirtualIPTypeViewController.xib in Resources */,
@@ -3667,6 +3686,9 @@
 				27132B1615C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */,
 				27049B2815D0D2B6008F8D94 /* rax-logo@2x.png in Resources */,
 				27049B2A15D0D2B6008F8D94 /* rax-logo.png in Resources */,
+				270646D215DA151000A65930 /* RSStatusViewController.xib in Resources */,
+				270646EA15DA23AD00A65930 /* rackspacecloud_icon.png in Resources */,
+				270646EC15DA23AD00A65930 /* rackspacecloud_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3849,21 +3871,12 @@
 				2768681A1368D4F800B04AF3 /* Rackspace-Default-Portrait.png in Resources */,
 				2768681C1368D4F800B04AF3 /* Rackspace-Default.png in Resources */,
 				2768681E1368D4F800B04AF3 /* Rackspace-Default@2x.png in Resources */,
-				276868271368D51200B04AF3 /* rackspacecloud29.png in Resources */,
-				276868291368D51200B04AF3 /* rackspacecloud50.png in Resources */,
-				2768682B1368D51200B04AF3 /* rackspacecloud-icon.png in Resources */,
-				2768682D1368D51200B04AF3 /* rackspacecloud58.png in Resources */,
-				2768682F1368D51200B04AF3 /* rackspacecloud-icon-ipad.png in Resources */,
-				276868311368D51200B04AF3 /* rackspacecloud-icon@2x.png in Resources */,
-				276868331368D51200B04AF3 /* rackspacecloud512.png in Resources */,
 				2768683A1368D53C00B04AF3 /* openstack_72.png in Resources */,
 				2768683C1368D53C00B04AF3 /* openstack_icon.png in Resources */,
 				2768683E1368D53C00B04AF3 /* openstack_icon@2x.png in Resources */,
 				276868401368D53C00B04AF3 /* openstack-icon.png in Resources */,
 				276868421368D53C00B04AF3 /* openstack-icon@2x.png in Resources */,
 				276868451368D54800B04AF3 /* fanatiguy-1000x1000.png in Resources */,
-				2768684A1368D55A00B04AF3 /* rackspacecloud_icon.png in Resources */,
-				2768684C1368D55A00B04AF3 /* rackspacecloud_icon@2x.png in Resources */,
 				2768684E1368D55A00B04AF3 /* rackspacecloud1081.png in Resources */,
 				2710BC18136B54A9003C8CFF /* LBProtocolViewController.xib in Resources */,
 				27560835136F3078009EB5BA /* LBVirtualIPTypeViewController.xib in Resources */,
@@ -3998,6 +4011,23 @@
 				27132B1715C9026D00807FAE /* OSAddServerEndpointViewController.xib in Resources */,
 				27049B2915D0D2B6008F8D94 /* rax-logo@2x.png in Resources */,
 				27049B2B15D0D2B6008F8D94 /* rax-logo.png in Resources */,
+				270646C315DA019A00A65930 /* fanatiguy57.png in Resources */,
+				270646C615DA019D00A65930 /* fanatiguy114.png in Resources */,
+				270646C815DA03FC00A65930 /* 114.png in Resources */,
+				270646CB15DA092600A65930 /* fanatiguy72.png in Resources */,
+				270646CC15DA092600A65930 /* fanatiguy144.png in Resources */,
+				270646D315DA151000A65930 /* RSStatusViewController.xib in Resources */,
+				270646D715DA1C8A00A65930 /* Rackspace-Default.png in Resources */,
+				270646D915DA1C8E00A65930 /* Rackspace-Default@2x.png in Resources */,
+				270646DB15DA1CAD00A65930 /* Fanatiguy-Default@2x.png in Resources */,
+				270646DD15DA1CB900A65930 /* Default.png in Resources */,
+				270646DF15DA1CBD00A65930 /* Default@2x.png in Resources */,
+				270646E115DA21FE00A65930 /* Default-Portrait~ipad.png in Resources */,
+				270646E315DA220200A65930 /* Default-Portrait@2x~ipad.png in Resources */,
+				270646E515DA220500A65930 /* Default-Landscape~ipad.png in Resources */,
+				270646E715DA220900A65930 /* Default-Landscape@2x~ipad.png in Resources */,
+				270646EB15DA23AD00A65930 /* rackspacecloud_icon.png in Resources */,
+				270646ED15DA23AD00A65930 /* rackspacecloud_icon@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4186,6 +4216,7 @@
 				27FB6C6515C2140E0070A29E /* OSComputeService.m in Sources */,
 				27132B1415C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */,
 				27CE3F8F15CEF7650023DBC2 /* OSLoadBalancerEndpoint.m in Sources */,
+				270646D015DA151000A65930 /* RSStatusViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4343,6 +4374,7 @@
 				27FB6C6615C2140E0070A29E /* OSComputeService.m in Sources */,
 				27132B1515C9026D00807FAE /* OSAddServerEndpointViewController.m in Sources */,
 				27CE3F9015CEF7650023DBC2 /* OSLoadBalancerEndpoint.m in Sources */,
+				270646D115DA151000A65930 /* RSStatusViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

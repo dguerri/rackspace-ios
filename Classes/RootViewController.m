@@ -18,6 +18,7 @@
 #import "Keychain.h"
 #import "PasscodeViewController.h"
 #import "OpenStackAppDelegate.h"
+#import "RSStatusViewController.h"
 
 
 @implementation RootViewController
@@ -166,7 +167,14 @@
 
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
-    [self.tableView reloadData];    
+    [self.tableView reloadData];
+    
+    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+        RSStatusViewController *vc = [[RSStatusViewController alloc] init];
+        [self.navigationController presentPrimaryViewController:vc];
+        [vc release];
+    }
+    
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -254,8 +262,7 @@
     return YES;
 }
 
-#pragma mark -
-#pragma mark Table view delegate
+#pragma mark - Table view delegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
     AccountHomeViewController *vc = [[AccountHomeViewController alloc] initWithNibName:@"AccountHomeViewController" bundle:nil];
@@ -267,8 +274,7 @@
     [vc release];
 }
 
-#pragma mark -
-#pragma mark Memory management
+#pragma mark - Memory management
 
 - (void)didReceiveMemoryWarning {
     // Releases the view if it doesn't have a superview.

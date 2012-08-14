@@ -34,7 +34,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.navigationItem.title = @"API Account Info";
+    self.navigationItem.title = @"Account Info";
     
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         UIView *backgroundContainer = [[UIView alloc] init];

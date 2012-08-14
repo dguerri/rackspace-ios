@@ -39,7 +39,11 @@
 }
 
 - (OSComputeEndpoint *)endpointAtIndex:(NSInteger)index {
-    return [[self sortedRegions] objectAtIndex:index];
+    if ([[self sortedRegions] count] > 0) {
+        return [[self sortedRegions] objectAtIndex:index];
+    } else {
+        return nil;
+    }
 }
 
 - (Server *)serverForEndpoint:(OSComputeEndpoint *)endpoint atIndex:(NSInteger)index {

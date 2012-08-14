@@ -18,7 +18,6 @@
 #import "ContainersViewController.h"
 #import "AccountManager.h"
 #import "AccountSettingsViewController.h"
-#import "RSSFeedsViewController.h"
 #import "UIViewController+Conveniences.h"
 #import "Keychain.h"
 #import "PasscodeViewController.h"
@@ -26,6 +25,7 @@
 #import "LoadBalancersViewController.h"
 #import "Reachability.h"
 #import "Image.h"
+#import "RSStatusViewController.h"
 
 
 @implementation AccountHomeViewController
@@ -88,6 +88,7 @@
 //    }
     accountSettingsRow = totalRows++;
     [self.tableView reloadData];
+        
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -104,6 +105,10 @@
 #pragma mark - Table view data source
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
+//    self.navigationItem.title = nil;
+//    self.tableView.separatorColor = [UIColor whiteColor];
+//    self.navigationItem.hidesBackButton = YES;
+//    return 0; //
     return totalRows;
 }
 
@@ -140,6 +145,11 @@
         
         cell.textLabel.text = @"System Status";
         cell.imageView.image = [UIImage imageNamed:@"rss-feeds-icon.png"];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            cell.accessoryType = UITableViewCellAccessoryNone;
+        } else {
+            cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
+        }
         
     } else if (indexPath.row == contactRow) {
         
@@ -163,7 +173,7 @@
         
     } else if (indexPath.row == accountSettingsRow) {
         
-        cell.textLabel.text = @"API Account Info";
+        cell.textLabel.text = @"Account Info";
         cell.imageView.image = [UIImage imageNamed:@"account-settings-icon.png"];
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
             cell.accessoryType = UITableViewCellAccessoryNone;
@@ -197,11 +207,16 @@
         [vc refreshButtonPressed:nil];
         [vc release];
     } else if (indexPath.row == rssFeedsRow) {
-        RSSFeedsViewController *vc = [[RSSFeedsViewController alloc] initWithNibName:@"RSSFeedsViewController" bundle:nil];
-        vc.account = account;
-        vc.comingFromAccountHome = YES;
-        [self.navigationController pushViewController:vc animated:YES];
+        
+        RSStatusViewController *vc = [[RSStatusViewController alloc] init];
+        if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+            [self.navigationController presentPrimaryViewController:vc];
+            shouldHidePopover = YES;
+        } else {
+            [self.navigationController pushViewController:vc animated:YES];
+        }
         [vc release];
+        
     } else if (indexPath.row == contactRow) {
         NSString *nibName = @"ContactInformationViewController";
         if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {

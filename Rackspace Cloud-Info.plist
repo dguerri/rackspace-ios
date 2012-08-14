@@ -10,10 +10,42 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
-		<string>rackspacecloud-icon@2x.png</string>
-		<string>rackspacecloud-icon.png</string>
+		<string>fanatiguy114.png</string>
+		<string>fanatiguy57.png</string>
 		<string>rackspacecloud-icon-ipad.png</string>
+		<string>Default.png</string>
+		<string>Default@2x.png</string>
+		<string>Default-Portrait~ipad.png</string>
+		<string>Default-Portrait@2x~ipad.png</string>
+		<string>Default-Landscape~ipad.png</string>
+		<string>Default-Landscape@2x~ipad.png</string>
+		<string>Default-Landscape~ipad.png</string>
+		<string>Default-Landscape@2x~ipad.png</string>
+		<string>fanatiguy72.png</string>
+		<string>fanatiguy144.png</string>
 	</array>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>fanatiguy114.png</string>
+				<string>fanatiguy57.png</string>
+				<string>rackspacecloud-icon-ipad.png</string>
+				<string>Default.png</string>
+				<string>Default@2x.png</string>
+				<string>Default-Portrait~ipad.png</string>
+				<string>Default-Portrait@2x~ipad.png</string>
+				<string>Default-Landscape~ipad.png</string>
+				<string>Default-Landscape@2x~ipad.png</string>
+				<string>Default-Landscape~ipad.png</string>
+				<string>Default-Landscape@2x~ipad.png</string>
+				<string>fanatiguy72.png</string>
+				<string>fanatiguy144.png</string>
+			</array>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>com.rackspacecloud.iphone</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -36,8 +68,6 @@
 	<false/>
 	<key>UIFileSharingEnabled</key>
 	<true/>
-	<key>UILaunchImageFile</key>
-	<string>Rackspace-Default.png</string>
 	<key>UIStatusBarStyle</key>
 	<string>UIStatusBarStyleBlackOpaque</string>
 	<key>UISupportedInterfaceOrientations~ipad</key>
