@@ -56,7 +56,7 @@
 
 - (void)populateWithJSON:(NSDictionary *)dict {
     
-    NSLog(@"server json to parse: %@", dict);
+//    NSLog(@"server json to parse: %@", dict);
     
     self.identifier = [dict objectForKey:@"id"];
     if ([dict objectForKey:@"flavorId"]) {
@@ -69,7 +69,7 @@
     if ([dict objectForKey:@"imageId"]) {
         self.imageId = [[dict objectForKey:@"imageId"] description];
     }
-    if ([dict objectForKey:@"image"]) {
+    if ([dict objectForKey:@"image"] && !self.image) {
         self.image = [Image fromJSON:[dict objectForKey:@"image"]];
         self.imageId = self.image.identifier;
     }

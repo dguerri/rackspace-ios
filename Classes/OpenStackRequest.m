@@ -390,20 +390,20 @@ static NSRecursiveLock *accessDetailsLock = nil;
     SBJSON *parser = [[SBJSON alloc] init];
     NSArray *jsonObjects = [[parser objectWithString:[self responseString]] objectForKey:@"images"];
     
-    NSLog(@"json objects: %@", jsonObjects);
+//    NSLog(@"json objects: %@", jsonObjects);
     
     NSMutableDictionary *objects = [NSMutableDictionary dictionaryWithCapacity:[jsonObjects count]];
     
     for (int i = 0; i < [jsonObjects count]; i++) {
         NSDictionary *dict = [jsonObjects objectAtIndex:i];
         
-        NSLog(@"image dict: %@", dict);
-        NSLog(@"image name: %@", [dict objectForKey:@"name"]);
+//        NSLog(@"image dict: %@", dict);
+//        NSLog(@"image name: %@", [dict objectForKey:@"name"]);
         
 //        Image *image = [[Image alloc] initWithJSONDict:dict];
         Image *image = [Image fromJSON:dict];
         
-        NSLog(@"image name after parsing: %@", image.name);
+//        NSLog(@"image name after parsing: %@", image.name);
         
         [objects setObject:image forKey:image.identifier];
 //        [image release];

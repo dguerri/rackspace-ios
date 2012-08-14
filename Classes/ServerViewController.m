@@ -231,13 +231,13 @@
 //        self.server = [request server];
 //        self.server.endpoint = endpoint;
         
-        NSLog(@"flavor id: %@", self.server.flavorId);
-        
-        self.server.flavor = [self.account.flavors objectForKey:self.server.flavorId];
-        
-        NSLog(@"server flavor: %@", self.server.flavor);
-        
-        self.server.image = [self.account.images objectForKey:self.server.imageId];
+//        NSLog(@"flavor id: %@", self.server.flavorId);
+//        
+//        self.server.flavor = [self.account.flavors objectForKey:self.server.flavorId];
+//        
+//        NSLog(@"server flavor: %@", self.server.flavor);
+//        
+//        self.server.image = [self.account.images objectForKey:self.server.imageId];
         
         [self.account.servers setObject:server forKey:self.server.identifier];
         [self.account persist];

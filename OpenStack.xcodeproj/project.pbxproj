@@ -983,6 +983,8 @@
 		27D5E229130F032400404EC2 /* LoadBalancersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27D5E223130F032400404EC2 /* LoadBalancersViewController.m */; };
 		27D5E22A130F032400404EC2 /* LoadBalancersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 27D5E224130F032400404EC2 /* LoadBalancersViewController.xib */; };
 		27D91858125D4B280099A584 /* openstack_providers.json in Resources */ = {isa = PBXBuildFile; fileRef = 27828B1A125A827700004D33 /* openstack_providers.json */; };
+		27D9BA9615DA2E6A00969644 /* fanatiguy512.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D9BA9515DA2E6A00969644 /* fanatiguy512.png */; };
+		27D9BA9715DA2E6A00969644 /* fanatiguy512.png in Resources */ = {isa = PBXBuildFile; fileRef = 27D9BA9515DA2E6A00969644 /* fanatiguy512.png */; };
 		27DADC1613B94D6C00F9E906 /* LBNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DADC1313B94D6B00F9E906 /* LBNodeViewController.m */; };
 		27DADC1713B94D6C00F9E906 /* LBNodeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DADC1313B94D6B00F9E906 /* LBNodeViewController.m */; };
 		27DC5DD813CB8F0F00091902 /* LoadBalancerConnectionThrottle.m in Sources */ = {isa = PBXBuildFile; fileRef = 27DC5DD613CB8F0F00091902 /* LoadBalancerConnectionThrottle.m */; };
@@ -1661,6 +1663,7 @@
 		27D5E222130F032400404EC2 /* LoadBalancersViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoadBalancersViewController.h; sourceTree = "<group>"; };
 		27D5E223130F032400404EC2 /* LoadBalancersViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoadBalancersViewController.m; sourceTree = "<group>"; };
 		27D5E224130F032400404EC2 /* LoadBalancersViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadBalancersViewController.xib; sourceTree = "<group>"; };
+		27D9BA9515DA2E6A00969644 /* fanatiguy512.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = fanatiguy512.png; sourceTree = "<group>"; };
 		27DADC1213B94D6B00F9E906 /* LBNodeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj.h; path = LBNodeViewController.h; sourceTree = "<group>"; };
 		27DADC1313B94D6B00F9E906 /* LBNodeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LBNodeViewController.m; sourceTree = "<group>"; };
 		27DC5DD513CB8F0F00091902 /* LoadBalancerConnectionThrottle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.objj.h; path = LoadBalancerConnectionThrottle.h; sourceTree = "<group>"; };
@@ -2297,6 +2300,7 @@
 		277D9D0B126E778C002C69D9 /* Rackspace Cloud Target */ = {
 			isa = PBXGroup;
 			children = (
+				27D9BA9515DA2E6A00969644 /* fanatiguy512.png */,
 				270646E815DA23A900A65930 /* rackspacecloud_icon.png */,
 				270646E915DA23AA00A65930 /* rackspacecloud_icon@2x.png */,
 				270646C915DA092600A65930 /* fanatiguy72.png */,
@@ -3689,6 +3693,7 @@
 				270646D215DA151000A65930 /* RSStatusViewController.xib in Resources */,
 				270646EA15DA23AD00A65930 /* rackspacecloud_icon.png in Resources */,
 				270646EC15DA23AD00A65930 /* rackspacecloud_icon@2x.png in Resources */,
+				27D9BA9615DA2E6A00969644 /* fanatiguy512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4028,6 +4033,7 @@
 				270646E715DA220900A65930 /* Default-Landscape@2x~ipad.png in Resources */,
 				270646EB15DA23AD00A65930 /* rackspacecloud_icon.png in Resources */,
 				270646ED15DA23AD00A65930 /* rackspacecloud_icon@2x.png in Resources */,
+				27D9BA9715DA2E6A00969644 /* fanatiguy512.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4568,8 +4574,8 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "06E1061A-7778-4B9C-9ADB-1271D10BB16B";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "06E1061A-7778-4B9C-9ADB-1271D10BB16B";
+				PROVISIONING_PROFILE = "CFA50524-AD57-40CD-92E6-5156EE4FDBA3";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CFA50524-AD57-40CD-92E6-5156EE4FDBA3";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
