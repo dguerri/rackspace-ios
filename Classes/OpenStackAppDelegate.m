@@ -30,6 +30,8 @@
 #import "Analytics.h"
 #import "RSStatusViewController.h"
 
+#import "Flurry.h"
+
 @implementation OpenStackAppDelegate
 
 @synthesize window;
@@ -101,8 +103,11 @@
 #pragma mark Application lifecycle
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
+  
+  // this needs to get the Flurry assigned key prior to build
+//  [Flurry startSession:@"YOUR_API_KEY"];
     
-    // Override point for customization after application launch.
+  // Override point for customization after application launch.
     
     [self setupDependencies];
         

@@ -1071,6 +1071,8 @@
 		7F9351B913845AC80097720F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9351B813845AC80097720F /* libsqlite3.0.dylib */; };
 		7F9351BA13845B370097720F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9351B813845AC80097720F /* libsqlite3.0.dylib */; };
 		7F9351BB13845B380097720F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9351B813845AC80097720F /* libsqlite3.0.dylib */; };
+		AC3A931A1621DA470008DC88 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3A93191621DA470008DC88 /* libFlurry.a */; };
+		AC3A931B1621DA470008DC88 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3A93191621DA470008DC88 /* libFlurry.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1754,6 +1756,8 @@
 		7F9351B3138457D80097720F /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		7F9351B813845AC80097720F /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* OpenStack-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OpenStack-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AC3A93181621DA470008DC88 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		AC3A93191621DA470008DC88 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1777,6 +1781,7 @@
 				27C15CB713A7C50700A1BB9F /* libobjc.A.dylib in Frameworks */,
 				27C15CB913A7C50E00A1BB9F /* AVFoundation.framework in Frameworks */,
 				27B1BBC3146C32B700FAC8E5 /* libGoogleAnalytics.a in Frameworks */,
+				AC3A931A1621DA470008DC88 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1801,6 +1806,7 @@
 				7F9351BA13845B370097720F /* libsqlite3.0.dylib in Frameworks */,
 				7F8F374B1385A0160034710B /* libxml2.dylib in Frameworks */,
 				27B1BBC4146C32C000FAC8E5 /* libGoogleAnalytics.a in Frameworks */,
+				AC3A931B1621DA470008DC88 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1832,6 +1838,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				AC3A93171621DA470008DC88 /* Flurry */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				27F90D8A1273957600E156D3 /* OpenStack iOS Plugins */,
 				27F7445D12611316002C6CB0 /* Categories */,
@@ -3280,6 +3287,15 @@
 			name = Analytics;
 			sourceTree = "<group>";
 		};
+		AC3A93171621DA470008DC88 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				AC3A93181621DA470008DC88 /* Flurry.h */,
+				AC3A93191621DA470008DC88 /* libFlurry.a */,
+			);
+			path = Flurry;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4495,6 +4511,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				PRODUCT_NAME = OpenStack;
 				PROVISIONING_PROFILE = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
@@ -4530,6 +4547,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				PRODUCT_NAME = OpenStack;
 				PROVISIONING_PROFILE = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
@@ -4565,6 +4583,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4605,6 +4624,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
