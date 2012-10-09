@@ -31,7 +31,7 @@
 #import "SBJSON.h"
 #import "Flavor.h"
 #import "OSLoadBalancerEndpoint.h"
-
+#import "Flurry.h"
 
 @implementation AccountManager
 
@@ -95,14 +95,16 @@
 
 - (APICallback *)softRebootServer:(Server *)server {
     TrackEvent(CATEGORY_SERVER, EVENT_REBOOTED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_REBOOTED]];
+
     __block OpenStackRequest *request = [OpenStackRequest softRebootServerRequest:self.account server:server];
     return [self callbackWithRequest:request];
 }
 
 - (APICallback *)hardRebootServer:(Server *)server {
     TrackEvent(CATEGORY_SERVER, EVENT_REBOOTED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_REBOOTED]];
+  
     __block OpenStackRequest *request = [OpenStackRequest hardRebootServerRequest:self.account server:server];
     return [self callbackWithRequest:request];
 }
@@ -111,7 +113,8 @@
 
 - (APICallback *)changeAdminPassword:(Server *)server password:(NSString *)password {
     TrackEvent(CATEGORY_SERVER, EVENT_PASSWORD_CHANGED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_PASSWORD_CHANGED]];
+  
     __block OpenStackRequest *request = [OpenStackRequest changeServerAdminPasswordRequest:self.account server:server password:password];
     return [self callbackWithRequest:request];
 }
@@ -120,7 +123,8 @@
 
 - (APICallback *)renameServer:(Server *)server name:(NSString *)name {
     TrackEvent(CATEGORY_SERVER, EVENT_RENAMED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_RENAMED]];
+
     __block OpenStackRequest *request = [OpenStackRequest renameServerRequest:self.account server:server name:name];
     return [self callbackWithRequest:request];
 }
@@ -129,7 +133,8 @@
 
 - (APICallback *)deleteServer:(Server *)server {
     TrackEvent(CATEGORY_SERVER, EVENT_DELETED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_DELETED]];
+
     __block OpenStackRequest *request = [OpenStackRequest deleteServerRequest:self.account server:server];
     return [self callbackWithRequest:request];
 }
@@ -139,7 +144,9 @@
 - (APICallback *)createServer:(Server *)server endpoint:(OSComputeEndpoint *)endpoint {
     
     [[GANTracker sharedTracker] trackEvent:CATEGORY_SERVER action:EVENT_CREATED label:@"Size" value:server.flavor.ram withError:nil];
-    
+  [Flurry logEvent:EVENT_CREATED];
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_CREATED]];
+
     __block OpenStackRequest *request = [OpenStackRequest createServerRequest:self.account endpoint:endpoint server:server];
     return [self callbackWithRequest:request];
 }
@@ -148,7 +155,8 @@
 
 - (APICallback *)resizeServer:(Server *)server flavor:(Flavor *)flavor {
     TrackEvent(CATEGORY_SERVER, EVENT_RESIZED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_RESIZED]];
+
     __block OpenStackRequest *request = [OpenStackRequest resizeServerRequest:self.account server:server flavor:flavor];
     return [self callbackWithRequest:request];
 }
@@ -165,7 +173,8 @@
 
 - (APICallback *)rebuildServer:(Server *)server image:(Image *)image {
     TrackEvent(CATEGORY_SERVER, EVENT_REBUILT);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_REBUILT]];
+  
     __block OpenStackRequest *request = [OpenStackRequest rebuildServerRequest:self.account server:server image:image];
     return [self callbackWithRequest:request];
 }
@@ -179,7 +188,8 @@
 
 - (APICallback *)updateBackupSchedule:(Server *)server {
     TrackEvent(CATEGORY_SERVER, EVENT_BACKUP_SCHEDULE_CHANGED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_SERVER,EVENT_BACKUP_SCHEDULE_CHANGED]];
+
     __block OpenStackRequest *request = [OpenStackRequest updateBackupScheduleRequest:self.account server:server];
     return [self callbackWithRequest:request];
 }
@@ -255,7 +265,7 @@
 
 - (APICallback *)createContainer:(Container *)container {
     TrackEvent(CATEGORY_CONTAINERS, EVENT_CREATED);
-    
+
     __block OpenStackRequest *request = [OpenStackRequest createContainerRequest:self.account container:container];
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
         
@@ -304,7 +314,8 @@
 
 - (APICallback *)updateCDNContainer:(Container *)container {
     TrackEvent(CATEGORY_CONTAINERS, EVENT_UPDATED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_CONTAINERS,EVENT_UPDATED]];
+
     if (![self queue]) {
         [self setQueue:[[[ASINetworkQueue alloc] init] autorelease]];
     }
@@ -340,7 +351,8 @@
 
 - (APICallback *)writeObject:(Container *)container object:(StorageObject *)object downloadProgressDelegate:(id)downloadProgressDelegate {
     TrackEvent(CATEGORY_FILES, EVENT_CREATED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_FILES,EVENT_CREATED]];
+  
     __block OpenStackRequest *request = [OpenStackRequest writeObjectRequest:self.account container:container object:object];
     request.delegate = self;
     request.uploadProgressDelegate = downloadProgressDelegate;
@@ -399,7 +411,8 @@
 
 - (APICallback *)createLoadBalancer:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_CREATED);
-    
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_CREATED]];
+
     NSString *endpointURL = @"";
 
     for (OSLoadBalancerEndpoint *endpoint in self.account.loadBalancerEndpoints) {
@@ -415,6 +428,8 @@
 
 - (APICallback *)updateLoadBalancer:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_UPDATED);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_UPDATED]];
+
     NSString *endpoint = [self.account loadBalancerEndpointForRegion:loadBalancer.region];
     __block LoadBalancerRequest *request = [LoadBalancerRequest updateLoadBalancerRequest:self.account loadBalancer:loadBalancer endpoint:endpoint];
     return [self callbackWithRequest:request];
@@ -422,6 +437,8 @@
 
 - (APICallback *)deleteLoadBalancer:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_DELETED);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_DELETED]];
+
     NSString *endpoint = [self.account loadBalancerEndpointForRegion:loadBalancer.region];
     __block LoadBalancerRequest *request = [LoadBalancerRequest deleteLoadBalancerRequest:self.account loadBalancer:loadBalancer endpoint:endpoint];
     return [self callbackWithRequest:request];
@@ -429,6 +446,8 @@
 
 - (APICallback *)updateLoadBalancerConnectionLogging:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_UPDATED_LB_CONNECTION_LOGGING);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_UPDATED_LB_CONNECTION_LOGGING]];
+
     __block LoadBalancerRequest *request = [LoadBalancerRequest updateConnectionLoggingRequest:self.account loadBalancer:loadBalancer];
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
     } failure:^(OpenStackRequest *request) {
@@ -445,12 +464,16 @@
 
 - (APICallback *)updateLoadBalancerConnectionThrottling:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_UPDATED_LB_CONNECTION_THROTTLING);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_UPDATED_LB_CONNECTION_THROTTLING]];
+
     __block LoadBalancerRequest *request = [LoadBalancerRequest updateConnectionThrottlingRequest:self.account loadBalancer:loadBalancer];
     return [self callbackWithRequest:request];
 }
 
 - (APICallback *)deleteLoadBalancerConnectionThrottling:(LoadBalancer *)loadBalancer {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_DISABLED_LB_CONNECTION_THROTTLING);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_DISABLED_LB_CONNECTION_THROTTLING]];
+
     __block LoadBalancerRequest *request = [LoadBalancerRequest disableConnectionThrottlingRequest:self.account loadBalancer:loadBalancer];
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
         loadBalancer.connectionThrottle = nil;
@@ -466,6 +489,8 @@
 
 - (APICallback *)addLBNodes:(NSArray *)nodes loadBalancer:(LoadBalancer *)loadBalancer endpoint:(NSString *)endpoint {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_ADDED_LB_NODES);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_ADDED_LB_NODES]];
+
     __block LoadBalancerRequest *request = [LoadBalancerRequest addLoadBalancerNodesRequest:self.account loadBalancer:loadBalancer nodes:nodes endpoint:endpoint];
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
         for (LoadBalancerNode *node in nodes) {
@@ -477,12 +502,16 @@
 
 - (APICallback *)updateLBNode:(LoadBalancerNode *)node loadBalancer:(LoadBalancer *)loadBalancer endpoint:(NSString *)endpoint {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_UPDATED_LB_NODE);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_UPDATED_LB_NODE]];
+
     __block LoadBalancerRequest *request = [LoadBalancerRequest updateLoadBalancerNodeRequest:self.account loadBalancer:loadBalancer node:node endpoint:endpoint];
     return [self callbackWithRequest:request];
 }
 
 - (APICallback *)deleteLBNode:(LoadBalancerNode *)node loadBalancer:(LoadBalancer *)loadBalancer endpoint:(NSString *)endpoint {
     TrackEvent(CATEGORY_LOAD_BALANCER, EVENT_DELETED_LB_NODE);
+  [Flurry logEvent:[NSString stringWithFormat:@"%@ - %@",CATEGORY_LOAD_BALANCER,EVENT_DELETED_LB_NODE]];
+
     __block LoadBalancerRequest *request = [LoadBalancerRequest deleteLoadBalancerNodeRequest:self.account loadBalancer:loadBalancer node:node endpoint:endpoint];
     return [self callbackWithRequest:request success:^(OpenStackRequest *request) {
         [loadBalancer.nodes removeObject:node];

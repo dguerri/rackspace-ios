@@ -104,8 +104,6 @@
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {    
   
-  // this needs to get the Flurry assigned key prior to build
-//  [Flurry startSession:@"YOUR_API_KEY"];
     
   // Override point for customization after application launch.
     
@@ -117,7 +115,8 @@
     OpenStackAppDelegate <UINavigationControllerDelegate> *delegate = (OpenStackAppDelegate <UINavigationControllerDelegate> *)self;
     navigationController.delegate = delegate;
         
-    // Add the navigation controller's view to the window and display.
+
+  // Add the navigation controller's view to the window and display.
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
 //        RSSFeedViewController *vc = [[RSSFeedViewController alloc] initWithNibName:@"RSSFeedViewController" bundle:nil];
@@ -169,12 +168,16 @@
         // track the app version
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         [[GANTracker sharedTracker] setCustomVariableAtIndex:1 name:@"app_version" value:version withError:nil];
-        
+      
+      
+        [Flurry startSession:@"FLURRY_ACCOUNT_KEY"];
+
         DispatchAnalytics();
 
     } else {
         [HTNotifier startNotifierWithAPIKey:@"HOPTOAD_ACCOUNT_KEY" environmentName:HTNotifierAppStoreEnvironment];
         [[GANTracker sharedTracker] startTrackerWithAccountID:@"ANALYTICS_ACCOUNT_KEY" dispatchPeriod:10 delegate:nil];
+        [Flurry startSession:@"FLURRY_ACCOUNT_KEY"];
     }
     
 #endif

@@ -1838,7 +1838,6 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
-				AC3A93171621DA470008DC88 /* Flurry */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				27F90D8A1273957600E156D3 /* OpenStack iOS Plugins */,
 				27F7445D12611316002C6CB0 /* Categories */,
@@ -1962,6 +1961,7 @@
 		271726ED12555E68003A1319 /* Third Party Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC3A93171621DA470008DC88 /* Flurry */,
 				7F8F370313859E910034710B /* Hoptoad */,
 				7F99691013843611005B490D /* Analytics */,
 				277487271358D0C70056B45F /* ABTableViewCell */,
@@ -4567,8 +4567,8 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4593,8 +4593,8 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "CFA50524-AD57-40CD-92E6-5156EE4FDBA3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CFA50524-AD57-40CD-92E6-5156EE4FDBA3";
+				PROVISIONING_PROFILE = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -4609,7 +4609,7 @@
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Rackspace Hosting";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rackspace Hosting";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -4635,7 +4635,7 @@
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
 				PROVISIONING_PROFILE = "2CF5E8BC-FD3B-4523-926B-4C7924AD0C74";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2CF5E8BC-FD3B-4523-926B-4C7924AD0C74";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
 				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};
