@@ -1071,6 +1071,8 @@
 		7F9351B913845AC80097720F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9351B813845AC80097720F /* libsqlite3.0.dylib */; };
 		7F9351BA13845B370097720F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9351B813845AC80097720F /* libsqlite3.0.dylib */; };
 		7F9351BB13845B380097720F /* libsqlite3.0.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 7F9351B813845AC80097720F /* libsqlite3.0.dylib */; };
+		AC3A931A1621DA470008DC88 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3A93191621DA470008DC88 /* libFlurry.a */; };
+		AC3A931B1621DA470008DC88 /* libFlurry.a in Frameworks */ = {isa = PBXBuildFile; fileRef = AC3A93191621DA470008DC88 /* libFlurry.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -1754,6 +1756,8 @@
 		7F9351B3138457D80097720F /* Analytics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Analytics.m; sourceTree = "<group>"; };
 		7F9351B813845AC80097720F /* libsqlite3.0.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libsqlite3.0.dylib; path = usr/lib/libsqlite3.0.dylib; sourceTree = SDKROOT; };
 		8D1107310486CEB800E47090 /* OpenStack-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "OpenStack-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		AC3A93181621DA470008DC88 /* Flurry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Flurry.h; sourceTree = "<group>"; };
+		AC3A93191621DA470008DC88 /* libFlurry.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; path = libFlurry.a; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1777,6 +1781,7 @@
 				27C15CB713A7C50700A1BB9F /* libobjc.A.dylib in Frameworks */,
 				27C15CB913A7C50E00A1BB9F /* AVFoundation.framework in Frameworks */,
 				27B1BBC3146C32B700FAC8E5 /* libGoogleAnalytics.a in Frameworks */,
+				AC3A931A1621DA470008DC88 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1801,6 +1806,7 @@
 				7F9351BA13845B370097720F /* libsqlite3.0.dylib in Frameworks */,
 				7F8F374B1385A0160034710B /* libxml2.dylib in Frameworks */,
 				27B1BBC4146C32C000FAC8E5 /* libGoogleAnalytics.a in Frameworks */,
+				AC3A931B1621DA470008DC88 /* libFlurry.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1955,6 +1961,7 @@
 		271726ED12555E68003A1319 /* Third Party Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				AC3A93171621DA470008DC88 /* Flurry */,
 				7F8F370313859E910034710B /* Hoptoad */,
 				7F99691013843611005B490D /* Analytics */,
 				277487271358D0C70056B45F /* ABTableViewCell */,
@@ -3280,6 +3287,15 @@
 			name = Analytics;
 			sourceTree = "<group>";
 		};
+		AC3A93171621DA470008DC88 /* Flurry */ = {
+			isa = PBXGroup;
+			children = (
+				AC3A93181621DA470008DC88 /* Flurry.h */,
+				AC3A93191621DA470008DC88 /* libFlurry.a */,
+			);
+			path = Flurry;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -4495,6 +4511,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				PRODUCT_NAME = OpenStack;
 				PROVISIONING_PROFILE = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
@@ -4530,6 +4547,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				PRODUCT_NAME = OpenStack;
 				PROVISIONING_PROFILE = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
@@ -4549,8 +4567,8 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4565,6 +4583,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4574,8 +4593,8 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "CFA50524-AD57-40CD-92E6-5156EE4FDBA3";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "CFA50524-AD57-40CD-92E6-5156EE4FDBA3";
+				PROVISIONING_PROFILE = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -4590,7 +4609,7 @@
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Distribution: Rackspace Hosting";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Distribution: Rackspace Hosting";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -4605,6 +4624,7 @@
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
+					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				ONLY_ACTIVE_ARCH = NO;
 				OTHER_LDFLAGS = (
@@ -4615,7 +4635,7 @@
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
 				PROVISIONING_PROFILE = "2CF5E8BC-FD3B-4523-926B-4C7924AD0C74";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "2CF5E8BC-FD3B-4523-926B-4C7924AD0C74";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
 				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};
