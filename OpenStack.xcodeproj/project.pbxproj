@@ -4567,8 +4567,8 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DEBUGGING_SYMBOLS = full;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -4593,8 +4593,8 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
+				PROVISIONING_PROFILE = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
 				SDKROOT = iphoneos;
 			};
 			name = Debug;
@@ -4608,8 +4608,8 @@
 					armv6,
 				);
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
-				CODE_SIGN_IDENTITY = "iPhone Distribution: Rackspace Hosting";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory C Herlein (5AAY842UK3)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_DEBUGGING_SYMBOLS = full;
@@ -4634,8 +4634,8 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "2CF5E8BC-FD3B-4523-926B-4C7924AD0C74";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "A3BAEA39-0809-4FEB-9CB4-159857C63FEB";
+				PROVISIONING_PROFILE = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
 				SDKROOT = iphoneos;
 				ZERO_LINK = NO;
 			};
