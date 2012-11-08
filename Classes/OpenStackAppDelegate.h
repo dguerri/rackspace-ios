@@ -8,6 +8,10 @@
 
 #import <UIKit/UIKit.h>
 
+#define USE_FLURRY
+//#define USE_GOOGLE_ANALYTICS
+//#define USE_HOPTOAD
+
 @class RootViewController;
 
 @interface OpenStackAppDelegate : NSObject <UIApplicationDelegate> {
