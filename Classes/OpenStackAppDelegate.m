@@ -158,26 +158,35 @@
     NSString *path = [[NSBundle bundleForClass:[self class]] pathForResource:@"Constants" ofType:@"plist"];
     
     if ([[NSFileManager defaultManager] fileExistsAtPath:path]){
-        
+#ifdef USE_HOPTOAD        
         NSDictionary *constants = [NSDictionary dictionaryWithContentsOfFile:path];
-        
+
         [HTNotifier startNotifierWithAPIKey:[constants objectForKey:@"HOPTOAD_ACCOUNT_KEY"]
                             environmentName:HTNotifierAppStoreEnvironment];
+#endif
+#ifdef USE_GOOGLE_ANALYTICS      
         [[GANTracker sharedTracker] startTrackerWithAccountID:[constants objectForKey:@"ANALYTICS_ACCOUNT_KEY"] dispatchPeriod:10 delegate:nil];
-        
         // track the app version
         NSString *version = [[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleVersion"];
         [[GANTracker sharedTracker] setCustomVariableAtIndex:1 name:@"app_version" value:version withError:nil];
+#endif
       
-      
-        [Flurry startSession:@"FLURRY_ACCOUNT_KEY"];
-
+#ifdef USE_FLURRY
+      NSLog(@"using FLurry for analytics");
+      [Flurry startSession:@"FLURRY_ACCOUNT_KEY"];
+#endif
         DispatchAnalytics();
 
     } else {
-        [HTNotifier startNotifierWithAPIKey:@"HOPTOAD_ACCOUNT_KEY" environmentName:HTNotifierAppStoreEnvironment];
-        [[GANTracker sharedTracker] startTrackerWithAccountID:@"ANALYTICS_ACCOUNT_KEY" dispatchPeriod:10 delegate:nil];
+#ifdef USE_HOPTOAD
+      [HTNotifier startNotifierWithAPIKey:@"HOPTOAD_ACCOUNT_KEY" environmentName:HTNotifierAppStoreEnvironment];
+#endif
+#ifdef USE_GOOGLE_ANALYTICS      
+      [[GANTracker sharedTracker] startTrackerWithAccountID:@"ANALYTICS_ACCOUNT_KEY" dispatchPeriod:10 delegate:nil];
+#endif
+#ifdef USE_FLURRY      
         [Flurry startSession:@"FLURRY_ACCOUNT_KEY"];
+#endif
     }
     
 #endif
