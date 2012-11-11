@@ -275,23 +275,23 @@ static NSRecursiveLock *accessDetailsLock = nil;
 }
 
 + (void)setupV2AuthForRequest:(OpenStackRequest *)request account:(OpenStackAccount *)account apiVersion:(NSString *)apiVersion {
-    
-    request.requestMethod = @"POST";
-
-    NSString *body
-        = @"{ \"auth\": { "
-        "       \"passwordCredentials\": { "
-        "           \"username\": \"<username>\","
-        "           \"password\": \"<password>\""
-        "       }"
-        "  }}";
-    body = [body replace:@"<username>" with:account.username];
-    body = [body replace:@"<password>" with:account.apiKey];
-    
-    NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
-    [request setPostBody:[NSMutableData dataWithData:data]];
-    [request addRequestHeader:@"Content-Type" value:@"application/json"];
-    
+  
+  request.requestMethod = @"POST";
+  
+  NSString *body
+  = @"{ \"auth\": { "
+  "       \"passwordCredentials\": { "
+  "           \"username\": \"<username>\","
+  "           \"password\": \"<password>\""
+  "       }"
+  "  }}";
+  if(account.username != nil) { body = [body replace:@"<username>" with:account.username]; }
+  if(account.apiKey   != nil) {  body = [body replace:@"<password>" with:account.apiKey];}
+  
+  NSData *data = [body dataUsingEncoding:NSUTF8StringEncoding];
+  [request setPostBody:[NSMutableData dataWithData:data]];
+  [request addRequestHeader:@"Content-Type" value:@"application/json"];
+  
 }
 
 + (void)setupAuthForRequest:(OpenStackRequest *)request account:(OpenStackAccount *)account apiVersion:(NSString *)apiVersion {
