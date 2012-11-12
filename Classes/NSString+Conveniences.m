@@ -16,9 +16,7 @@
 }
 
 - (NSString *)replace:(NSString *)s with:(NSString *)r {
-  if(r == nil) {
-    return nil;
-  }
+  
   if ([r isKindOfClass:[NSString class]]) {
         return [self stringByReplacingOccurrencesOfString:s withString:r];
     } else {
