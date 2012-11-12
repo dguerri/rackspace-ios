@@ -117,11 +117,13 @@
         
 
   // Add the navigation controller's view to the window and display.
+
     if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
 //        RSSFeedViewController *vc = [[RSSFeedViewController alloc] initWithNibName:@"RSSFeedViewController" bundle:nil];
 //        vc.feed = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Cloud Servers Status", @"feed://status.rackspacecloud.com/cloudservers/rss.xml", kCloudServersIcon, nil] forKeys:[NSArray arrayWithObjects:@"name", @"url", @"logo", nil]];
-        RSStatusViewController *vc = [[RSStatusViewController alloc] init];
+      
+      RSStatusViewController *vc = [[RSStatusViewController alloc] init];
         
         self.masterNavigationController = [[[UINavigationController alloc] initWithRootViewController:vc] autorelease];
         self.masterNavigationController.navigationBar.tintColor = self.navigationController.navigationBar.tintColor;
@@ -132,14 +134,16 @@
         self.splitViewController.delegate = [navigationController.viewControllers objectAtIndex:0];
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, self.masterNavigationController, nil];
         
-        [window addSubview:splitViewController.view];
-        [window makeKeyAndVisible];
+        [self.window addSubview:splitViewController.view];
+        [self.window makeKeyAndVisible];
         [vc release];
     } else {
+
         [window addSubview:navigationController.view];
         [window makeKeyAndVisible];
     }
-    
+
+  
     serviceUnavailableObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"serviceUnavailable" object:nil
                                                                            queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification* notification) 
     {
