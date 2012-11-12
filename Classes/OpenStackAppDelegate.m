@@ -132,12 +132,12 @@
         self.splitViewController.delegate = [navigationController.viewControllers objectAtIndex:0];
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, self.masterNavigationController, nil];
         
-        [window addSubview:splitViewController.view];
-        [window makeKeyAndVisible];
+        [self.window addSubview:splitViewController.view];
+        [self.window makeKeyAndVisible];
         [vc release];
     } else {
-        [window addSubview:navigationController.view];
-        [window makeKeyAndVisible];
+        [self.window addSubview:navigationController.view];
+        [self.window makeKeyAndVisible];
     }
     
     serviceUnavailableObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"serviceUnavailable" object:nil
