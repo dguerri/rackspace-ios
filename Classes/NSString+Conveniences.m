@@ -16,7 +16,8 @@
 }
 
 - (NSString *)replace:(NSString *)s with:(NSString *)r {
-    if ([r isKindOfClass:[NSString class]]) {
+  
+  if ([r isKindOfClass:[NSString class]]) {
         return [self stringByReplacingOccurrencesOfString:s withString:r];
     } else {
         return [self stringByReplacingOccurrencesOfString:s withString:[r description]];
