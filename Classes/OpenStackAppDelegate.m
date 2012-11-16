@@ -117,7 +117,8 @@
         
 
   // Add the navigation controller's view to the window and display.
-    if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
+#ifdef SPLIT_VIEW
+  if (UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad) {
         
 //        RSSFeedViewController *vc = [[RSSFeedViewController alloc] initWithNibName:@"RSSFeedViewController" bundle:nil];
 //        vc.feed = [NSDictionary dictionaryWithObjects:[NSArray arrayWithObjects:@"Cloud Servers Status", @"feed://status.rackspacecloud.com/cloudservers/rss.xml", kCloudServersIcon, nil] forKeys:[NSArray arrayWithObjects:@"name", @"url", @"logo", nil]];
@@ -136,10 +137,12 @@
         [self.window makeKeyAndVisible];
         [vc release];
     } else {
+#endif
         [self.window addSubview:navigationController.view];
         [self.window makeKeyAndVisible];
+#ifdef SPLIT_VIEW
     }
-    
+#endif
     serviceUnavailableObserver = [[NSNotificationCenter defaultCenter] addObserverForName:@"serviceUnavailable" object:nil
                                                                            queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification* notification) 
     {
