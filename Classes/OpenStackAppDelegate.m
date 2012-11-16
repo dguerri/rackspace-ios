@@ -132,11 +132,13 @@
         self.splitViewController.delegate = [navigationController.viewControllers objectAtIndex:0];
         self.splitViewController.viewControllers = [NSArray arrayWithObjects:self.navigationController, self.masterNavigationController, nil];
         
-        [self.window addSubview:splitViewController.view];
+        //[self.window addSubview:splitViewController.view];
+        [window setRootViewController:splitViewController];
         [self.window makeKeyAndVisible];
         [vc release];
     } else {
-        [self.window addSubview:navigationController.view];
+        //[self.window addSubview:navigationController.view];
+        [window setRootViewController:splitViewController];
         [self.window makeKeyAndVisible];
     }
     
