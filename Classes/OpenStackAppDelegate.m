@@ -137,8 +137,7 @@
         [self.window makeKeyAndVisible];
         [vc release];
     } else {
-        //[self.window addSubview:navigationController.view];
-        [window setRootViewController:splitViewController];
+        [self.window addSubview:navigationController.view];
         [self.window makeKeyAndVisible];
     }
     
