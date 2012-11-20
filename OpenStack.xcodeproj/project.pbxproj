@@ -4489,8 +4489,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "~/src/rackspace/openstack/OpenStack/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -4514,8 +4514,8 @@
 					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				PRODUCT_NAME = OpenStack;
-				PROVISIONING_PROFILE = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
+				PROVISIONING_PROFILE = "D993EBC2-7591-4B93-8D00-69C5ABC44026";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6CAC9042-D7D8-4DE9-AF36-83EFC986319C";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -4527,8 +4527,8 @@
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = "~/src/rackspace/openstack/OpenStack/Entitlements.plist";
-				CODE_SIGN_IDENTITY = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Eric Johnson (5D9RVMU5AT)";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
 				COPY_PHASE_STRIP = NO;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = OpenStack_Prefix.pch;
@@ -4550,8 +4550,8 @@
 					"\"$(SRCROOT)/Classes/Flurry\"",
 				);
 				PRODUCT_NAME = OpenStack;
-				PROVISIONING_PROFILE = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "4EB414AE-59AC-4BCF-A79F-E38B96B8856A";
+				PROVISIONING_PROFILE = "D993EBC2-7591-4B93-8D00-69C5ABC44026";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6CAC9042-D7D8-4DE9-AF36-83EFC986319C";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
@@ -4562,10 +4562,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
@@ -4579,7 +4576,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Rackspace Cloud-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
@@ -4593,9 +4590,10 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
+				PROVISIONING_PROFILE = "EB24A9CE-40EA-4667-ADBF-AF6DCF1163E7";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "E767F056-6FA1-4948-8174-0C518843E908";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv6 armv7 armv7s";
 			};
 			name = Debug;
 		};
@@ -4603,10 +4601,8 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				ARCHS = (
-					"$(ARCHS_STANDARD_32_BIT)",
-					armv6,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				"ARCHS[sdk=*]" = "$(ARCHS_STANDARD_32_BIT)";
 				CODE_SIGN_ENTITLEMENTS = Entitlements.plist;
 				CODE_SIGN_IDENTITY = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer: Gregory Herlein (57WRQCCTHC)";
@@ -4620,7 +4616,7 @@
 				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
 				INFOPLIST_FILE = "Rackspace Cloud-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"$(SRCROOT)/Classes\"",
@@ -4634,9 +4630,10 @@
 					UIKit,
 				);
 				PRODUCT_NAME = "Rackspace Cloud";
-				PROVISIONING_PROFILE = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "6F4906C8-4B2E-4082-9827-2685D0A33A3E";
+				PROVISIONING_PROFILE = "D993EBC2-7591-4B93-8D00-69C5ABC44026";
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "D993EBC2-7591-4B93-8D00-69C5ABC44026";
 				SDKROOT = iphoneos;
+				VALID_ARCHS = "armv6 armv7 armv7s";
 				ZERO_LINK = NO;
 			};
 			name = Release;
