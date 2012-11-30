@@ -1,8 +1,5 @@
-Rackspace iOS app in the App Store
-
-To enable HopToad and Google Analytics Tracking:
-1) Create a file named Constants.plist
-2) For HopToad, add the key HOPTOAD_ACCOUNT_KEY and your account key as the value
-3) For Google Analytics, add the key ANALYTICS_ACCOUNT_KEY and your account key as the value
- 
-
+NOTE:  No longer the repository for the Rackspace iOS Cloud Control App!
+That repo is now closed.  This repository will continue to be open 
+to encourage understanding of the Rackspace APIs and private use of this app.
+Note that any use of the Rackspace name or logo requires written permission
+of Rackspace.
